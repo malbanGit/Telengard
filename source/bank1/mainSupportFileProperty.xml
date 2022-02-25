@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<AllFileProperties>
+	<FileProperties>
+		<Class>FileProperty</Class>
+		<Name>mainSupport.c</Name>
+		<Filename>projects\Telengard\source\bank1\mainSupport.c</Filename>
+		<Typ></Typ>
+		<ActionScript></ActionScript>
+		<PreScriptName></PreScriptName>
+		<PreScriptClass></PreScriptClass>
+		<Flags>-Os</Flags>
+		<Description></Description>
+		<Version></Version>
+		<Paremeter1></Paremeter1>
+		<Paremeter2></Paremeter2>
+		<Paremeter3></Paremeter3>
+		<PostScriptName></PostScriptName>
+		<PostScriptClass></PostScriptClass>
+		<ActionScriptName></ActionScriptName>
+		<ActionScriptClass></ActionScriptClass>
+		<NoInternalProcessing>false</NoInternalProcessing>
+	</FileProperties>
+</AllFileProperties>
