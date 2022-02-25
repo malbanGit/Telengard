@@ -29,7 +29,7 @@ signed int lightChange;
 unsigned int specialAction;
 unsigned int initSoundNo;
 
-#define ACTION_TIME 150
+#define ACTION_TIME 250 // 5 seconds
 unsigned int timer;
 unsigned int localTimer;
 

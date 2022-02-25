@@ -1,0 +1,129 @@
+;!FILE C:\Dev\Vide\projects\Telengard\build\lib.0\ayfxPlayer.s
+XH2
+H 3 areas 41 global symbols 2 banks 1 modes
+M ayfxplayer.s
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S _sfx_status_1 Ref0000
+S .__.ABS. Def0000
+S _sfx_pointer_1 Ref0000
+S _currentSFX_1 Ref0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 6F flags D00
+S sfx_enablenoise_1 Def0066
+S sfx_checktonedisable_1 Def0041
+S sfx_disabletone_1 Def0048
+S sfx_checknoisefreq_1 Def0031
+S sfx_doframe_intern_1 Def0010
+S A$ayfxPlayer$40 Def001C
+S A$ayfxPlayer$31 Def000F
+S A$ayfxPlayer$50 Def002C
+S A$ayfxPlayer$41 Def001E
+S A$ayfxPlayer$60 Def003A
+S A$ayfxPlayer$51 Def002F
+S A$ayfxPlayer$42 Def0020
+S A$ayfxPlayer$24 Def0000
+S A$ayfxPlayer$70 Def0048
+S A$ayfxPlayer$61 Def003C
+S A$ayfxPlayer$43 Def0022
+S A$ayfxPlayer$25 Def0003
+S A$ayfxPlayer$80 Def0057
+S A$ayfxPlayer$71 Def004A
+S A$ayfxPlayer$62 Def003E
+S A$ayfxPlayer$35 Def0010
+S A$ayfxPlayer$26 Def0006
+S sfx_checkvolume_1 Def003A
+S A$ayfxPlayer$90 Def0065
+S A$ayfxPlayer$72 Def004C
+S A$ayfxPlayer$54 Def0031
+S A$ayfxPlayer$36 Def0013
+S A$ayfxPlayer$27 Def0009
+S A$ayfxPlayer$73 Def004E
+S A$ayfxPlayer$55 Def0033
+S A$ayfxPlayer$46 Def0024
+S A$ayfxPlayer$37 Def0015
+S A$ayfxPlayer$28 Def000C
+S A$ayfxPlayer$83 Def0059
+S A$ayfxPlayer$74 Def0050
+S A$ayfxPlayer$65 Def0041
+S A$ayfxPlayer$56 Def0035
+S A$ayfxPlayer$47 Def0026
+S A$ayfxPlayer$38 Def0018
+S A$ayfxPlayer$84 Def005B
+S A$ayfxPlayer$75 Def0053
+S A$ayfxPlayer$66 Def0044
+S A$ayfxPlayer$57 Def0037
+S A$ayfxPlayer$48 Def0028
+S A$ayfxPlayer$39 Def001A
+S A$ayfxPlayer$94 Def0066
+S A$ayfxPlayer$76 Def0056
+S A$ayfxPlayer$67 Def0046
+S A$ayfxPlayer$49 Def002A
+S A$ayfxPlayer$95 Def0068
+S A$ayfxPlayer$96 Def006B
+S A$ayfxPlayer$87 Def005D
+S sfx_enabletone_1 Def0057
+S A$ayfxPlayer$97 Def006E
+S A$ayfxPlayer$88 Def005F
+S A$ayfxPlayer$89 Def0062
+S sfx_checktonefreq_1 Def0024
+S noay1 Def000F
+S sfx_checknoisedisable_1 Def0059
+S sfx_disablenoise_1 Def005D
+S sfx_endofeffect_1 Def0000
+T 00 00
+R 00 00 00 02
+T 00 00 CC 00 00 B7 C8 43 FD 00 00 B7 00 00 FD
+R 00 00 00 02 81 09 00 02 81 0C 00 00
+T 00 0D 00 00
+R 00 00 00 02 81 02 00 03
+T 00 0F
+R 00 00 00 02
+T 00 0F 39
+R 00 00 00 02
+T 00 10
+R 00 00 00 02
+T 00 10 B6 00 00 27 FA FE 00 00 E6 C0 C1 D0 26
+R 00 00 00 02 81 03 00 00 81 08 00 02
+T 00 1D 06 A6 C4 81 20 27 DC
+R 00 00 00 02
+T 00 24
+R 00 00 00 02
+T 00 24 C5 20 27 09 EC C1 1E 89 FD C8 4B E6 5D
+R 00 00 00 02
+T 00 31
+R 00 00 00 02
+T 00 31 C5 40 27 05 A6 C0 B7 C8 46
+R 00 00 00 02
+T 00 3A
+R 00 00 00 02
+T 00 3A 1F 98 84 0F B7 C8 44
+R 00 00 00 02
+T 00 41
+R 00 00 00 02
+T 00 41 B6 C8 45 C5 10 27 0F
+R 00 00 00 02
+T 00 48
+R 00 00 00 02
+T 00 48 8A 01 C5 80 27 18 8A 08 B7 C8 45 FF
+R 00 00 00 02
+T 00 54 00 00 39
+R 00 00 00 02 81 02 00 02
+T 00 57
+R 00 00 00 02
+T 00 57 84 FE
+R 00 00 00 02
+T 00 59
+R 00 00 00 02
+T 00 59 C5 80 27 09
+R 00 00 00 02
+T 00 5D
+R 00 00 00 02
+T 00 5D 8A 08 B7 C8 45 FF 00 00 39
+R 00 00 00 02 81 08 00 02
+T 00 66
+R 00 00 00 02
+T 00 66 84 F7 B7 C8 45 FF 00 00 39
+R 00 00 00 02 81 08 00 02

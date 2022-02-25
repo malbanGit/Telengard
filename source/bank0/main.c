@@ -1,22 +1,12 @@
 #include "../deps.h"
 
 /*
-
-
-bug: sizes of strings after death
-
 implement tmp save/load
 
 flash
 implement save/load flash
-implement title song
 implement help
 */
-
-//Reset0Ref()
-
-
-//alll global variables in cartridge?
 
 // !!! ATTENTION
 // BANK 0 and BANK 1
@@ -56,8 +46,6 @@ implement help
 #define __ass	asm volatile
  
 #define asm_ayfx_sound1() __MC6809_jsr_clobber_ayfx(__DO_SFX1, DO_SFX1, d, u, dp)
-#define asm_ayfx_sound2() __MC6809_jsr_clobber_ayfx(__DO_SFX2, DO_SFX2, d, u, dp)
-#define asm_ayfx_sound3() __MC6809_jsr_clobber_ayfx(__DO_SFX3, DO_SFX3, d, u, dp)
 #define __MC6809_jsr_clobber_ayfx(args...)	__mc6809_jsr_clobber_ayfx(args)
 
 #ifdef OMMIT_FRAMEPOINTER
@@ -98,9 +86,9 @@ __INLINE void ayfx_sound1() \
 
 #define __INLINE static inline __attribute__((always_inline))
 
-extern void drawTitle();
+extern void     drawTitle();
+extern void     drawPlayer();
 
-extern void drawPlayer();
 extern void     drawGnoll();
 extern void     drawKobold();
 extern void     drawSkeleton();
@@ -162,7 +150,7 @@ extern void drawLeftWall_noZero();
 extern void drawUnkown();
 extern void drawUnkown_noZero();
 
-void ( *const monsterDrawer[20])(void) =
+void (*const monsterDrawer[20])(void) =
 {
     drawGnoll,
     drawKobold,
@@ -190,7 +178,7 @@ void ( *const monsterDrawer[20])(void) =
 };
 
 
-void ( *const environmentDrawer[10])(void) =
+void (*const environmentDrawer[10])(void) =
 {
     drawStaircase, // special draw! Inn
     drawNone, // pit - none
@@ -244,13 +232,14 @@ asm volatile( \
 
 extern void initSong();
 extern void playSong();
+#define TITLE_TIMER 150
+
 void titleScreen()
 {
     m = 0;
-initSong();
-titleStart:
+    initSong();
+    titleStart:
     _XC=-0x60;
-#define TITLE_TIMER 150
     ltmp=TITLE_TIMER;
     int stage = 0;
     printMessage("ORIGINAL BY DANIEL MICHAEL LAWRENCE");
@@ -258,8 +247,7 @@ titleStart:
     while(1)
     {
         check_buttons();
-//        Do_Sound();
- playSong();
+        playSong();
         Wait_Recal();
         dp_VIA_t1_cnt_lo  = 0x80;
         Intensity_a(0x4f);
@@ -269,19 +257,14 @@ titleStart:
         dp_VIA_t1_cnt_lo  = 0x09;
         dp_VIA_cntl = 0xce;
         monsterDrawer[m]();
-        __ass("clra\n\tsta *0x0a\n\t"::: "cc","a","b","d");
+        __ass("clra\n\tsta *0x0a\n\t"::: "cc","a","b","d"); // set shiftregister to 0, without clear, gets rid of annoying DOT in the middle
 
         dp_VIA_t1_cnt_lo  = 0x80;
-//_y_ = 0;
-//_x_ = 30;
-//MOVETO_START_yx
-//MY_MOVE_TO_A_END
- Moveto_d(0,30);
+        Moveto_d(0,30);
 
         dp_VIA_t1_cnt_lo  = 0x09;
         dp_VIA_cntl = 0xce;
         drawPlayer();
-
 
         drawTitle();
         if (ltmp-- == 0)
@@ -315,16 +298,18 @@ titleStart:
 
         if (buttons_pressed())break;
     }
+    // the AKY player
+    // has a reversed register buffer
+    // we must correct the PSG registers buffer, otherwise
+    // later e.g. joystick will not work
+    // since reg7 is initialized falsly
     Vec_Music_Wk_7 = 0x3f;
     Vec_XXX_04 = 0x0; // volume A
     Vec_XXX_03 = 0x0; // volume B
     Vec_Music_Wk_A = 0x0;
 
-
-// too long now!
-
-    m=-1;
-    _XC = 0x70;
+    m=-1;       // not monster
+    _XC = 0x70; // default msg x pos
 }
 
 
@@ -338,7 +323,6 @@ titleStart:
 // this takes roughly 20000 cycles
 //
 // coordinates from 1 - 200
-
 uint_16 getMapPos(unsigned char x, unsigned char y, unsigned char z)
 {
     // C64 version
@@ -701,7 +685,6 @@ void drawMap()
 
     if (!printDungeon) return;
 
-    // environment nicht dargestekllt
     if (m != -1)
     {
         dp_VIA_t1_cnt_lo  = 0x09;
@@ -725,7 +708,6 @@ void drawMap()
     RESET0REF();
     
     // brightness in accordance to light spell!
-    
     drawRoom(ANY_ITEM(ITEM(ITEM_00, map00_hi)), GETUP(DRAWUP_00, map00_lo), GETLEFT(DRAWLEFT_00, map00_lo), ROOM_Y(0), ROOM_X(0));
     drawRoom(ANY_ITEM(ITEM(ITEM_01, map01_hi)), GETUP(DRAWUP_01, map01_lo), GETLEFT(DRAWLEFT_01, map01_lo), ROOM_Y(0), ROOM_X(1));
     drawRoom(ANY_ITEM(ITEM(ITEM_02, map02_hi)), GETUP(DRAWUP_02, map02_lo), GETLEFT(DRAWLEFT_02, map02_lo), ROOM_Y(0), ROOM_X(2));
@@ -789,8 +771,7 @@ void displayInn()
     
     // Malban
     // this obviosly does NOT
-    // generate the same Inn names than
-    // original
+    // generate the same Inn names as original
     // but I don't want to use floats for this!
     // I use seeds here to always generate the same names for the
     // same place!
@@ -903,20 +884,8 @@ void displayInn()
         dp_VIA_t1_cnt_lo  = 0x80;
 
         if (buttons_pressed()) b=1;
-        if (stage == 0)
+        if (stage == 2)
         {
-//            Print_Str_d_org(-0x40,-0x6a, "THEY CASH IN YOUR GOLD\x80");
-//            Print_Str_d_org(-0x50,-0x6a, stringBuffer40);
-        }
-        else if (stage == 1)
-        {
-//            Print_Str_d_org(-0x40,-0x6a, "YOU SPEND THE NIGHT\x80");
-//            Print_Str_d_org(-0x50,-0x6a, "YOU FEEL BETTER\x80");
-        }
-        else if (stage == 2)
-        {
-//            Print_Str_d_org(-0x40,-0x6a, "<4> TO RETURN TO THE DUNGEON\x80");
-//            Print_Str_d_org(-0x50,-0x6a, "<1> TO SAVE CHARACTER\x80");
             counter = -1;
             if (button_1_4_pressed()) 
             {

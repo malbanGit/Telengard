@@ -1,0 +1,52 @@
+;!FILE C:\Dev\Vide\projects\Telengard\build\lib.0\float40.s
+XH2
+H 3 areas 16 global symbols 2 banks 1 modes
+M float40.enr.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S ___Intensity_7F Ref0000
+S _printMessage Ref0000
+S _dp_VIA_t1_cnt_lo Ref0000
+S _subBank1 Ref0000
+S .__.ABS. Def0000
+S __fi_s Ref0000
+S _msgLine Ref0000
+S _stringBuffer40 Ref0000
+S ___Wait_Recal Ref0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 2E flags D00
+S A$float40$60 Def001B
+S A$float40$70 Def001E
+S A$float40$53 Def0012
+S A$float40$81 Def0025
+S A$float40$54 Def0015
+S A$float40$75 Def0021
+S A$float40$48 Def000F
+S A$float40$76 Def0023
+S A$float40$86 Def0028
+S A$float40$59 Def0018
+S A$float40$87 Def0029
+S A$float40$88 Def002C
+S _floatError Def000F
+T 00 00
+R 00 00 00 02
+T 00 00 46 4C 4F 41 54 20 45 52 52 4F 52 3A 20
+R 00 00 00 02
+T 00 0D 25 00
+R 00 00 00 02
+T 00 0F
+R 00 00 00 02
+T 00 0F 7F 00 00 8E 00 00 BD
+R 00 00 00 02 81 03 00 06 01 06 00 02
+T 00 16 00 00 8E 00 00 BD
+R 00 00 00 02 81 02 00 05 81 05 00 07
+T 00 1C 00 00
+R 00 00 00 02 81 02 00 01
+T 00 1E
+R 00 00 00 02
+T 00 1E BD 00 00 C6 7F D7 00 00 BD
+R 00 00 00 02 81 03 00 08 A0 08 00 02
+T 00 26 00 00 5F BD 00 00 20 F0
+R 00 00 00 02 81 02 00 00 81 06 00 03

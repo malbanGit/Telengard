@@ -28,7 +28,7 @@ Du to the nature of the vectrex (being a game console and not a computer, and a 
 game console additionally) some things had to be changed with this port.
 
 I will in this document NOT describe the game itself, but only
-teh vectrex specifics. For information about the game itself, please consult the original manual,
+the vectrex specifics. For information about the game itself, please consult the original manual,
 found at many places in the web, one being: https://www.orphanedgames.com/articles/Telengod/downloads/telengard-manual.pdf
 
 ---

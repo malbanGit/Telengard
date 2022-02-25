@@ -1,11 +1,17 @@
 #include "../deps.h"
 
+
 /*
-change INN
+alle sounds also the missing: https://www.angelfire.com/ny5/telengard/sounds.htm
+
+monster level muessen beim erscheinen angeziegt werden
+aktueller monster level, wenn vorhanden auf status seite anzeigen
+
++ on equip should be long
+
 
 
   todo enter name? (demo mode)
-  todo player death
 
   todo lightning effect
   todo fireball effect
@@ -13,17 +19,7 @@ change INN
   todo holy symbol display on cast
   todo PRISMATIC WALL effect
 
-  todo teleport effect (sound)
-  todo elevator effect (sound)
 
-
-  check whether level calculations with 2^lv are calculated correctly
-
-
- // not a bug, this is because monsters were undeffef
- holy altar is still buggy
- monster appears and I cann ignore it
- <4> to worship but other keys dont "break" it
 */
 
 
