@@ -1,6 +1,6 @@
 Telengard for Vectrex 
-(Beta - 64kB Version only)
 Changerequests / bug reports pls to Vide AT malban DOT de.
+Or create issues on github.
 
 
 Original game by DANIEL MICHAEL LAWRENCE (1982)
@@ -14,17 +14,17 @@ the tag "Telengard": http://vide.malban.de/tag/telengard
 Title music by Roald Strauss (INDIEGAMEMUSIC.COM), thanks!
 
 
-The game will be available in two versions:
+The game is available in two (three) versions:
 
 64kB Version
-Which will be playable from any "normal" PB6 bankswitch vectrex cart.
-It will feature the full binary, but a game will not be persistently saved.
+Which is playable from any "normal" PB6 bankswitch vectrex cart.
+It features the full binary, but a game will not be persistently saved.
 
 FLASH Version
-Which will be playable from a "Vectorblade" compatible PCB (either 128kB or 256kB).
-It will feature the full binary AND the game can save persistently to the cartridge.
+Which is playable from a "Vectorblade" compatible PCB (either 128kB or 256kB).
+It features the full binary AND the game can save persistently to the cartridge.
 
-Du to the nature of the vectrex (being a game console and not a computer, and a vector based
+Due to the nature of the vectrex (being a game console and not a computer, and a vector based
 game console additionally) some things had to be changed with this port.
 
 I will in this document NOT describe the game itself, but only
@@ -90,15 +90,18 @@ Page 1: STATS
 You character status values are displayed, alnog with the current dungeon level and
 current hitpoints.
 
-Page 2: VARS
+Page 2: ENV
+Curent dungeon location, current room environment, current monster (+level).
+
+Page 3: VARS
 Additional variable information about your character, as
 Level, spell units, experience points and gold in the tavern.
 
-page 3: MODS
+page 4: MODS
 Things that influence your game success, in general your inventory, displayed are
 e.g. your Armor, Shield, Boots, Cloaks etc...
 
-page 4: Items
+page 5: Items
 Usable items are displayed here, as there are:
 Scroll of Rescue
 Potion of Healing
@@ -106,7 +109,6 @@ Potion of Strength
 Along side is the number of items you own displayed.
 If the number is greater than 0, you can use the items, navigate to the item you wish
 to deploy and press <4>. (any other button does NOT deploy the item)
-
 
 CAST screen
 -----------
@@ -118,14 +120,10 @@ All spells are displayed, but not yet usable spells are greyed out and can not b
 To cast spell, select the spell you want and press button <2> or <3> or <4>.
 Button <1> cancels the cast.
 
-
 Other
 -----
 Input to various "sub screens" should be documented on screen.
 - Box (color select via joystick)
 - Cube (level select via number input / joystick)
 - Throne (money select via number input / joystick)
-
-
-
 
