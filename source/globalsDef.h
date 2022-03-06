@@ -83,54 +83,58 @@ signed long int ltmp;
 signed long long int lltmp;
 
 
+unsigned int flashAvailable;
 
-#if FLASH_SUPPORT == 1
-#else
-// 44 byte
 
-signed long int tmp_hp; // hp max # word?
-unsigned int tmp_lv; // player level # word?
+// 45 byte
+signed long int tmp_hp; // 2  hp max # word?
+unsigned int tmp_lv; // 1 player level # word?
 
-unsigned long long tmp_ex; // experience # long long?
-unsigned long int tmp_su; // spell units (max)
+unsigned long long tmp_ex; // 4 experience # long long?
+unsigned long int tmp_su; // 2 spell units (max)
 
-unsigned char tmp_cx;
-unsigned char tmp_cy;
+unsigned char tmp_cx; // 1
+unsigned char tmp_cy; // 1
 
-unsigned long long tmp_tg; // saved gold # long long?
+unsigned long long tmp_tg; // 4 saved gold # long long?
 
-unsigned int tmp_s[6]; // stats # word? -> originally accessed from 0 to 5
-unsigned int tmp_inventory[10]; // inventory -> originally accessed from 1 to 10
-signed int tmp_box[4]; // random BOX combinations
+unsigned int tmp_s[6]; // 6 stats # word? -> originally accessed from 0 to 5
+unsigned long int tmp_inventory[10]; // 20 inventory -> originally accessed from 1 to 10
+signed int tmp_box[4]; // 4 random BOX combinations
 
 // random is not saved!
 
-#endif
 
-
+//;---------------
 
 signed long int hp; // hp max # word?
-signed long int ch; // current hp # word?
 unsigned int lv; // player level # word?
 
 unsigned long long ex; // experience # long long?
 unsigned long int su; // spell units (max)
+
+unsigned char cx;
+unsigned char cy;
+
+unsigned long long tg; // saved gold # long long?
+
+unsigned int s[6]; // stats # word? -> originally accessed from 0 to 5
+unsigned long int inventory[10]; // inventory -> originally accessed from 1 to 10
+
+signed int box[4]; // random BOX combinations
+
+//;---------------
+
+signed long int ch; // current hp # word?
 unsigned long int cs; // spell units current
 
 // postion on the map (center tile)
 // 1-200
-unsigned char cx;
-unsigned char cy;
+
 unsigned char cz;
-
 unsigned long long gd; // gold # long long?
-unsigned long long tg; // saved gold # long long?
-
-unsigned int s[6]; // stats # word? -> originally accessed from 0 to 5
-unsigned int inventory[10]; // inventory -> originally accessed from 1 to 10
 unsigned int sf[11]; // spell effects  -> originally accessed from 1 to 11
 
-signed int box[4]; // random BOX combinations
 
 // monster encounter
 // these must be global, so that
@@ -148,9 +152,6 @@ unsigned int ml; // monster level
 
 unsigned int l; // level for testing, can be monster level...
 
-signed int stackM[20];    // 20 monster on stack, TYPE
-unsigned int stackML[20];   // LEVEL
-signed long int stackMH[20];   // HitPoints
 
 int lastX;
 int lastY;
@@ -175,6 +176,11 @@ int _YC;
 // buffer and displayed with
 // display rounds
 int msgLine;
+
+signed int stackM[20];    // 20 monster on stack, TYPE
+unsigned int stackML[20];   // LEVEL
+signed long int stackMH[20];   // HitPoints
+
 char msg_1[40];
 char msg_2[40];
 char msg_3[40];
@@ -380,7 +386,7 @@ unsigned int PLY_AKY_PSGREGISTER11;// ds       1
 unsigned int PLY_AKY_PSGREGISTER12;// ds       1 
 unsigned int PLY_AKY_PSGREGISTER13;// ds       1 
 
-
+int PLY_SONG_PLAYING;
 
 
 

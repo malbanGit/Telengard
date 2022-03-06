@@ -163,3 +163,18 @@ const char * const boxColors[]=
     "YELLOW\x80",
     "BLUE\x80"
 };
+
+const char *const environment_string[] = 
+{
+    "NONE",
+    "STAIR",
+    "PIT",
+    "TELEPORT",
+    "STAIR",
+    "ALTAR",
+
+    "FOUNTAIN",
+    "CUBE",
+    "THRONE",
+    "BOX"
+};

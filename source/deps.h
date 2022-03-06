@@ -4,7 +4,6 @@
 // #define DO_ORIGINAL_WR 1
 // #define START_STRONG 1
 
-//#define FLASH_SUPPORT 1
 
 
 #define DEBUG_OUT(s) \
@@ -24,12 +23,16 @@ while (1) \
 
 #define SPECIAL_DRAGONBREATH 1
 #define SPECIAL_BOX 2
+#define SPECIAL_THRONE_MUSIC 3
 
 #define SOUND_CUBE 1
 #define SOUND_TELEPORT 2
 #define SOUND_BOX 3
 #define SOUND_DRAGON 4
 #define SOUND_DEATH 5
+#define SOUND_GONG 6
+#define SOUND_PIT 7
+#define SOUND_LIGHTNING 7
  
 #define RESET0REF() dp_VIA_cntl = 0xcc;
 

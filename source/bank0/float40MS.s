@@ -719,95 +719,97 @@ LBB82:               JSR      LBC5F                        ; MOVE _FPA0 TO _FPA1
  .globl LBB89
 LBB89:               STB      _RESSGN                       ; STORE THE QUOTIENT MANTISSA SIGN BYTE 
                     JSR      LBC14                        ; UNPACK AN FP NUMBER FROM (X) INTO _FPA0 
-; checked, not used
-;          FCB  SKP2           ; SKIP TWO BYTES
-;* DIVIDE (X) BY _FPA0-LEAVE NORMALIZED QUOTIENT IN _FPA0
-;LBB8F     BSR  LBB2F          ; GET FP NUMBER FROM (X) TO _FPA1
-; ARITHMETIC OPERATION (/) JUMPS HERE. DIVIDE _FPA1 BY _FPA0 (ENTER WITH
-; EXPONENT OF _FPA1 IN ACCA AND FLAGS SET BY TSTA)
-; DIVIDE _FPA1 BY _FPA0
- .globl divF1byF0
-divF1byF0: 
- .globl LBB91
-LBB91:               LBEQ     LBC06                        ; '/0' DIVIDE BY ZERO ERROR 
-                    NEG      _FP0EXP                       ; GET EXPONENT OF RECIPROCAL OF DIVISOR 
-                    BSR      LBB48                        ; CALCULATE EXPONENT OF QUOTIENT 
-                    INC      _FP0EXP                       ; INCREMENT EXPONENT 
-                    BEQ      LBB67                        ; 'OV' OVERFLOW ERROR 
-                    LDX      #_FPA2                        ; POINT X TO MANTISSA OF _FPA2 - HOLD 
-;                                                         ; TEMPORARY QUOTIENT IN _FPA2
-                    LDB      #4                           ; 5 BYTE DIVIDE 
-                    STB      _TMPLOC                       ; SAVE BYTE COUNTER 
-                    LDB      #1                           ; SHIFT COUNTER-AND TEMPORARY QUOTIENT BYTE 
-; COMPARE _FPA0 MANTISSA TO _FPA1 MANTISSA -
-; SET CARRY FLAG IF _FPA1 >= _FPA0
- .globl LBBA4
-LBBA4:               LDA      _FPA0                         ; * COMPARE THE TWO MS BYTES 
-                    CMPA     _FPA1                         ; * OF _FPA0 AND _FPA1 AND 
-                    BNE      LBBBD                        ; * BRANCH IF <> 
-                    LDA      _FPA0+1                       ; = COMPARE THE NUMBER 2 
-                    CMPA     _FPA1+1                       ; = BYTES AND 
-                    BNE      LBBBD                        ; = BRANCH IF <> 
-                    LDA      _FPA0+2                       ; * COMPARE THE NUMBER 3 
-                    CMPA     _FPA1+2                       ; * BYTES AND 
-                    BNE      LBBBD                        ; * BRANCH IF <> 
-                    LDA      _FPA0+3                       ; = COMPARE THE LS BYTES 
-                    CMPA     _FPA1+3                       ; = AND BRANCH 
-                    BNE      LBBBD                        ; = IF <> 
-                    COMA                                  ; SET CARRY FLAG IF _FPA0 = _FPA1 
- .globl LBBBD
-LBBBD:               TFR      CC,A                         ; SAVE CARRY FLAG STATUS IN ACCA; CARRY 
-;         CLEAR IF _FPA0 > _FPA1
-                    ROLB                                  ; ROTATE CARRY INTO TEMPORARY QUOTIENT BYTE 
-                    BCC      LBBCC                        ; CARRY WILL BE SET AFTER 8 SHIFTS 
-                    STB      ,X+                          ; SAVE TEMPORARY QUOTIENT 
-                    DEC      _TMPLOC                       ; DECREMENT BYTE COUNTER 
-                    BMI      LBBFC                        ; BRANCH IF DONE 
-                    BEQ      LBBF8                        ; BRANCH IF LAST BYTE 
-                    LDB      #1                           ; RESET SHIFT COUNTER AND TEMPORARY QUOTIENT BYTE 
- .globl LBBCC
-LBBCC:               TFR      A,CC                         ; RESTORE CARRY FLAG AND 
-                    BCS      LBBDE                        ; BRANCH IF _FPA0 =< _FPA1 
- .globl LBBD0
-LBBD0:               ASL      _FPA1+3                       ; * SHIFT _FPA1 MANTISSA 1 BIT TO LEFT 
-                    ROL      _FPA1+2                       ; * 
-                    ROL      _FPA1+1                       ; * 
-                    ROL      _FPA1                         ; * 
-                    BCS      LBBBD                        ; BRANCH IF CARRY - ADD ONE TO PARTIAL QUOTIENT 
-                    BMI      LBBA4                        ; IF MSB OF HIGH ORDER MANTISSA BYTE IS 
-;         SET, CHECK THE MAGNITUDES OF _FPA0, _FPA1
-                    BRA      LBBBD                        ; CARRY IS CLEAR, CHECK ANOTHER BIT 
 
-; SUBTRACT _FPA0 FROM _FPA1 - LEAVE RESULT IN _FPA1
- .globl LBBDE
-LBBDE:               LDA      _FPA1+3                       ; * SUBTRACT THE LS BYTES OF MANTISSA 
-                    SUBA     _FPA0+3                       ; * 
-                    STA      _FPA1+3                       ; * 
-                    LDA      _FPA1+2                       ; = THEN THE NEXT BYTE 
-                    SBCA     _FPA0+2                       ; = 
-                    STA      _FPA1+2                       ; = 
-                    LDA      _FPA1+1                       ; * AND THE NEXT 
-                    SBCA     _FPA0+1                       ; * 
-                    STA      _FPA1+1                       ; * 
-                    LDA      _FPA1                         ; = AND FINALLY, THE MS BYTE OF MANTISSA 
-                    SBCA     _FPA0                         ; = 
-                    STA      _FPA1                         ; = 
-                    BRA      LBBD0                        ; GO SHIFT _FPA1 
-
- .globl LBBF8
-LBBF8:               LDB      #0x40                         ; USE ONLY TWO BITS OF THE LAST BYTE (FIFTH) 
-                    BRA      LBBCC                        ; GO SHIFT THE LAST BYTE 
-
- .globl LBBFC
-LBBFC:               RORB                                  ; * SHIFT CARRY (ALWAYS SET HERE) INTO 
-                    RORB                                  ; * BIT 5 AND MOVE 
-                    RORB                                  ; * BITS 1,0 TO BITS 7,6 
-                    STB      _FPSBYT                       ; SAVE SUB BYTE 
-                    BSR      LBC0B                        ; MOVE MANTISSA OF _FPA2 TO _FPA0 
-                    JMP      LBA1C                        ; NORMALIZE _FPA0 
-
- .globl LBC06
-LBC06:               LDB      #2*10                        ; /0' ERROR 
+;;;; - 
+;;;; - ; checked, not used
+;;;; - ;          FCB  SKP2           ; SKIP TWO BYTES
+;;;; - ;* DIVIDE (X) BY _FPA0-LEAVE NORMALIZED QUOTIENT IN _FPA0
+;;;; - ;LBB8F     BSR  LBB2F          ; GET FP NUMBER FROM (X) TO _FPA1
+;;;; - ; ARITHMETIC OPERATION (/) JUMPS HERE. DIVIDE _FPA1 BY _FPA0 (ENTER WITH
+;;;; - ; EXPONENT OF _FPA1 IN ACCA AND FLAGS SET BY TSTA)
+;;;; - ; DIVIDE _FPA1 BY _FPA0
+;;;; -  .globl divF1byF0
+;;;; - divF1byF0: 
+;;;; -  .globl LBB91
+;;;; - LBB91:               LBEQ     LBC06                        ; '/0' DIVIDE BY ZERO ERROR 
+;;;; -                     NEG      _FP0EXP                       ; GET EXPONENT OF RECIPROCAL OF DIVISOR 
+;;;; -                     BSR      LBB48                        ; CALCULATE EXPONENT OF QUOTIENT 
+;;;; -                     INC      _FP0EXP                       ; INCREMENT EXPONENT 
+;;;; -                     BEQ      LBB67                        ; 'OV' OVERFLOW ERROR 
+;;;; -                     LDX      #_FPA2                        ; POINT X TO MANTISSA OF _FPA2 - HOLD 
+;;;; - ;                                                         ; TEMPORARY QUOTIENT IN _FPA2
+;;;; -                     LDB      #4                           ; 5 BYTE DIVIDE 
+;;;; -                     STB      _TMPLOC                       ; SAVE BYTE COUNTER 
+;;;; -                     LDB      #1                           ; SHIFT COUNTER-AND TEMPORARY QUOTIENT BYTE 
+;;;; - ; COMPARE _FPA0 MANTISSA TO _FPA1 MANTISSA -
+;;;; - ; SET CARRY FLAG IF _FPA1 >= _FPA0
+;;;; -  .globl LBBA4
+;;;; - LBBA4:               LDA      _FPA0                         ; * COMPARE THE TWO MS BYTES 
+;;;; -                     CMPA     _FPA1                         ; * OF _FPA0 AND _FPA1 AND 
+;;;; -                     BNE      LBBBD                        ; * BRANCH IF <> 
+;;;; -                     LDA      _FPA0+1                       ; = COMPARE THE NUMBER 2 
+;;;; -                     CMPA     _FPA1+1                       ; = BYTES AND 
+;;;; -                     BNE      LBBBD                        ; = BRANCH IF <> 
+;;;; -                     LDA      _FPA0+2                       ; * COMPARE THE NUMBER 3 
+;;;; -                     CMPA     _FPA1+2                       ; * BYTES AND 
+;;;; -                     BNE      LBBBD                        ; * BRANCH IF <> 
+;;;; -                     LDA      _FPA0+3                       ; = COMPARE THE LS BYTES 
+;;;; -                     CMPA     _FPA1+3                       ; = AND BRANCH 
+;;;; -                     BNE      LBBBD                        ; = IF <> 
+;;;; -                     COMA                                  ; SET CARRY FLAG IF _FPA0 = _FPA1 
+;;;; -  .globl LBBBD
+;;;; - LBBBD:               TFR      CC,A                         ; SAVE CARRY FLAG STATUS IN ACCA; CARRY 
+;;;; - ;         CLEAR IF _FPA0 > _FPA1
+;;;; -                     ROLB                                  ; ROTATE CARRY INTO TEMPORARY QUOTIENT BYTE 
+;;;; -                     BCC      LBBCC                        ; CARRY WILL BE SET AFTER 8 SHIFTS 
+;;;; -                     STB      ,X+                          ; SAVE TEMPORARY QUOTIENT 
+;;;; -                     DEC      _TMPLOC                       ; DECREMENT BYTE COUNTER 
+;;;; -                     BMI      LBBFC                        ; BRANCH IF DONE 
+;;;; -                     BEQ      LBBF8                        ; BRANCH IF LAST BYTE 
+;;;; -                     LDB      #1                           ; RESET SHIFT COUNTER AND TEMPORARY QUOTIENT BYTE 
+;;;; -   .globl LBBCC
+;;;; - LBBCC:               TFR      A,CC                         ; RESTORE CARRY FLAG AND 
+;;;; -                      BCS      LBBDE                        ; BRANCH IF _FPA0 =< _FPA1 
+;;;; -   .globl LBBD0
+;;;; - LBBD0:               ASL      _FPA1+3                       ; * SHIFT _FPA1 MANTISSA 1 BIT TO LEFT 
+;;;; -                      ROL      _FPA1+2                       ; * 
+;;;; -                      ROL      _FPA1+1                       ; * 
+;;;; -                      ROL      _FPA1                         ; * 
+;;;; -                      BCS      LBBBD                        ; BRANCH IF CARRY - ADD ONE TO PARTIAL QUOTIENT 
+;;;; -                      BMI      LBBA4                        ; IF MSB OF HIGH ORDER MANTISSA BYTE IS 
+;;;; - ;         SET, CHECK THE MAGNITUDES OF _FPA0, _FPA1
+;;;; -                      BRA      LBBBD                        ; CARRY IS CLEAR, CHECK ANOTHER BIT 
+;;;; - 
+;;;; - ; SUBTRACT _FPA0 FROM _FPA1 - LEAVE RESULT IN _FPA1
+;;;; -  .globl LBBDE
+;;;; - LBBDE:               LDA      _FPA1+3                       ; * SUBTRACT THE LS BYTES OF MANTISSA 
+;;;; -                     SUBA     _FPA0+3                       ; * 
+;;;; -                     STA      _FPA1+3                       ; * 
+;;;; -                     LDA      _FPA1+2                       ; = THEN THE NEXT BYTE 
+;;;; -                     SBCA     _FPA0+2                       ; = 
+;;;; -                     STA      _FPA1+2                       ; = 
+;;;; -                     LDA      _FPA1+1                       ; * AND THE NEXT 
+;;;; -                     SBCA     _FPA0+1                       ; * 
+;;;; -                     STA      _FPA1+1                       ; * 
+;;;; -                     LDA      _FPA1                         ; = AND FINALLY, THE MS BYTE OF MANTISSA 
+;;;; -                     SBCA     _FPA0                         ; = 
+;;;; -                     STA      _FPA1                         ; = 
+;;;; -                     BRA      LBBD0                        ; GO SHIFT _FPA1 
+;;;; - 
+;;;; -  .globl LBBF8
+;;;; - LBBF8:               LDB      #0x40                         ; USE ONLY TWO BITS OF THE LAST BYTE (FIFTH) 
+;;;; -                     BRA      LBBCC                        ; GO SHIFT THE LAST BYTE 
+;;;; - 
+;;;; -  .globl LBBFC
+;;;; - LBBFC:               RORB                                  ; * SHIFT CARRY (ALWAYS SET HERE) INTO 
+;;;; -                     RORB                                  ; * BIT 5 AND MOVE 
+;;;; -                     RORB                                  ; * BITS 1,0 TO BITS 7,6 
+;;;; -                     STB      _FPSBYT                       ; SAVE SUB BYTE 
+;;;; -                     BSR      LBC0B                        ; MOVE MANTISSA OF _FPA2 TO _FPA0 
+;;;; -                     JMP      LBA1C                        ; NORMALIZE _FPA0 
+;;;; - 
+;;;; -  .globl LBC06
+;;;; - LBC06:               LDB      #2*10                        ; /0' ERROR 
                     JMP      ERROR_HANDLER                ; PROCESS THE ERROR 
 
 ; COPY MANTISSA FROM _FPA2 TO _FPA0

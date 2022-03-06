@@ -114,6 +114,7 @@ extern char * _fi_s(const char *s1, unsigned int i);
 extern char * _fi_s_s(const char *s1, signed int i);
 
 // each "int" occupies 3 chars (space filled)
+extern void _fii(const char *s1, const unsigned int i1, const unsigned int i2);
 extern void _fsi(const char *s1, const char *s2, const unsigned int i);
 extern void _fsi2(const char *s1, const unsigned int i, const char *s2);
 
@@ -122,6 +123,7 @@ extern void _fsi_s(const char *s1, const char *s2, const unsigned int i);
 
 // format unsigned long, shorten the long to digits
 extern void _fl(const char *s1, const unsigned long i);
+extern void _fsl_s(const char *s1, const char *s2, const unsigned long int i);
 extern void _fl_s(const char *s1, const unsigned long i);
 extern void _fl_l_s(const char *s1, const unsigned long i1, const unsigned long i2);
 

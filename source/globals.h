@@ -29,6 +29,8 @@ extern unsigned int timer;
 extern unsigned int localTimer;
 extern int lightChange;
 extern unsigned int specialAction;
+extern unsigned int initSoundNo;
+
 
 #define SMALL_PAUSE 75 // 1 1/2 seconds
 #define VERY_SMALL_PAUSE 25 // 1/2 second
@@ -76,7 +78,7 @@ extern unsigned char cz;
 extern unsigned long long gd; // gold # long long?
 extern unsigned long long tg; // saved gold # long long?
 
-extern unsigned int inventory[10]; // inventory -> originally accessed from 1 to 10
+extern unsigned long int inventory[10]; // inventory -> originally accessed from 1 to 10
 extern unsigned int sf[11]; // spell effects  -> originally accessed from 1 to 11
 
 extern signed int box[4]; // random BOX combinations

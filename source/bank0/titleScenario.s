@@ -137,46 +137,6 @@ drawSmart:                                            ;#isfunction
                     pulu     b,x,pc 
 ;***************************************************************************
 ;/* HIGHEST SCALE FOR SMARTLIST + CONTINUE is 16!
- .globl SMVB_setScale
-SMVB_setScale:                                            ;#isfunction  
-                    stb      *VIA_t1_cnt_lo 
-                    pulu     b,x,pc 
-
- .globl SMVB_setIntensity
-SMVB_setIntensity:                                          ;#isfunction  
-; macro call ->                     WAIT10   
-; macro call ->                     WAIT6    
-                    tfr      a,a                          ; wait 6 cycles 
-; macro call ->                     WAIT4    
-; macro call ->                     WAIT2    
- nop ;     wait 2 cycles 
-; macro call ->                     WAIT2    
- nop ;     wait 2 cycles 
-                    sta      *VIA_port_a 
-                    ldd      #0x0401 
-                    sta      *VIA_port_b 
-                    stb      *VIA_port_b 
-                    pulu     b,x,pc 
-
- .globl SMVB_LightOff_Intensity
-SMVB_LightOff_Intensity:                                      ;#isfunction  
-; macro call ->                     WAIT10   
-; macro call ->                     WAIT6    
-                    tfr      a,a                          ; wait 6 cycles 
-; macro call ->                     WAIT4    
-; macro call ->                     WAIT2    
- nop ;     wait 2 cycles 
-; macro call ->                     WAIT2    
- nop ;     wait 2 cycles 
- lda #0xce
-                    STa      VIA_cntl                     ;/BLANK low and /ZERO low 
-                    stb      *VIA_port_a 
-                    ldd      #0x0401
-                    sta      *VIA_port_b 
-                    stb      *VIA_port_b 
- clra
-                    pulu     b,x,pc 
-
 
  .globl SMVB_continue_yd4_yStays_single
 SMVB_continue_yd4_yStays_single: ;#isfunction  

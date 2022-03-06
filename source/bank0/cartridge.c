@@ -24,6 +24,9 @@ extern void drawMap();
 //extern void setRandSeedNP();
 extern void displayInn();
 extern void initFP();
+extern void initFlash();
+extern void loadFlash();
+extern void checkSavedFlash();
 
 const void* const bankFunctions[NUMBER_OF_FUNCTIONS] __attribute__((section(".bankswitch.data"), used)) = 
 {
@@ -31,10 +34,10 @@ const void* const bankFunctions[NUMBER_OF_FUNCTIONS] __attribute__((section(".ba
     (void*)initFP,
     (void*)generateDisplayMap,
     (void*)drawMap,
-    (void*)1,//checkXP,
+    (void*)loadFlash,//checkXP,
     (void*)1,//randomXP,
     (void*)1,//setRandSeedNP,
     (void*)displayInn,
-    (void*)1,
-    (void*)1
+    (void*)initFlash,
+    (void*)checkSavedFlash
 };

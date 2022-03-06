@@ -1,3 +1,13 @@
+#define SOUND_CUBE 1
+#define SOUND_TELEPORT 2
+#define SOUND_BOX 3
+#define SOUND_DRAGON 4
+#define SOUND_DEATH 5
+#define SOUND_GONG 6
+#define SOUND_PIT 7
+#define SOUND_LIGHTNING 7
+
+
 
 
 #include "../deps.h"
@@ -67,7 +77,7 @@ int displayStatusPage()
         dp_VIA_t1_cnt_lo  = 0x7f;
 
         if ((Vec_Joy_1_X > 0) && (!lastDir))
-            if (page<3) page++;
+            if (page<4) page++;
         if ((Vec_Joy_1_X < 0) && (!lastDir))
             if (page>0) page--;
         lastDir = Vec_Joy_1_X;
@@ -76,7 +86,7 @@ int displayStatusPage()
         int y=0x78;
         if (page == 0)
         {
-            Print_Str_d(y,-0x20, "   STATS >>\x80");
+            Print_Str_d(y,-0x20, "  STATS >>\x80");
             RESET0REF();
             y = 0x50;
             for (int i=0; i<6;i++) 
@@ -86,10 +96,6 @@ int displayStatusPage()
                 RESET0REF();
                 y -= 10;
             }
-            y -= 10;
-            _fi_s("DUNGEON: %" , cz);
-            Print_Str_d(y,-0x20, stringBuffer40);
-            RESET0REF();
 
             y -= 10;
             _fl_l_s("HP: %/%" , (unsigned long int)ch, (unsigned long int)hp);
@@ -97,7 +103,41 @@ int displayStatusPage()
             RESET0REF();
         }
 
-        if (page == 1)
+        else if (page == 1)
+        {
+            Print_Str_d(y,-0x20, "<< ENV  >>\x80");
+            RESET0REF();
+            y = 0x50;
+            _fi_s("DUNGEON: %" , cz);
+            Print_Str_d(y,-0x20, stringBuffer40);
+            RESET0REF();
+
+            y -= 10;
+            _fii( "         X=% Y=%" , cx,cy);
+            Print_Str_d(y,-0x20, stringBuffer40);
+            RESET0REF();
+
+            extern const char *const environment_string[];
+            y -= 10;
+            _fs("ROOM: %" , environment_string[printEnvironment]);
+            Print_Str_d(y,-0x20, stringBuffer40);
+            RESET0REF();
+
+
+            y -= 10;
+            if (m>=0)
+            {
+                _fsi_s("ENCOUNTER: % LEVEL %" , mo[m], ml);
+            }
+            else
+            {
+                _fs("ENCOUNTER: % " , "NONE");
+            }
+            Print_Str_d(y,-0x20, stringBuffer40);
+            RESET0REF();
+
+        }
+        else if (page == 2)
         {
             Print_Str_d(y,-0x20, "<< VARS >>\x80");
             RESET0REF();
@@ -127,9 +167,10 @@ int displayStatusPage()
             _fll_s("TG: %" , tg);
             Print_Str_d(y,-0x20, stringBuffer40);
             RESET0REF();
+
         }
 
-        if (page == 2)
+        else if (page == 3)
         {
             Print_Str_d(0x78,-0x20, "<< MODS >>\x80");
             RESET0REF();
@@ -137,14 +178,14 @@ int displayStatusPage()
             for (int i=0; i<7;i++) 
             {
                 if (inventory[i]<=0) continue;
-                _fsi_s("% +%" , items[i], inventory[i]);
+                _fsl_s("% +%" , items[i], inventory[i]);
                 Print_Str_d(y,-0x20, stringBuffer40);
                 RESET0REF();
                 y -= 10;
             }
         }
 
-        if (page == 3)
+        else if (page == 4)
         {
             Print_Str_d(0x78,-0x20, "<< ITEMS\x80");
             RESET0REF();
@@ -152,7 +193,7 @@ int displayStatusPage()
 
             for (int i=7; i<10;i++) 
             {
-                _fsi_s("% :%" , items[i], inventory[i]);
+                _fsl_s("% :%" , items[i], inventory[i]);
                 Print_Str_d(y,-0x20, stringBuffer40);
                 RESET0REF();
                 y -= 10;
@@ -554,7 +595,7 @@ int castSpell(int inCombat)
         return 2;
     }
     // cost in spell points is spellLevel
-    if (spellLevel > cs)
+    if ((spellLevel+1) > cs)
     {
         printMessage("YOU DON'T HAVE ENOUGH SPELL UNITS!");
         return 1;
@@ -563,7 +604,7 @@ int castSpell(int inCombat)
     _fs("CAST: %", (void *)spellNames[spellLevel][spellSelect]);
     printMessage(stringBuffer40);
 
-    cs=cs-spellLevel; // payment
+    cs=cs-(spellLevel+1); // payment
 
     if (spellLevel == 0)
     {
@@ -775,6 +816,7 @@ dressedToKill:
             // / Lightning bolt spell 
             // 24100 GOSUB CLWND:SETCOLOR TWO,SIX,TEN:PRINT "ZZZZAAAPPP!!!":SETCOLOR TWO,ZERO,ZERO:IF D=ZERO THEN 21800 
             printMessage("ZZZZAAAPPP!!!");
+            initSoundNo = SOUND_LIGHTNING;
 
             // / Determine damage 
             // 24105 GOSUB PAUSE:I=INT(RND(ONE)*SIX*LV+15):GOTO 21700

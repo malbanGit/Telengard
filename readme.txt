@@ -21,7 +21,7 @@ Which will be playable from any "normal" PB6 bankswitch vectrex cart.
 It will feature the full binary, but a game will not be persistently saved.
 
 FLASH Version
-Which will be playable playable from a "Vectorblade" compatible PCB (either 128kB or 256kB).
+Which will be playable from a "Vectorblade" compatible PCB (either 128kB or 256kB).
 It will feature the full binary AND the game can save persistently to the cartridge.
 
 Du to the nature of the vectrex (being a game console and not a computer, and a vector based
@@ -105,7 +105,7 @@ Potion of Healing
 Potion of Strength
 Along side is the number of items you own displayed.
 If the number is greater than 0, you can use the items, navigate to the item you wish
-to deplay and press <4>. (any other button does NOT deploy the item)
+to deploy and press <4>. (any other button does NOT deploy the item)
 
 
 CAST screen

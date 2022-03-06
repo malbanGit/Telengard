@@ -10437,12 +10437,18 @@ _PLY_AKY_USE_Noise   =        1
 ; Initializes the player.
 ; expected in regY the song address, usually something like "Main_Subsong0"
 ; y is our main "pointer" register
+ .globl _initThroneSong
+_initThroneSong:
+                    ldy      #Throne_Subsong0               ; song to be played 
+ bra _PLY_AKY_INIT
  .globl _initSong
 _initSong:
                     ldy      #Videopac_Subsong0               ; song to be played 
 
  .globl _PLY_AKY_INIT
 _PLY_AKY_INIT: 
+ lda #1
+ sta _PLY_SONG_PLAYING
                     clr      _PLY_error                    ; initially no error! 
                                                           ; Skips the header. 
                                                           ; Skips the format version. 
@@ -10480,11 +10486,15 @@ channelError:
                     lda      #NO_3_CHANNELS_ERROR 
                     sta      _PLY_error 
                     rts      
-
+end_ofSong:
+ clr _PLY_SONG_PLAYING
+ rts
 ;-----------
 ;       Plays the music. It must have been initialized before.
  .globl _PLY_AKY_PLAY
 _PLY_AKY_PLAY: 
+ ldb _PLY_SONG_PLAYING
+ beq end_ofSong
                     ldu      #Vec_Music_Work              ; prerequisite for writing to PSG shadow register 
                     ldd      _PLY_AKY_PATTERNFRAMECOUNTER 
                     subd     #1 
@@ -10497,6 +10507,7 @@ _PLY_AKY_PTLINKER:
                     ldd      ,y++                         ;Gets the duration of the Pattern, or 0 if end of the song. 
                     BNE      _PLY_AKY_LINKERNOTENDSONG 
                     ldy      ,y++                         ; End of the song. Where to loop? 
+ beq end_ofSong
                                                           ;Gets the duration again. No need to check the end of the song, 
                                                           ;we know it contains at least one pattern. 
                     ldd      ,y++                         ;Gets the duration of the Pattern, or 0 if end of the song. 

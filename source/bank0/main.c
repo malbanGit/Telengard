@@ -1,13 +1,5 @@
 #include "../deps.h"
 
-/*
-implement tmp save/load
-
-flash
-implement save/load flash
-implement help
-*/
-
 // !!! ATTENTION
 // BANK 0 and BANK 1
 // are two TOTALLY seperated "C" programs
@@ -231,14 +223,20 @@ asm volatile( \
 
 
 extern void initSong();
+extern void initThroneSong();
 extern void playSong();
+extern void checkSavedFlash();
+extern void saveFlash();
 #define TITLE_TIMER 150
 
 void titleScreen()
 {
     m = 0;
     initSong();
-    titleStart:
+
+    if (flashAvailable) checkSavedFlash();
+titleStart:
+    clearMessage();
     _XC=-0x60;
     ltmp=TITLE_TIMER;
     int stage = 0;
@@ -274,9 +272,14 @@ void titleScreen()
             stage++;
             m++;
             if (m==20) m=0;
+
             if (stage == 1)
             {
-                printMessage("        PRESS BUTTON TO PLAY");
+                printMessage("        PRESS <1-3> BUTTON TO PLAY");
+                if ((!Vec_Num_Players) && (flashAvailable))
+                {
+                    printMessage("        PRESS <4> BUTTON TO LOAD");
+                }
             }
             if (stage == 2)
             {
@@ -298,6 +301,14 @@ void titleScreen()
 
         if (buttons_pressed())break;
     }
+    if ((!Vec_Num_Players) && (flashAvailable))
+    {
+        if (button_1_4_pressed()) 
+            ch = 1;
+    }
+
+
+
     // the AKY player
     // has a reversed register buffer
     // we must correct the PSG registers buffer, otherwise
@@ -309,7 +320,8 @@ void titleScreen()
     Vec_Music_Wk_A = 0x0;
 
     m=-1;       // not monster
-    _XC = 0x70; // default msg x pos
+    _XC = -0x70; // default msg x pos
+    PLY_SONG_PLAYING = 0;
 }
 
 
@@ -542,7 +554,8 @@ int generateDisplayMap()
 // drawUp = 0-3, 0, 1 = nothing, 2 = door, 3 = wall
 // drawLeft = 0-3, 0, 1 = nothing, 2 = door, 3 = wall
 // destroys tmp
-__INLINE void drawRoom(unsigned int content,unsigned int drawUp,unsigned int drawLeft, signed int ry, signed int rx)
+//__INLINE 
+__NO_INLINE void drawRoom(unsigned int content,unsigned int drawUp,unsigned int drawLeft, signed int ry, signed int rx)
 {
     //#define ROOM_Y(a) ((signed char) ( 90-((signed long)(a)*65)))
     //#define ROOM_X(a) ((signed char) (-90+((signed long)(a)*65)))
@@ -645,6 +658,11 @@ void drawMap()
         {
             if (sfx_status_1==0) initSoundNo = SOUND_BOX;
         }
+        else if (specialAction == SPECIAL_THRONE_MUSIC)
+        {
+            initThroneSong();
+            specialAction = 0;
+        }
     }
     if (initSoundNo)
     {
@@ -668,10 +686,26 @@ void drawMap()
         {
             sfx_pointer_1 = (long unsigned int) (&death_data);
         }
+        else if (initSoundNo == SOUND_GONG)
+        {
+            sfx_pointer_1 = (long unsigned int) (&gong_data);
+        }
+        else if (initSoundNo == SOUND_PIT)
+        {
+            sfx_pointer_1 = (long unsigned int) (&down_data);
+        }
+        else if (initSoundNo == SOUND_LIGHTNING)
+        {
+            sfx_pointer_1 = (long unsigned int) (&lightning_data);
+        }
+
+
         sfx_status_1 = 1;
 
         initSoundNo = 0;
     }
+    if (PLY_SONG_PLAYING) 
+        playSong();
     if (sfx_status_1 == 1)
     {
          ayfx_sound1();
@@ -893,25 +927,30 @@ void displayInn()
             }
             if (button_1_1_pressed()) 
             {
-#if FLASH_SUPPORT == 1
-            // todo save
-#else
-                tmp_hp = hp;
-                tmp_lv = lv; // player level # word?
-            
-                tmp_ex = ex; // experience # long long?
-                tmp_su = su; // spell units (max)
-            
-                tmp_cx = cx;
-                tmp_cy = cy;
-            
-                tmp_tg = tg; // saved gold # long long?
-                for (int i=0;i<6;i++) tmp_s[i] = s[i];
-                for (int i=0;i<10;i++) tmp_inventory[i] = inventory[i];
-                for (int i=0;i<4;i++)  tmp_box[i]  = box[i];
-                clearMessage();
-                printMessage("CHARACTER SAVED (TEMPORARILY)");
-#endif
+                if (flashAvailable)
+                {
+                    saveFlash();
+                    clearMessage();
+                    printMessage("CHARACTER SAVED");
+                }
+                else
+                {
+                    tmp_hp = hp;
+                    tmp_lv = lv; // player level # word?
+                
+                    tmp_ex = ex; // experience # long long?
+                    tmp_su = su; // spell units (max)
+                
+                    tmp_cx = cx;
+                    tmp_cy = cy;
+                
+                    tmp_tg = tg; // saved gold # long long?
+                    for (int i=0;i<6;i++) tmp_s[i] = s[i];
+                    for (int i=0;i<10;i++) tmp_inventory[i] = inventory[i];
+                    for (int i=0;i<4;i++)  tmp_box[i]  = box[i];
+                    clearMessage();
+                    printMessage("CHARACTER SAVED (TEMPORARILY)");
+                }
                 return;
             }
 

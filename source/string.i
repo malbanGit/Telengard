@@ -584,7 +584,26 @@ __NO_INLINE void _fsi(const char *s1, const char *s2, const unsigned int i)
     *(to++) = c;
     *to = '\x80';
 }
+__NO_INLINE void _fii(const char *s1, const unsigned int i1, const unsigned int i2)
+{
+    itoa(i1);
+    char *to = stringBuffer40;
+    char c;
+    while ( (c=*(s1++)) != '%') *(to++) = c;
+    *(to++) = *(stringBuffer4+0);
+    *(to++) = *(stringBuffer4+1);
+    *(to++) = *(stringBuffer4+2);
 
+    itoa(i2);
+    while ( (c=*(s1++)) != '%') *(to++) = c;
+    *(to++) = *(stringBuffer4+0);
+    *(to++) = *(stringBuffer4+1);
+    *(to++) = *(stringBuffer4+2);
+
+    while ( (c=*(s1++)) != 0)
+    *(to++) = c;
+    *to = '\x80';
+}
 // format string (unsigned long int)
 // expects one '%'
 // will be filled in order of occurance with the parameters
@@ -605,6 +624,29 @@ __NO_INLINE void _fl(const char *s1, const unsigned long i)
 
     while ( (c=*(s1++)) != 0)
     *(to++) = c;
+    *to = '\x80';
+}
+__NO_INLINE void _fsl_s(const char *s1, const char *s2, const unsigned long int i)
+{
+    ltoa_s(i);
+    char *to = stringBuffer40;
+    char c;
+    while ( (c=*(s1++)) != '%')
+    *(to++) = c;
+    while ( (c=*(s2++)) != 0)
+    *(to++) = c;
+    while ( (c=*(s1++)) != '%')
+    *(to++) = c;
+    
+    *(to++) = *(stringBuffer6+0);
+    if (*(stringBuffer6+1) != 0) *(to++) = *(stringBuffer6+1);
+    if (*(stringBuffer6+2) != 0) *(to++) = *(stringBuffer6+2);
+    if (*(stringBuffer6+3) != 0) *(to++) = *(stringBuffer6+3);
+    if (*(stringBuffer6+4) != 0) *(to++) = *(stringBuffer6+4);
+    if (*(stringBuffer6+5) != 0) *(to++) = *(stringBuffer6+5);
+    
+    while ( (c=*(s1++)) != 0)
+        *(to++) = c;
     *to = '\x80';
 }
 

@@ -49,7 +49,6 @@ aktueller monster level, wenn vorhanden auf status seite anzeigen
 
 #define __BANK__ 1
 
-
 // calls to bank 0
 extern void subBank0(int);
 #define titleScreen()         subBank0(0)
@@ -57,13 +56,14 @@ extern void subBank0(int);
 #define generateDisplayMap()  subBank0(2)
 #define drawMap()             subBank0(3)
 
+#define loadFlash()             subBank0(4)
 //#define checkXP()             subBank0(4)
 //#define randomXP()             subBank0(5)
 
 //#define setRandSeedNP()             subBank0(6)
 #define displayInn()             subBank0(7)
-
-
+#define initFlash()             subBank0(8)
+#define checkSavedFlash()       subBank0(9)
 
 extern void initVars();
 extern void checkXP();
@@ -383,7 +383,7 @@ monsterAgain:
 
     if ((sf[FEAR]>0) && (m<5)) goto monsterAgain;
 
-    if ( (RandMax(20)+1)  <=  inventory[ELVEN_CLOAK] )
+    if ( (unsigned long int)(RandMax(20)+1)  <=  inventory[ELVEN_CLOAK] )
     {
         // 20900 GOSUB 16500:PRINT "You have not been noticed..."
         // 20905 PRINT "<RET> to approach:";:GOSUB GTCHR
@@ -596,12 +596,12 @@ monsterForced:
         // Randomly pick one of the first 7 items and check if it’s level is greater then the monsters 
         // 3072 I=INT(RND(ONE)*SEV+ONE):IF I(I)>=ML THEN 3090 
         tmp = (signed int) RandMax(7);
-        if (inventory[tmp] < ml)
+        if (inventory[tmp] < (unsigned long int)ml)
         {
             // Increase the level of the item 
             // 3074 C=ML-I(I):C=INT(RND(ONE)*C+ONE):I(I)=I(I)+C 
-            unsigned int c = ml - inventory[tmp];
-            c = RandMax(c) + 1;
+            unsigned long int c = (unsigned long int)ml - inventory[tmp];
+            c = (unsigned long int) ( RandMax((unsigned int)c) + (unsigned int)1);
             inventory[tmp] = inventory[tmp]+c;
 
             // 3076 PRINT "The ";M$;" likes you!":GOSUB WTCLR 
@@ -611,7 +611,7 @@ monsterForced:
 
             // 3078 PRINT "He gives you a ";MI$;" +";I(I):GOSUB RSTAT:GOSUB WTCLR 
             // 3080 GOSUB 20600:GOTO TRSR
-            _fsi_s("HE GIVES YOU A %+%", items[tmp], inventory[tmp]);
+            _fsl_s("HE GIVES YOU A %+%", items[tmp], inventory[tmp]);
             printMessage(stringBuffer40);
             tmp = 0;
             pause(SMALL_PAUSE);
@@ -827,7 +827,7 @@ evadeOut:
             // 3202 IF SF(ONE)>ZERO THEN I=I+FOUR 
             clearMessage();
             printMessage("FIGHT");
-            ltmp = RandMax(20) + lv + inventory[SWORD] + s[STR]/2;
+            ltmp = RandMax(20) + lv + (signed long int)inventory[SWORD] + s[STR]/2;
             if (sf[STRENGTH]>0) ltmp = ltmp +4;
 
             // 3204 IF I<TEN THEN PRINT "You missed...":GOTO 3300 
@@ -842,7 +842,7 @@ evadeOut:
                 // 3205 I=INT(RND(ONE)*EIG+RND(ONE)*LV*TWO+I(ONE)+ONE):IF SF(ONE)>ZERO THEN 
                 // I=I+FIVE 
                 ltmp = (signed long int) RandMax(8);
-                ltmp += (signed long int) RandMax(lv*2) + inventory[SWORD] + 1;
+                ltmp += (signed long int) RandMax(lv*2) + (signed long int)inventory[SWORD] + 1;
                 if (sf[STRENGTH]>0) ltmp = ltmp +5;
                 // 3207 PRINT "You do ";I;" points damage" 
                 _fi_s("YOU DO % POINTS DAMAGE", (unsigned int) ltmp);
@@ -896,19 +896,19 @@ label3305:
 
             //  RND(0-20) + Monster Level – player armor level – player shield level + monster bonus 
             // 3305 I=INT(RND(ONE)*C20)+ML-I(TWO)-I(THREE)+MB 
-            tmp = (signed int)(RandMax(20) + ml -inventory[ARMOR] - inventory[SHIELD] + mb);
+            ltmp = (signed long int)(RandMax(20) + ml -inventory[ARMOR] - inventory[SHIELD] + mb);
 
             //  If SPECTER, VAMPIRE, or DEMON and protection from evil spell you get a bonus of -6 to hit 
             // 3306 IF M>16 AND M<C20 AND SF(FOUR)>ZERO THEN I=I-FOUR-TWO 
             if ((m>=SPECTER) && (m<=VAMPIRE))
             {
-                if (sf[PROTECTION_FROM_EVIL] > 0) tmp = tmp -6;
+                if (sf[PROTECTION_FROM_EVIL] > 0) ltmp = ltmp -6;
             }
 
 
             //  Check for hit 
             // 3310 IF I<TEN THEN PRINT "It missed...";:GOSUB WTCLR:GOTO 3100 
-            if (tmp < 10)
+            if (ltmp < 10)
             {
                 printMessage("IT MISSED...");
                 goto fightStart;
@@ -917,7 +917,7 @@ label3305:
             //  Damage = (RND(0-8) + RND() * Monster level * 2 + 0) * Monster Bonus 
             // 3315 I=INT((RND(ONE)*EIG+RND(ONE)*ML*TWO+ONE)*DB):PRINT "It does ";I;" points damage"; 
             ltmp = (signed long int )  (RandMax(8) + RandMax(ml*2) +1 ) *db;
-            _fi_s("IT DOES % POINTS DAMAGE", (unsigned int)ltmp);
+            _fl_s("IT DOES % POINTS DAMAGE", (unsigned int)ltmp);
             printMessage(stringBuffer40);
             
             //  Reduce player hit points and check for death 
@@ -1127,7 +1127,7 @@ int handleMovement()
 int handleTreasure(int fix)
 {
     unsigned int tno;
-    unsigned int ilv;
+    unsigned long int ilv;
     unsigned int t,c;
     clearMessage();
     if (!fix)
@@ -1311,9 +1311,9 @@ itemFound:
     tno = RandMax(10);
     // * Calculate item level 
     // 4205 J=INT(RND(ONE) (ONE/TWO)*(L+ONE)+ONE):IF I>SEV THEN PRINT MI$:GOTO 4215 
-    ilv = RandMax((l+1)>>2) + RandMax((l+1)>>2) + 1;
+    ilv = (unsigned long int) RandMax((l+1)>>2) + (unsigned long int) RandMax((l+1)>>2) + 1;
         
-    _fsi_s("YOU SEE A % +%", items[tno], ilv);
+    _fsl_s("YOU SEE A % +%", items[tno], ilv);
     printMessage(stringBuffer40);
 
     // * Prompt player to pick it up 
@@ -1467,7 +1467,7 @@ doElevator:
             {
                 // / RND(0-20) > Dexterity + Elven boot level 
                 // 6305 IF INT(RND(ONE)*C20)>S(FOUR)+I(FIVE) THEN 6330
-                if (RandMax(20)<=s[DEX]+inventory[ELVEN_BOOTS])
+                if ((unsigned long int )RandMax(20)<=  (unsigned long int) s[DEX]+inventory[ELVEN_BOOTS])
                     tmp = 1; // can chose
             }
             if (tmp == 1)            
@@ -1482,6 +1482,7 @@ doElevator:
                 {
                     cz = cz + 1;
                     printMessage("YES");
+                    fillMap =GO_REDRAW;
                     return RETURN_NEW_TURN;
                 }
                 printMessage("NO");
@@ -1490,12 +1491,16 @@ doElevator:
             // / Fell in pit. Handle damage and move down one level 
             // 6330 PRINT "You fall in!!":L=THREE:GOSUB NEWP0:GOSUB PAUSE 
             printMessage("YOU FALL IN!!");
+            initSoundNo = SOUND_PIT;
             l = 3;
 
             // * Handle damage 
             // 20000 D=INT(RND(ONE)*L*SIX+ONE):PRINT "You suffer ";D;" hit points":CH=CH-D 
             // 20005 IF CH>ZERO THEN GOSUB RHITS:RETURN 
             // 20010 GOSUB RSTAT:GOSUB WTCLR:GOTO 9000
+            pause(SMALL_PAUSE);
+            clearMessage();
+
             tmp = (signed int)RandMax(l*3)+1;
             _fi_s("YOU SUFFER % HIT POINTS", ((unsigned int) tmp));
             printMessage(stringBuffer40);
@@ -1507,6 +1512,7 @@ doElevator:
             }
             // 6335 CZ=CZ+ONE:GOTO NEWP 
             cz = cz + 1;
+            fillMap =GO_REDRAW;
             return RETURN_NEW_TURN;
         }
         case 3:// / Teleporter
@@ -1901,6 +1907,7 @@ dirtyPaganTrash:
             // 6905 PRINT "Do you want to Pry some jewels," 
             // 6910 PRINT "Sit down, Read the runes,":PRINT " or Ignore it:"; 
             // 6915 GOSUB GTCHR:IF C$="I" OR C$="&" THEN PRINT "Ignore";:GOSUB WTCLR:GOTO ARRW 
+            specialAction = SPECIAL_THRONE_MUSIC;
             printMessage("YOU SEE A JEWEL ENCRUSTED THRONE");
             pause(SMALL_PAUSE);
             clearMessage();
@@ -1985,6 +1992,7 @@ createAKing:
                 }
                 // 6970 PRINT "A loud ýGONGý sounds!";:GOSUB WTCLR:IF RND(ONE)<ONE/TWO THEN 6975 
                 printMessage("A LOUD GONG SOUNDS!");
+                initSoundNo = SOUND_GONG;
                 if (RandMax(100) > 50)
                 {
                     // * 50% of the time you loose ½ experiece 
@@ -2189,10 +2197,17 @@ const char * const box[]=
 
 int main(void)
 {
+    initFlash();
 restart:
     initVars();
 #ifndef NO_TITLE
+    ch = -1;
     titleScreen();
+    if (ch != -1)
+    {
+        goto loadFromFlash;
+    }
+    
 #endif
     Vec_Text_HW = 0xfa50;
     _x = Vec_Loop_Count_lo;
@@ -2366,6 +2381,8 @@ handleSpecial:
             pause(SMALL_PAUSE);
             timer = 0;
             tmp = 1; // anything not 0
+             goto newTurnNotStart;
+
         }
         else if (button_1_2_pressed()) // status page - does not count as "as action"
         {
@@ -2399,6 +2416,8 @@ handleSpecial:
 
 newTurnStart:
             turnStarting = 1;
+newTurnNotStart:
+
             m = -1;
             mh = 0;
             timer = ACTION_TIME;
@@ -2420,7 +2439,7 @@ newTurnStart:
             // 2015 CH=CH+I(SIX):IF (CH>HP) THEN CH=HP
             if ((inventory[RING_OF_REGENERATION]) && ((unsigned int)ch != hp))
             {
-                ch=ch+inventory[RING_OF_REGENERATION];
+                ch=ch+(signed long int)inventory[RING_OF_REGENERATION];
                 if ((unsigned int)ch>hp) ch=(signed int)hp;
             }
         }
@@ -2470,7 +2489,8 @@ playerDead:
 
         if (stage == 1)
         {
-            if (tmp_hp == -1) break; 
+            if ((tmp_hp == -1) && (!(((flashAvailable) && (!Vec_Num_Players)))) )break; 
+
             print("DO YOU WANT TO ");
             print("LOAD A CHARACTER? <4>");
             if (buttons_pressed()) b=1;
@@ -2479,26 +2499,35 @@ playerDead:
             {
                 if (b==4)
                 {
-#if FLASH_SUPPORT == 1
-            // todo load
-#else
-                    ltmp = tmp_hp;
-                    initVars(); // destroys tmp_hp
-                    hp = tmp_hp = ltmp;
-                    lv = tmp_lv; // player level # word?
-                
-                    ex = tmp_ex; // experience # long long?
-                    su = tmp_su; // spell units (max)
-                
-                    cx = tmp_cx;
-                    cy = tmp_cy;
-                
-                    tg = tmp_tg; // saved gold # long long?
-                    for (int i=0;i<6;i++) s[i] = tmp_s[i];
-                    for (int i=0;i<10;i++) inventory[i] = tmp_inventory[i];
-                    for (int i=0;i<4;i++) box[i] = tmp_box[i];
+                    checkSavedFlash();
+                    if ((flashAvailable) && (!Vec_Num_Players))
+                    {
+loadFromFlash:
+                        loadFlash();
+                        fillMap = GO_REDRAW;
+                        printCharacter = 1;
+                        printDungeon = 1;
+                    }
+                    else
+                    {
+                        ltmp = tmp_hp;
+                        initVars(); // destroys tmp_hp
+                        hp = tmp_hp = ltmp;
+                        lv = tmp_lv; // player level # word?
+                    
+                        ex = tmp_ex; // experience # long long?
+                        su = tmp_su; // spell units (max)
+                    
+                        cx = tmp_cx;
+                        cy = tmp_cy;
+                    
+                        tg = tmp_tg; // saved gold # long long?
+                        for (int i=0;i<6;i++) s[i] = tmp_s[i];
+                        for (int i=0;i<10;i++) inventory[i] = tmp_inventory[i];
+                        for (int i=0;i<4;i++) box[i] = tmp_box[i];
+                    }
+                    clearMessage();
                     printMessage("CHARACTER LOADED");
-#endif
                     ch = (signed long int) hp;
                     gd = 0; // gold
                     cz = 1; // current z position in dungeon
