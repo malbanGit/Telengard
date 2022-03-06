@@ -1,15 +1,3 @@
-#define SOUND_CUBE 1
-#define SOUND_TELEPORT 2
-#define SOUND_BOX 3
-#define SOUND_DRAGON 4
-#define SOUND_DEATH 5
-#define SOUND_GONG 6
-#define SOUND_PIT 7
-#define SOUND_LIGHTNING 7
-
-
-
-
 #include "../deps.h"
 
 #define __BANK__ 1
@@ -21,8 +9,6 @@ extern void subBank0(int);
 #define initFP()              subBank0(1)
 #define generateDisplayMap()  subBank0(2)
 #define drawMap()             subBank0(3)
-//#define checkXP()             subBank0(4)
-//#define randomXP()             subBank0(5)
 
 
 extern void wr2(); // wait recal own - saves about 600 cycles...
@@ -45,9 +31,6 @@ extern const char * const items[];
 extern const char ** const spellNames[];
 extern const char * const mo[];
 extern int testForButton(int d);
-
-
-
 
 void pause(unsigned char t);
 
@@ -487,6 +470,7 @@ void createCharacter()
     ex = 0;
     su = 1;
     cs = 1;
+
     // Get players name
     // TODO
     // PRINT "Your name noble sir? ";
@@ -882,7 +866,6 @@ dressedToKill:
             // C64: IFRND(1)>.2+ML*.03THEN1260
             // / Kill did not succeed 
             // 24525 PRINT "It broke free!!":GOSUB PAUSE:GOTO 3300
-//            if (RandMax(166) > ml )
             if (RandMax(33) > 7+ml )
             {
                 return 3;
@@ -1359,42 +1342,7 @@ damageSpell:
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // retaken from bank 0
-
-
 extern signed long int tmp_hp; // hp max # word?
 extern unsigned int initSoundNo;
 extern volatile unsigned int sfx_status_1;
@@ -1411,12 +1359,6 @@ void checkXP()
     // 18010 GOSUB CLWND:PRINT "You went up a level!";
     // LV=LV+ONE:J=INT(RND(ONE)*S(THREE)+ONE)
     unsigned long long int t = ULL(1000)*ULL(ULL(2)<<(lv-1));
-
-//_fll_s("NEEDED UP XP >: %", t);
-//DEBUG_OUT(stringBuffer40)
-
-//_fll_s("CURRENT XP: %", ex);
-//DEBUG_OUT(stringBuffer40)
 
     if (ex >= t)
     {
@@ -1446,13 +1388,6 @@ void checkXP()
     if (lv >1)
         t = ULL(1000)*ULL(ULL(2)<<(lv-2));
     else t = 0;
-
-
-//_fll_s("NEEDED UP DOWN <: %", t);
-//DEBUG_OUT(stringBuffer40)
-
-//_fll_s("CURRENT XP: %", ex);
-//DEBUG_OUT(stringBuffer40)
 
 
     //    if (lv == 1) return 0;

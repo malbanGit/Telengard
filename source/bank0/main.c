@@ -27,16 +27,25 @@
 
 #include "sounds.h"
 
+#ifndef __NO_INLINE
+#define __NO_INLINE __attribute__((noinline))
+#endif
+
+#ifndef __INLINE
+#define __INLINE static inline __attribute__((always_inline))
+#endif
+
+#ifndef __ass
+#define __ass	asm volatile
+#endif
+
+
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
+
 
 #define __DO_SFX1   sfx_doframe_intern_1
-#define __DO_SFX2   sfx_doframe_intern_2
-#define __DO_SFX3   sfx_doframe_intern_3
-
-#define __ass	asm volatile
- 
 #define asm_ayfx_sound1() __MC6809_jsr_clobber_ayfx(__DO_SFX1, DO_SFX1, d, u, dp)
 #define __MC6809_jsr_clobber_ayfx(args...)	__mc6809_jsr_clobber_ayfx(args)
 
@@ -66,17 +75,14 @@
 
 extern void subBank1(int);
 #define displayMessages()         subBank1(0)
-#define displayRound()         subBank1(1)
-#define setRandSeedNP()             subBank1(2)
+#define displayRound()            subBank1(1)
+#define setRandSeedNP()           subBank1(2)
 
 __INLINE void ayfx_sound1() \
   {asm_ayfx_sound1(); } 
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
-
-
-#define __INLINE static inline __attribute__((always_inline))
 
 extern void     drawTitle();
 extern void     drawPlayer();
@@ -555,14 +561,12 @@ int generateDisplayMap()
 // drawLeft = 0-3, 0, 1 = nothing, 2 = door, 3 = wall
 // destroys tmp
 //__INLINE 
+// removed inline - to save about 2000 bytes.
+// it slower - but only in extreme situations...
 __NO_INLINE void drawRoom(unsigned int content,unsigned int drawUp,unsigned int drawLeft, signed int ry, signed int rx)
 {
-    //#define ROOM_Y(a) ((signed char) ( 90-((signed long)(a)*65)))
-    //#define ROOM_X(a) ((signed char) (-90+((signed long)(a)*65)))
-    
     if ((content + drawUp + drawLeft) == 0) return;
     dp_VIA_t1_cnt_lo  = 0x46;
-    //    dp_VIA_t1_cnt_lo  = 0x60;
     
     MOVETO_START; // this is a special macro with use of ry, and rx
     dp_VIA_t1_cnt_lo  = 9;
@@ -604,7 +608,6 @@ __NO_INLINE void drawRoom(unsigned int content,unsigned int drawUp,unsigned int 
     }
     RESET0REF();
 }
-
 
 // with line of sight
 //
@@ -698,18 +701,15 @@ void drawMap()
         {
             sfx_pointer_1 = (long unsigned int) (&lightning_data);
         }
-
-
         sfx_status_1 = 1;
-
         initSoundNo = 0;
     }
+
     if (PLY_SONG_PLAYING) 
         playSong();
     if (sfx_status_1 == 1)
-    {
          ayfx_sound1();
-    }
+
     if (printCharacter)
     {
         dp_VIA_t1_cnt_lo  = 0x09;
@@ -748,7 +748,6 @@ void drawMap()
     drawRoom(0, GETUP(DRAWUP_03, map03_lo), GETLEFT(DRAWLEFT_03, map03_lo), ROOM_Y(0), ROOM_X(3));
     
     drawRoom(ANY_ITEM(ITEM(ITEM_10, map10_hi)), GETUP(DRAWUP_10, map10_lo), GETLEFT(DRAWLEFT_10, map10_lo), ROOM_Y(1), ROOM_X(0));
-    //    drawRoom(map11_hi, GETUP(DRAWUP_11, map11_lo), GETLEFT(DRAWLEFT_11, map11_lo), ROOM_Y(1), ROOM_X(1));
     drawRoom(0, GETUP(DRAWUP_11, map11_lo), GETLEFT(DRAWLEFT_11, map11_lo), ROOM_Y(1), ROOM_X(1));
     drawRoom(ANY_ITEM(ITEM(ITEM_12, map12_hi)), GETUP(DRAWUP_12, map12_lo), GETLEFT(DRAWLEFT_12, map12_lo), ROOM_Y(1), ROOM_X(2));
     drawRoom(0, GETUP(DRAWUP_13, map13_lo), GETLEFT(DRAWLEFT_13, map13_lo), ROOM_Y(1), ROOM_X(3));

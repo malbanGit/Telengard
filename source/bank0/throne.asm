@@ -23,7 +23,8 @@ Throne_Subsong0DisarkWordForceNonReference2
 
 Throne_Subsong0DisarkWordForceNonReference3
 	dw 0	; Loops (duration = 0).
-	dw Throne_Subsong0_LinkerLoop
+	dw 0	; Loops (duration = 0). ; no loop
+;	dw Throne_Subsong0_LinkerLoop
 Throne_Subsong0DisarkPointerRegionEnd1
 
 ; The tracks.

@@ -1,0 +1,367 @@
+;!FILE C:\Dev\Vide\projects\Telengard\build\lib.0\flash.asx.s
+XH2
+H 3 areas C9 global symbols 2 banks 1 modes
+M flash.asx.s
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+S _msgLine Ref0000
+S _flashAvailable Ref0000
+S _hp Ref0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 17D flags D00
+S A$flash.asx$87 Def0073
+S eraseSector Def0085
+S checkFlash_copyNextWord Def0115
+S _initFlash Def0046
+S errOut Def002D
+S _writeFlashByte_End Def017D
+S writeFlashByte_copyNextWord Def0158
+S copyPlayerLoop Def007A
+S A$flash.asx$99 Def0074
+S eraseToggleWait Def00BF
+S checkNextBlock Def0056
+S readPlayer Def0074
+S blockAddressOk Def00E2
+S flashErrorOut Def0072
+S flashErrorOutR1 Def00C9
+S eraseSector_copyNextWord Def0097
+S checkFlash_Start Def011F
+S findNextFlashBlock Def00CA
+S writeFlashByte_Start Def0162
+S savePlayer Def00E6
+S checkFlash_2RAM Def010F
+S writeNextByte Def00FA
+S writeFlashByte_2RAM Def0152
+S A$flash.asx$100 Def0077
+S checkFlash_End Def0152
+S initFlash Def0046
+S A$flash.asx$200 Def00DB
+S A$flash.asx$220 Def00E9
+S A$flash.asx$202 Def00DD
+S A$flash.asx$130 Def008C
+S A$flash.asx$103 Def007A
+S A$flash.asx$320 Def015F
+S A$flash.asx$230 Def00FA
+S A$flash.asx$221 Def00EB
+S A$flash.asx$203 Def00DF
+S A$flash.asx$140 Def0099
+S A$flash.asx$131 Def008E
+S A$flash.asx$104 Def007C
+S A$flash.asx$330 Def016E
+S A$flash.asx$321 Def0161
+S A$flash.asx$231 Def00FC
+S A$flash.asx$150 Def00A3
+S A$flash.asx$141 Def009B
+S A$flash.asx$105 Def007E
+S A$flash.asx$340 Def017A
+S A$flash.asx$331 Def0171
+S A$flash.asx$313 Def0152
+S A$flash.asx$232 Def00FF
+S A$flash.asx$223 Def00EF
+S A$flash.asx$160 Def00B0
+S A$flash.asx$142 Def009E
+S A$flash.asx$106 Def0082
+S A$flash.asx$341 Def017C
+S A$flash.asx$314 Def0155
+S A$flash.asx$260 Def011C
+S A$flash.asx$233 Def0101
+S A$flash.asx$224 Def00F1
+S A$flash.asx$206 Def00E2
+S A$flash.asx$170 Def00BC
+S A$flash.asx$152 Def00A6
+S A$flash.asx$143 Def00A0
+S A$flash.asx$107 Def0084
+S A$flash.asx$333 Def0173
+S A$flash.asx$270 Def0124
+S A$flash.asx$261 Def011E
+S A$flash.asx$234 Def0105
+S A$flash.asx$225 Def00F4
+S A$flash.asx$162 Def00B2
+S A$flash.asx$135 Def0091
+S A$flash.asx$325 Def0162
+S A$flash.asx$280 Def0136
+S A$flash.asx$253 Def010F
+S A$flash.asx$235 Def0107
+S A$flash.asx$208 Def00E5
+S A$flash.asx$154 Def00A8
+S A$flash.asx$136 Def0094
+S A$flash.asx$127 Def0085
+S A$flash.asx$326 Def0164
+S A$flash.asx$317 Def0158
+S A$flash.asx$281 Def0139
+S A$flash.asx$272 Def0126
+S A$flash.asx$254 Def0112
+S A$flash.asx$236 Def0109
+S A$flash.asx$227 Def00F7
+S A$flash.asx$173 Def00BF
+S A$flash.asx$164 Def00B5
+S A$flash.asx$128 Def0088
+S checkFlash Def010A
+S A$flash.asx$327 Def0167
+S A$flash.asx$318 Def015A
+S A$flash.asx$282 Def013B
+S A$flash.asx$219 Def00E6
+S A$flash.asx$174 Def00C2
+S A$flash.asx$156 Def00AB
+S A$flash.asx$129 Def008A
+S eraseSector_Start Def00A1
+S _loadFlash Def001A
+S A$flash.asx$337 Def0174
+S A$flash.asx$328 Def0169
+S A$flash.asx$319 Def015C
+S A$flash.asx$292 Def0149
+S A$flash.asx$283 Def013E
+S A$flash.asx$274 Def0129
+S A$flash.asx$175 Def00C5
+S A$flash.asx$166 Def00B7
+S A$flash.asx$148 Def00A1
+S A$flash.asx$139 Def0097
+S A$flash.asx$338 Def0176
+S A$flash.asx$329 Def016C
+S A$flash.asx$293 Def014C
+S A$flash.asx$266 Def011F
+S A$flash.asx$257 Def0115
+S A$flash.asx$248 Def010A
+S A$flash.asx$194 Def00CA
+S A$flash.asx$176 Def00C7
+S A$flash.asx$158 Def00AD
+S A$flash.asx$339 Def0178
+S A$flash.asx$294 Def014E
+S A$flash.asx$276 Def012B
+S A$flash.asx$258 Def0117
+S A$flash.asx$249 Def010C
+S A$flash.asx$195 Def00CD
+S A$flash.asx$168 Def00BA
+S flashNotOk_out Def0140
+S A$flash.asx$295 Def0151
+S A$flash.asx$286 Def0140
+S A$flash.asx$277 Def012E
+S A$flash.asx$268 Def0121
+S A$flash.asx$259 Def0119
+S A$flash.asx$196 Def00CF
+S eraseSector_2RAM Def0091
+S A$flash.asx$287 Def0143
+S A$flash.asx$278 Def0131
+S A$flash.asx$197 Def00D3
+S A$flash.asx$179 Def00C9
+S A$flash.asx$288 Def0145
+S A$flash.asx$279 Def0133
+S A$flash.asx$198 Def00D5
+S A$flash.asx$20 Def0009
+S A$flash.asx$289 Def0148
+S A$flash.asx$199 Def00D8
+S A$flash.asx$21 Def000B
+S A$flash.asx$31 Def001A
+S A$flash.asx$22 Def000E
+S flashBlockFound Def006C
+S A$flash.asx$50 Def0037
+S A$flash.asx$32 Def001C
+S A$flash.asx$23 Def0010
+S eraseSector_End Def00CA
+S A$flash.asx$51 Def0039
+S A$flash.asx$42 Def002D
+S A$flash.asx$33 Def001E
+S A$flash.asx$24 Def0012
+S A$flash.asx$70 Def0056
+S A$flash.asx$52 Def003B
+S A$flash.asx$43 Def002F
+S A$flash.asx$34 Def0021
+S A$flash.asx$25 Def0014
+S A$flash.asx$16 Def0000
+S A$flash.asx$71 Def0059
+S A$flash.asx$62 Def0046
+S A$flash.asx$53 Def003E
+S A$flash.asx$35 Def0023
+S A$flash.asx$26 Def0017
+S A$flash.asx$17 Def0002
+S A$flash.asx$81 Def006C
+S A$flash.asx$72 Def005D
+S A$flash.asx$63 Def0049
+S A$flash.asx$54 Def0040
+S A$flash.asx$36 Def0025
+S A$flash.asx$27 Def0019
+S A$flash.asx$18 Def0004
+S A$flash.asx$82 Def006F
+S A$flash.asx$73 Def005F
+S A$flash.asx$64 Def004C
+S A$flash.asx$55 Def0043
+S A$flash.asx$37 Def0027
+S A$flash.asx$19 Def0007
+S writeByteToggleLoop Def0174
+S A$flash.asx$83 Def0071
+S A$flash.asx$74 Def0062
+S A$flash.asx$65 Def004F
+S A$flash.asx$56 Def0045
+S A$flash.asx$47 Def0030
+S A$flash.asx$38 Def002A
+S _saveFlash Def0030
+S A$flash.asx$75 Def0065
+S A$flash.asx$66 Def0051
+S A$flash.asx$48 Def0032
+S A$flash.asx$39 Def002C
+S A$flash.asx$76 Def0067
+S A$flash.asx$67 Def0053
+S A$flash.asx$49 Def0034
+S _checkSavedFlash Def0000
+S A$flash.asx$86 Def0072
+S A$flash.asx$77 Def006A
+S flashOk_out Def0149
+T 00 00
+R 00 00 00 02
+T 00 00 34 70 86 FF B7 C8 79 8D 3D 27 22 BE
+R 00 00 00 02
+T 00 0C C8 31 A6 84 81 FF 27 19 7F C8 79 35 70
+R 00 00 00 02
+T 00 19 39
+R 00 00 00 02
+T 00 1A
+R 00 00 00 02
+T 00 1A 34 70 86 FF B7 C8 79 8D 23 27 08 8D 4D
+R 00 00 00 02
+T 00 27 7F C8 79 35 70 39
+R 00 00 00 02
+T 00 2D
+R 00 00 00 02
+T 00 2D 35 70 39
+R 00 00 00 02
+T 00 30
+R 00 00 00 02
+T 00 30 34 70 86 FF B7 C8 79 8D 0D 27 F2 BD
+R 00 00 00 02
+T 00 3C 00 E6 27 ED 7F C8 79 35 70 39
+R 00 00 00 02 01 02 00 02
+T 00 46
+R 00 00 00 02
+T 00 46
+R 00 00 00 02
+T 00 46 7F 00 00 BD 01 0A B6
+R 00 00 00 02 81 03 00 02 01 06 00 02
+T 00 4D 00 00 84 01 27 1F 8E B0 00
+R 00 00 00 02 81 02 00 02
+T 00 56
+R 00 00 00 02
+T 00 56 EC 88 2D 10 83 FF FF 27 0D 30 88 2D 8C
+R 00 00 00 02
+T 00 63 C0 00 25 EF 8E 00 00 20 06
+R 00 00 00 02
+T 00 6C
+R 00 00 00 02
+T 00 6C BF C8 31 86 01 39
+R 00 00 00 02
+T 00 72
+R 00 00 00 02
+T 00 72 4F 39
+R 00 00 00 02
+T 00 74
+R 00 00 00 02
+T 00 74 CE 00 00 BE C8 31
+R 00 00 00 02 81 03 00 03
+T 00 7A
+R 00 00 00 02
+T 00 7A A6 80 A7 C0 11 83 00 2D 25 F6 39
+R 00 00 00 02 81 08 00 03
+T 00 85
+R 00 00 00 02
+T 00 85 B6 00 00 84 01 27 3D 8D 03 7E 00 00
+R 00 00 00 02 81 03 00 02 81 0C 00 01
+T 00 91
+R 00 00 00 02
+T 00 91 8E 00 A1 CE 00 00
+R 00 00 00 02 01 03 00 02 81 06 00 01
+T 00 97
+R 00 00 00 02
+T 00 97 EC 81 ED C1 8C 00 CA 25 F7 39
+R 00 00 00 02 01 07 00 02
+T 00 A1
+R 00 00 00 02
+T 00 A1 86 AA B7 55 55 86 55 B7 2A AA 86 80 B7
+R 00 00 00 02
+T 00 AE 55 55 86 AA B7 55 55 86 55 B7 2A AA 86
+R 00 00 00 02
+T 00 BB 30 B7 B0 00
+R 00 00 00 02
+T 00 BF
+R 00 00 00 02
+T 00 BF F6 00 00 F8 00 00 C5 40 26 F6
+R 00 00 00 02
+T 00 C9
+R 00 00 00 02
+T 00 C9 39
+R 00 00 00 02
+T 00 CA
+R 00 00 00 02
+T 00 CA
+R 00 00 00 02
+T 00 CA BE C8 31 EC 84 10 83 FF FF 27 0D 30 88
+R 00 00 00 02
+T 00 D7 2D 8C BF D3 25 05 8D A6 8E B0 00
+R 00 00 00 02
+T 00 E2
+R 00 00 00 02
+T 00 E2 BF C8 31 39
+R 00 00 00 02
+T 00 E6
+R 00 00 00 02
+T 00 E6 B6 00 00 84 01 10 27 FF 83 8D D9 BD
+R 00 00 00 02 81 03 00 02
+T 00 F2 01 52 BE C8 31 CE 00 00
+R 00 00 00 02 01 02 00 02 81 08 00 03
+T 00 FA
+R 00 00 00 02
+T 00 FA A6 C0 BD 00 00 30 01 11 83 00 2D 25 F3
+R 00 00 00 02 81 05 00 01 81 0B 00 03
+T 01 07 86 01 39
+R 00 00 00 02
+T 01 0A
+R 00 00 00 02
+T 01 0A 8D 03 7E 00 00
+R 00 00 00 02 81 05 00 01
+T 01 0F
+R 00 00 00 02
+T 01 0F 8E 01 1F CE 00 00
+R 00 00 00 02 01 03 00 02 81 06 00 01
+T 01 15
+R 00 00 00 02
+T 01 15 EC 81 ED C1 8C 01 52 25 F7 39
+R 00 00 00 02 01 07 00 02
+T 01 1F
+R 00 00 00 02
+T 01 1F 86 AA B7 55 55 86 55 B7 2A AA 86 90 B7
+R 00 00 00 02
+T 01 2C 55 55 BE 00 00 86 F0 B7 00 00 8C BF B5
+R 00 00 00 02
+T 01 39 27 0E 8C BF B6 27 09
+R 00 00 00 02
+T 01 40
+R 00 00 00 02
+T 01 40 B6 00 00 84 FE B7 00 00 39
+R 00 00 00 02 81 03 00 02 81 08 00 02
+T 01 49
+R 00 00 00 02
+T 01 49 B6 00 00 8A 01 B7 00 00 39
+R 00 00 00 02 81 03 00 02 81 08 00 02
+T 01 52
+R 00 00 00 02
+T 01 52
+R 00 00 00 02
+T 01 52 8E 01 62 CE 00 00
+R 00 00 00 02 01 03 00 02 81 06 00 01
+T 01 58
+R 00 00 00 02
+T 01 58 EC 81 ED C1 8C 01 7D 25 F7 39
+R 00 00 00 02 01 07 00 02
+T 01 62
+R 00 00 00 02
+T 01 62 C6 AA F7 55 55 C6 55 F7 2A AA C6 A0 F7
+R 00 00 00 02
+T 01 6F 55 55 A7 00 12
+R 00 00 00 02
+T 01 74
+R 00 00 00 02
+T 01 74 E6 00 E8 00 C4 40 26 F8 39
+R 00 00 00 02
+T 01 7D
+R 00 00 00 02

@@ -1,0 +1,465 @@
+                              1 ; NOTE!!!
+                              2 ; IF USED IN 'C' YOU MIGHT NEED TO SAVE SOME REGS WHEN CALLING
+                              3 ; YOUR FUNCTIONS, LIKE REG 'U' and 'Y'!
+                              4 ; ALSO CHECK YOUR DP SETTINGS, BELOW DP = D0 is assumed!
+                              5  .module flash.asx.s
+                              6  .area .text
+                     0001     7 FLASH_AVAILABLE_BIT  =       0b00000001 
+                     C82F     8 flashRAMROM = 0xC82F; Vec_Counter_2: 2 byte
+                     C831     9 currentFlashROMStart = 0xC831; Vec_Counter_4: 2 byte
+                     C879    10 Vec_Num_Players = 0xC879 ; result of load 0=ok, -1 = failure
+                     002D    11 PlayerSize = 45; // should be 45
+                             12 ; on success Vec_Num_Players = 0
+                             13  .globl _checkSavedFlash
+   0000                      14 _checkSavedFlash:
+                             15  ; per default loading fails
+   0000 34 70         [ 8]   16  pshs u,y,x
+   0002 86 FF         [ 2]   17  lda #0xff
+   0004 B7 C8 79      [ 5]   18  sta Vec_Num_Players
+   0007 8D 3D         [ 7]   19  bsr initFlash
+   0009 27 22         [ 3]   20  beq errOut
+   000B BE C8 31      [ 6]   21  ldx currentFlashROMStart
+   000E A6 84         [ 4]   22  lda ,x
+   0010 81 FF         [ 2]   23  cmpa #0xff
+   0012 27 19         [ 3]   24  beq errOut
+   0014 7F C8 79      [ 7]   25  clr Vec_Num_Players
+   0017 35 70         [ 8]   26  puls u,y,x
+   0019 39            [ 5]   27  rts
+                             28  .globl _loadFlash
+   001A                      29 _loadFlash:
+                             30  ; per default loading fails
+   001A 34 70         [ 8]   31  pshs u,y,x
+   001C 86 FF         [ 2]   32  lda #0xff
+   001E B7 C8 79      [ 5]   33  sta Vec_Num_Players
+   0021 8D 23         [ 7]   34  bsr initFlash
+   0023 27 08         [ 3]   35  beq errOut
+   0025 8D 4D         [ 7]   36  bsr readPlayer 
+   0027 7F C8 79      [ 7]   37  clr Vec_Num_Players
+   002A 35 70         [ 8]   38  puls u,y,x
+   002C 39            [ 5]   39  rts
+                             40  .globl errOut
+   002D                      41 errOut:
+   002D 35 70         [ 8]   42  puls u,y,x
+   002F 39            [ 5]   43  rts
+                             44  .globl _saveFlash
+   0030                      45 _saveFlash:
+                             46  ; per default saving fails
+   0030 34 70         [ 8]   47  pshs u,y,x
+   0032 86 FF         [ 2]   48  lda #0xff
+   0034 B7 C8 79      [ 5]   49  sta Vec_Num_Players
+   0037 8D 0D         [ 7]   50  bsr initFlash
+   0039 27 F2         [ 3]   51  beq errOut
+   003B BD 00 E6      [ 8]   52  jsr savePlayer 
+   003E 27 ED         [ 3]   53  beq errOut
+   0040 7F C8 79      [ 7]   54  clr Vec_Num_Players
+   0043 35 70         [ 8]   55  puls u,y,x
+   0045 39            [ 5]   56  rts
+                             57 ; **************************************************************************
+                             58  .globl _initFlash
+   0046                      59 _initFlash:                                                 ;#isfunction  
+                             60  .globl initFlash
+   0046                      61 initFlash:                                                 ;#isfunction  
+   0046 7F 00 00      [ 7]   62                     clr      _flashAvailable 
+   0049 BD 01 0A      [ 8]   63                     jsr      checkFlash 
+   004C B6 00 00      [ 5]   64                     lda      _flashAvailable 
+   004F 84 01         [ 2]   65                     anda     #FLASH_AVAILABLE_BIT 
+   0051 27 1F         [ 3]   66                     beq      flashErrorOut 
+   0053 8E B0 00      [ 3]   67                     ldx      #0xb000 
+                             68  .globl checkNextBlock
+   0056                      69 checkNextBlock: 
+   0056 EC 88 2D      [ 6]   70                     ldd      PlayerSize,x 
+   0059 10 83 FF FF   [ 5]   71                     cmpd     #0xffff                       ; empty flash space 
+   005D 27 0D         [ 3]   72                     beq      flashBlockFound 
+   005F 30 88 2D      [ 5]   73                     leax     PlayerSize,x 
+   0062 8C C0 00      [ 4]   74                     cmpx     #0xc000 
+   0065 25 EF         [ 3]   75                     blo      checkNextBlock 
+   0067 8E 00 00      [ 3]   76                     ldx      #0 
+   006A 20 06         [ 3]   77                     bra      flashErrorOut 
+                             78 ; in x the address of the current relevant flash block
+                             79  .globl flashBlockFound
+   006C                      80 flashBlockFound: 
+   006C BF C8 31      [ 6]   81                     stx      currentFlashROMStart 
+   006F 86 01         [ 2]   82                     lda      #1 
+   0071 39            [ 5]   83                     rts      
+                             84  .globl flashErrorOut
+   0072                      85 flashErrorOut: 
+   0072 4F            [ 2]   86                     clra
+   0073 39            [ 5]   87                     rts      
+                             88 ;.
+                             89 ;.......................................................................
+                             90 ;.
+                             91 ;
+                             92 ; copies options to RAM
+                             93 ; uses current block
+                             94 ; no flash check, since default options are available
+                             95 ; **************************************************************************
+                             96  .globl readPlayer
+   0074                      97 readPlayer:                                           ;#isfunction  
+                             98 ; copy options data
+   0074 CE 00 00      [ 3]   99                     ldu      #_hp 
+   0077 BE C8 31      [ 6]  100                     ldx      currentFlashROMStart 
+                            101  .globl copyPlayerLoop
+   007A                     102 copyPlayerLoop: 
+   007A A6 80         [ 6]  103                     lda      ,x+ 
+   007C A7 C0         [ 6]  104                     sta      ,u+ 
+   007E 11 83 00 2D   [ 5]  105                     cmpu     #_hp+PlayerSize
+   0082 25 F6         [ 3]  106                     blo      copyPlayerLoop 
+   0084 39            [ 5]  107                     rts      
+                            108 ;.
+                            109 ;.......................................................................
+                            110 ; clears complete sector (from 0xb000)
+                            111 ; nothing else
+                            112 ; needs flash "RAM" block
+                            113 ;
+                            114 ; Sector-Erase Operation
+                            115 ; The Sector-Erase operation allows the system to erase the device on a sector-by-sector basis. The
+                            116 ; sector architecture is based on uniform sector size of 4 KByte. The Sector-Erase operation is initiated
+                            117 ; by executing a six-byte command load sequence for Software Data Protection with Sector-Erase command
+                            118 ; (30H) and sector address (SA) in the last bus cycle. The sector address is latched on the falling
+                            119 ; edge of the sixth WE# pulse, while the command (30H) is latched on the rising edge of the sixth WE#
+                            120 ; pulse. The internal Erase operation begins after the sixth WE# pulse. The End-of-Erase can be determined
+                            121 ; using either Data# Polling or Toggle Bit methods. See Figure 10 for timing waveforms. Any commands
+                            122 ; written during the Sector-Erase operation will be ignored.
+                            123 ;.
+                            124 ; **************************************************************************
+                            125  .globl eraseSector
+   0085                     126 eraseSector:                                               ;#isfunction  
+   0085 B6 00 00      [ 5]  127                     lda      _flashAvailable 
+   0088 84 01         [ 2]  128                     anda     #FLASH_AVAILABLE_BIT 
+   008A 27 3D         [ 3]  129                     beq      flashErrorOutR1 
+   008C 8D 03         [ 7]  130                     bsr      eraseSector_2RAM 
+   008E 7E 00 00      [ 4]  131                     jmp      _msgLine 
+                            132 ;.
+                            133  .globl eraseSector_2RAM
+   0091                     134 eraseSector_2RAM: 
+   0091 8E 00 A1      [ 3]  135                     ldx      #eraseSector_Start 
+   0094 CE 00 00      [ 3]  136                     ldu      #_msgLine  
+                            137  .globl eraseSector_copyNextWord
+   0097                     138 eraseSector_copyNextWord: 
+   0097 EC 81         [ 8]  139                     ldd      ,x++ 
+   0099 ED C1         [ 8]  140                     std      ,u++ 
+   009B 8C 00 CA      [ 4]  141                     cmpx     #eraseSector_End 
+   009E 25 F7         [ 3]  142                     blo      eraseSector_copyNextWord 
+   00A0 39            [ 5]  143                     rts      
+                            144 ;.
+                            145  .globl eraseSector_Start
+   00A1                     146 eraseSector_Start: 
+                            147 ; data 1,
+   00A1 86 AA         [ 2]  148                     lda      #0xaa 
+                            149 ; address 1
+   00A3 B7 55 55      [ 5]  150                     sta      0x5555 
+                            151 ; data 2
+   00A6 86 55         [ 2]  152                     lda      #0x55 
+                            153 ; address 2
+   00A8 B7 2A AA      [ 5]  154                     sta      0x2aaa 
+                            155 ; data 3
+   00AB 86 80         [ 2]  156                     lda      #0x80 
+                            157 ; address 3
+   00AD B7 55 55      [ 5]  158                     sta      0x5555 
+                            159 ; data 4
+   00B0 86 AA         [ 2]  160                     lda      #0xaa 
+                            161 ; address 4
+   00B2 B7 55 55      [ 5]  162                     sta      0x5555 
+                            163 ; data 5
+   00B5 86 55         [ 2]  164                     lda      #0x55 
+                            165 ; address 5
+   00B7 B7 2A AA      [ 5]  166                     sta      0x2aaa 
+                            167 ; data 6
+   00BA 86 30         [ 2]  168                     lda      #0x30 
+                            169 ; address 6
+   00BC B7 B0 00      [ 5]  170                     sta      0xb000                        ; earse sector beginning at 0xb000 
+                            171  .globl eraseToggleWait
+   00BF                     172 eraseToggleWait: 
+   00BF F6 00 00      [ 5]  173                     ldb      0x0000                        ; load from even address 
+   00C2 F8 00 00      [ 5]  174                     eorb     0x0000                        ; load again even and eor 
+   00C5 C5 40         [ 2]  175                     bitb     #0b01000000                   ; if not equal go on waiting 
+   00C7 26 F6         [ 3]  176                     bne      eraseToggleWait 
+                            177  .globl flashErrorOutR1
+   00C9                     178 flashErrorOutR1: 
+   00C9 39            [ 5]  179                     rts      
+                            180  .globl eraseSector_End
+   00CA                     181 eraseSector_End: 
+                            182 ;.
+                            183 ;.......................................................................
+                            184 ;.
+                            185 ; finds and sets new flash block
+                            186 ; if last flash block was used, than flash sector is
+                            187 ; erased and flash blocks start anew from 0xb000
+                            188 ;.
+                            189 ; Assumed: currentFlashROMStart was initialized to current block
+                            190 ;.
+                            191 ; **************************************************************************
+                            192  .globl findNextFlashBlock
+   00CA                     193 findNextFlashBlock:                                        ;#isfunction  
+   00CA BE C8 31      [ 6]  194                     ldx      currentFlashROMStart 
+   00CD EC 84         [ 5]  195  ldd ,x
+   00CF 10 83 FF FF   [ 5]  196  cmpd #0xffff
+   00D3 27 0D         [ 3]  197  beq blockAddressOk
+   00D5 30 88 2D      [ 5]  198                     leax     PlayerSize,x                 ; load next memory address of flashblock 
+   00D8 8C BF D3      [ 4]  199                     cmpx     #0xc000 - PlayerSize          ; check if next address has enough space left 
+   00DB 25 05         [ 3]  200                     blo      blockAddressOk 
+                            201 ; format flash
+   00DD 8D A6         [ 7]  202                     bsr      eraseSector 
+   00DF 8E B0 00      [ 3]  203                     ldx      #0xb000 
+                            204  .globl blockAddressOk
+   00E2                     205 blockAddressOk: 
+   00E2 BF C8 31      [ 6]  206                     stx      currentFlashROMStart 
+                            207 ; in x now correct adress block of flash that can be written to
+   00E5 39            [ 5]  208                     rts      
+                            209 ;.
+                            210 ;.......................................................................
+                            211 ;.
+                            212 ; saves player
+                            213 ;
+                            214 ; needs flash "RAM" block
+                            215 ;.
+                            216 ; **************************************************************************
+                            217  .globl savePlayer
+   00E6                     218 savePlayer:                                          ;#isfunction  
+   00E6 B6 00 00      [ 5]  219                     lda      _flashAvailable 
+   00E9 84 01         [ 2]  220                     anda     #FLASH_AVAILABLE_BIT 
+   00EB 10 27 FF 83   [ 6]  221                     lbeq     flashErrorOut 
+                            222 ; changes for V1.11
+   00EF 8D D9         [ 7]  223                     bsr      findNextFlashBlock           ; also loads to X 
+   00F1 BD 01 52      [ 8]  224                     jsr      writeFlashByte_2RAM 
+   00F4 BE C8 31      [ 6]  225                     ldx      currentFlashROMStart 
+                            226 ; first write options
+   00F7 CE 00 00      [ 3]  227                     ldu      #_hp
+                            228  .globl writeNextByte
+   00FA                     229 writeNextByte: 
+   00FA A6 C0         [ 6]  230                     lda      ,u+ 
+   00FC BD 00 00      [ 8]  231                     jsr      _msgLine  
+   00FF 30 01         [ 5]  232                     leax     1,x 
+   0101 11 83 00 2D   [ 5]  233                     cmpu     #_hp+PlayerSize
+   0105 25 F3         [ 3]  234                     blo      writeNextByte 
+   0107 86 01         [ 2]  235  lda #1; non zero
+   0109 39            [ 5]  236                     rts      
+                            237 ;.
+                            238 ;.......................................................................
+                            239 ;.
+                            240 ; check flash ID byte
+                            241 ; z flag = if ok
+                            242 ; z flag not set, than flash id wrong
+                            243 ;.
+                            244 ; needs flash "RAM" block
+                            245 ; **************************************************************************
+                            246  .globl checkFlash
+   010A                     247 checkFlash:                                                ;#isfunction  
+   010A 8D 03         [ 7]  248                     bsr      checkFlash_2RAM 
+   010C 7E 00 00      [ 4]  249                     jmp      _msgLine  
+                            250 ;.
+                            251  .globl checkFlash_2RAM
+   010F                     252 checkFlash_2RAM: 
+   010F 8E 01 1F      [ 3]  253                     ldx      #checkFlash_Start 
+   0112 CE 00 00      [ 3]  254                     ldu      #_msgLine  
+                            255  .globl checkFlash_copyNextWord
+   0115                     256 checkFlash_copyNextWord: 
+   0115 EC 81         [ 8]  257                     ldd      ,x++ 
+   0117 ED C1         [ 8]  258                     std      ,u++ 
+   0119 8C 01 52      [ 4]  259                     cmpx     #checkFlash_End 
+   011C 25 F7         [ 3]  260                     blo      checkFlash_copyNextWord 
+   011E 39            [ 5]  261                     rts      
+                            262 ;.
+                            263  .globl checkFlash_Start
+   011F                     264 checkFlash_Start: 
+                            265 ; data 1,
+   011F 86 AA         [ 2]  266                     lda      #0xaa 
+                            267 ; address 1
+   0121 B7 55 55      [ 5]  268                     sta      0x5555 
+                            269 ; data 2
+   0124 86 55         [ 2]  270                     lda      #0x55 
+                            271 ; address 2
+   0126 B7 2A AA      [ 5]  272                     sta      0x2aaa 
+                            273 ; data 3
+   0129 86 90         [ 2]  274                     lda      #0x90                         ; id 
+                            275 ; address 3
+   012B B7 55 55      [ 5]  276                     sta      0x5555 
+   012E BE 00 00      [ 6]  277                     ldx      0x0 
+   0131 86 F0         [ 2]  278                     lda      #0xf0 
+   0133 B7 00 00      [ 5]  279                     sta      0x0 
+   0136 8C BF B5      [ 4]  280                     cmpx     #0xbfb5                       ; for SST39SF010 
+   0139 27 0E         [ 3]  281                     beq      flashOk_out 
+   013B 8C BF B6      [ 4]  282                     cmpx     #0xbfb6                       ; for SST39SF020 
+   013E 27 09         [ 3]  283                     beq      flashOk_out 
+                            284  .globl flashNotOk_out
+   0140                     285 flashNotOk_out: 
+   0140 B6 00 00      [ 5]  286                     lda      _flashAvailable 
+   0143 84 FE         [ 2]  287                     anda     #0xff-FLASH_AVAILABLE_BIT 
+   0145 B7 00 00      [ 5]  288                     sta      _flashAvailable 
+   0148 39            [ 5]  289                     rts      
+                            290  .globl flashOk_out
+   0149                     291 flashOk_out: 
+   0149 B6 00 00      [ 5]  292                     lda      _flashAvailable 
+   014C 8A 01         [ 2]  293                     ora      #FLASH_AVAILABLE_BIT 
+   014E B7 00 00      [ 5]  294                     sta      _flashAvailable 
+   0151 39            [ 5]  295                     rts      
+                            296  .globl checkFlash_End
+   0152                     297 checkFlash_End: 
+                            298 ;.
+                            299 ;.......................................................................
+                            300 ;.
+                            301 ; writes one byte to flash memory
+                            302 ; exepcts flash to be properly formated/erased (all bit = 1)
+                            303 ;
+                            304 ; output address = x
+                            305 ; output byte in A
+                            306 ;
+                            307 ; destroys B
+                            308 ;
+                            309 ; needs flash "RAM" block
+                            310 ; **************************************************************************
+                            311  .globl writeFlashByte_2RAM
+   0152                     312 writeFlashByte_2RAM: 
+   0152 8E 01 62      [ 3]  313                     ldx      #writeFlashByte_Start 
+   0155 CE 00 00      [ 3]  314                     ldu      #_msgLine  
+                            315  .globl writeFlashByte_copyNextWord
+   0158                     316 writeFlashByte_copyNextWord: 
+   0158 EC 81         [ 8]  317                     ldd      ,x++ 
+   015A ED C1         [ 8]  318                     std      ,u++ 
+   015C 8C 01 7D      [ 4]  319                     cmpx     #_writeFlashByte_End 
+   015F 25 F7         [ 3]  320                     blo      writeFlashByte_copyNextWord 
+   0161 39            [ 5]  321                     rts      
+                            322 ;.
+                            323  .globl writeFlashByte_Start
+   0162                     324 writeFlashByte_Start: 
+   0162 C6 AA         [ 2]  325                     ldb      #0xaa 
+   0164 F7 55 55      [ 5]  326                     stb      0x5555 
+   0167 C6 55         [ 2]  327                     ldb      #0x55 
+   0169 F7 2A AA      [ 5]  328                     stb      0x2aaa 
+   016C C6 A0         [ 2]  329                     ldb      #0xa0 
+   016E F7 55 55      [ 5]  330                     stb      0x5555 
+   0171 A7 00         [ 5]  331                     sta      0, x 
+                            332                                                           ; wait for write to be done 
+   0173 12            [ 2]  333  nop ; force a tiny wait to ensure switching from write
+                            334                                                           ; to read works work with fast logic gates.
+                            335  .globl writeByteToggleLoop
+   0174                     336 writeByteToggleLoop:
+   0174 E6 00         [ 5]  337                     ldb      0, x                         ; wait for DQ6 toggle bit to be the same,
+   0176 E8 00         [ 5]  338                     eorb     0, x                         ; which indicates write is complete.
+   0178 C4 40         [ 2]  339                     andb     #0b01000000                   ;  |
+   017A 26 F8         [ 3]  340                     bne      writeByteToggleLoop          ;  |
+   017C 39            [ 5]  341                     rts      
+                            342  .globl _writeFlashByte_End
+   017D                     343 _writeFlashByte_End: 
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 A$flash.asx$10     0077 GR  |   2 A$flash.asx$10     007A GR
+  2 A$flash.asx$10     007C GR  |   2 A$flash.asx$10     007E GR
+  2 A$flash.asx$10     0082 GR  |   2 A$flash.asx$10     0084 GR
+  2 A$flash.asx$12     0085 GR  |   2 A$flash.asx$12     0088 GR
+  2 A$flash.asx$12     008A GR  |   2 A$flash.asx$13     008C GR
+  2 A$flash.asx$13     008E GR  |   2 A$flash.asx$13     0091 GR
+  2 A$flash.asx$13     0094 GR  |   2 A$flash.asx$13     0097 GR
+  2 A$flash.asx$14     0099 GR  |   2 A$flash.asx$14     009B GR
+  2 A$flash.asx$14     009E GR  |   2 A$flash.asx$14     00A0 GR
+  2 A$flash.asx$14     00A1 GR  |   2 A$flash.asx$15     00A3 GR
+  2 A$flash.asx$15     00A6 GR  |   2 A$flash.asx$15     00A8 GR
+  2 A$flash.asx$15     00AB GR  |   2 A$flash.asx$15     00AD GR
+  2 A$flash.asx$16     0000 GR  |   2 A$flash.asx$16     00B0 GR
+  2 A$flash.asx$16     00B2 GR  |   2 A$flash.asx$16     00B5 GR
+  2 A$flash.asx$16     00B7 GR  |   2 A$flash.asx$16     00BA GR
+  2 A$flash.asx$17     0002 GR  |   2 A$flash.asx$17     00BC GR
+  2 A$flash.asx$17     00BF GR  |   2 A$flash.asx$17     00C2 GR
+  2 A$flash.asx$17     00C5 GR  |   2 A$flash.asx$17     00C7 GR
+  2 A$flash.asx$17     00C9 GR  |   2 A$flash.asx$18     0004 GR
+  2 A$flash.asx$19     0007 GR  |   2 A$flash.asx$19     00CA GR
+  2 A$flash.asx$19     00CD GR  |   2 A$flash.asx$19     00CF GR
+  2 A$flash.asx$19     00D3 GR  |   2 A$flash.asx$19     00D5 GR
+  2 A$flash.asx$19     00D8 GR  |   2 A$flash.asx$20     0009 GR
+  2 A$flash.asx$20     00DB GR  |   2 A$flash.asx$20     00DD GR
+  2 A$flash.asx$20     00DF GR  |   2 A$flash.asx$20     00E2 GR
+  2 A$flash.asx$20     00E5 GR  |   2 A$flash.asx$21     000B GR
+  2 A$flash.asx$21     00E6 GR  |   2 A$flash.asx$22     000E GR
+  2 A$flash.asx$22     00E9 GR  |   2 A$flash.asx$22     00EB GR
+  2 A$flash.asx$22     00EF GR  |   2 A$flash.asx$22     00F1 GR
+  2 A$flash.asx$22     00F4 GR  |   2 A$flash.asx$22     00F7 GR
+  2 A$flash.asx$23     0010 GR  |   2 A$flash.asx$23     00FA GR
+  2 A$flash.asx$23     00FC GR  |   2 A$flash.asx$23     00FF GR
+  2 A$flash.asx$23     0101 GR  |   2 A$flash.asx$23     0105 GR
+  2 A$flash.asx$23     0107 GR  |   2 A$flash.asx$23     0109 GR
+  2 A$flash.asx$24     0012 GR  |   2 A$flash.asx$24     010A GR
+  2 A$flash.asx$24     010C GR  |   2 A$flash.asx$25     0014 GR
+  2 A$flash.asx$25     010F GR  |   2 A$flash.asx$25     0112 GR
+  2 A$flash.asx$25     0115 GR  |   2 A$flash.asx$25     0117 GR
+  2 A$flash.asx$25     0119 GR  |   2 A$flash.asx$26     0017 GR
+  2 A$flash.asx$26     011C GR  |   2 A$flash.asx$26     011E GR
+  2 A$flash.asx$26     011F GR  |   2 A$flash.asx$26     0121 GR
+  2 A$flash.asx$27     0019 GR  |   2 A$flash.asx$27     0124 GR
+  2 A$flash.asx$27     0126 GR  |   2 A$flash.asx$27     0129 GR
+  2 A$flash.asx$27     012B GR  |   2 A$flash.asx$27     012E GR
+  2 A$flash.asx$27     0131 GR  |   2 A$flash.asx$27     0133 GR
+  2 A$flash.asx$28     0136 GR  |   2 A$flash.asx$28     0139 GR
+  2 A$flash.asx$28     013B GR  |   2 A$flash.asx$28     013E GR
+  2 A$flash.asx$28     0140 GR  |   2 A$flash.asx$28     0143 GR
+  2 A$flash.asx$28     0145 GR  |   2 A$flash.asx$28     0148 GR
+  2 A$flash.asx$29     0149 GR  |   2 A$flash.asx$29     014C GR
+  2 A$flash.asx$29     014E GR  |   2 A$flash.asx$29     0151 GR
+  2 A$flash.asx$31     001A GR  |   2 A$flash.asx$31     0152 GR
+  2 A$flash.asx$31     0155 GR  |   2 A$flash.asx$31     0158 GR
+  2 A$flash.asx$31     015A GR  |   2 A$flash.asx$31     015C GR
+  2 A$flash.asx$32     001C GR  |   2 A$flash.asx$32     015F GR
+  2 A$flash.asx$32     0161 GR  |   2 A$flash.asx$32     0162 GR
+  2 A$flash.asx$32     0164 GR  |   2 A$flash.asx$32     0167 GR
+  2 A$flash.asx$32     0169 GR  |   2 A$flash.asx$32     016C GR
+  2 A$flash.asx$33     001E GR  |   2 A$flash.asx$33     016E GR
+  2 A$flash.asx$33     0171 GR  |   2 A$flash.asx$33     0173 GR
+  2 A$flash.asx$33     0174 GR  |   2 A$flash.asx$33     0176 GR
+  2 A$flash.asx$33     0178 GR  |   2 A$flash.asx$34     0021 GR
+  2 A$flash.asx$34     017A GR  |   2 A$flash.asx$34     017C GR
+  2 A$flash.asx$35     0023 GR  |   2 A$flash.asx$36     0025 GR
+  2 A$flash.asx$37     0027 GR  |   2 A$flash.asx$38     002A GR
+  2 A$flash.asx$39     002C GR  |   2 A$flash.asx$42     002D GR
+  2 A$flash.asx$43     002F GR  |   2 A$flash.asx$47     0030 GR
+  2 A$flash.asx$48     0032 GR  |   2 A$flash.asx$49     0034 GR
+  2 A$flash.asx$50     0037 GR  |   2 A$flash.asx$51     0039 GR
+  2 A$flash.asx$52     003B GR  |   2 A$flash.asx$53     003E GR
+  2 A$flash.asx$54     0040 GR  |   2 A$flash.asx$55     0043 GR
+  2 A$flash.asx$56     0045 GR  |   2 A$flash.asx$62     0046 GR
+  2 A$flash.asx$63     0049 GR  |   2 A$flash.asx$64     004C GR
+  2 A$flash.asx$65     004F GR  |   2 A$flash.asx$66     0051 GR
+  2 A$flash.asx$67     0053 GR  |   2 A$flash.asx$70     0056 GR
+  2 A$flash.asx$71     0059 GR  |   2 A$flash.asx$72     005D GR
+  2 A$flash.asx$73     005F GR  |   2 A$flash.asx$74     0062 GR
+  2 A$flash.asx$75     0065 GR  |   2 A$flash.asx$76     0067 GR
+  2 A$flash.asx$77     006A GR  |   2 A$flash.asx$81     006C GR
+  2 A$flash.asx$82     006F GR  |   2 A$flash.asx$83     0071 GR
+  2 A$flash.asx$86     0072 GR  |   2 A$flash.asx$87     0073 GR
+  2 A$flash.asx$99     0074 GR  |     FLASH_AVAILABL =   0001 
+    PlayerSize     =   002D     |     Vec_Num_Player =   C879 
+  2 _checkSavedFla     0000 GR  |     _flashAvailabl     **** GX
+    _hp                **** GX  |   2 _initFlash         0046 GR
+  2 _loadFlash         001A GR  |     _msgLine           **** GX
+  2 _saveFlash         0030 GR  |   2 _writeFlashByt     017D GR
+  2 blockAddressOk     00E2 GR  |   2 checkFlash         010A GR
+  2 checkFlash_2RA     010F GR  |   2 checkFlash_End     0152 GR
+  2 checkFlash_Sta     011F GR  |   2 checkFlash_cop     0115 GR
+  2 checkNextBlock     0056 GR  |   2 copyPlayerLoop     007A GR
+    currentFlashRO =   C831     |   2 eraseSector        0085 GR
+  2 eraseSector_2R     0091 GR  |   2 eraseSector_En     00CA GR
+  2 eraseSector_St     00A1 GR  |   2 eraseSector_co     0097 GR
+  2 eraseToggleWai     00BF GR  |   2 errOut             002D GR
+  2 findNextFlashB     00CA GR  |   2 flashBlockFoun     006C GR
+  2 flashErrorOut      0072 GR  |   2 flashErrorOutR     00C9 GR
+  2 flashNotOk_out     0140 GR  |   2 flashOk_out        0149 GR
+    flashRAMROM    =   C82F     |   2 initFlash          0046 GR
+  2 readPlayer         0074 GR  |   2 savePlayer         00E6 GR
+  2 writeByteToggl     0174 GR  |   2 writeFlashByte     0152 GR
+  2 writeFlashByte     0162 GR  |   2 writeFlashByte     0158 GR
+  2 writeNextByte      00FA GR
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size  17D   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

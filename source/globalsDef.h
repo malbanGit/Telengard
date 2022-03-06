@@ -7,18 +7,16 @@
 // more RAM definitions in:
 //    float40.c (30 bytes)
 //    float40MS.s (50 byte)
-//    string.c (133 bytes)
+//    string.c (xxx bytes)
 // 
-//    atm below used: 133 byte
-//
 //    think about stack!
 
-// currently displayed part of the map - the SCREEN  d 
 #define uint_16 unsigned long int
 #define ABS(a) ((unsigned int)((a)>0)?(a):(-(a)))
 #define RESET0REF() dp_VIA_cntl = 0xcc;
 
 
+// currently displayed part of the map - the SCREEN  d 
 uint_16 screen[4][4];
 unsigned int above; // this one can be changed by "special"
 unsigned int realAbove; // this is the real deal!
@@ -184,7 +182,7 @@ signed long int stackMH[20];   // HitPoints
 char msg_1[40];
 char msg_2[40];
 char msg_3[40];
-char msg_4[40];
+char msg_4[40]; // not used
 char * const msg[4] = {msg_1, msg_2, msg_3, msg_4};
 
 
@@ -386,8 +384,5 @@ unsigned int PLY_AKY_PSGREGISTER11;// ds       1
 unsigned int PLY_AKY_PSGREGISTER12;// ds       1 
 unsigned int PLY_AKY_PSGREGISTER13;// ds       1 
 
-int PLY_SONG_PLAYING;
-
-
-
+int PLY_SONG_PLAYING; // new in player!
 

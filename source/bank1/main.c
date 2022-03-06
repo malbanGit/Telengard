@@ -2,27 +2,8 @@
 
 
 /*
-alle sounds also the missing: https://www.angelfire.com/ny5/telengard/sounds.htm
-
-monster level muessen beim erscheinen angeziegt werden
-aktueller monster level, wenn vorhanden auf status seite anzeigen
-
-+ on equip should be long
-
-
-
   todo enter name? (demo mode)
-
-  todo lightning effect
-  todo fireball effect
-  todo Wall of fire spell 
-  todo holy symbol display on cast
-  todo PRISMATIC WALL effect
-
-
 */
-
-
 
 /*
   Translating BASIC to "C".
@@ -91,8 +72,6 @@ extern void Joy_Digital2(); // dito
 
 #define ATARI_VERSION 1
 
-
-
 #ifndef ATARI_VERSION
 #define C64_VERSION 1
 #endif
@@ -142,15 +121,6 @@ extern void elevator();
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 
-void loadCharacter()
-{
-}
-
-void saveCharacter()
-{
-    // todo
-}
-
 // parameter is default return when time out
 // if "0" than no timeout!
 // return 0 - no button pressed
@@ -159,7 +129,6 @@ int testForButton(int d)
 {
     signed int p = 0;
     signed int t = 0;
-//    resetButtons();
     localTimer = ACTION_TIME;
     do
     {
@@ -167,20 +136,11 @@ int testForButton(int d)
         if (d!=0) localTimer--;
 
         if (localTimer == 0) break; 
-/*
-        if (button_1_2_pressed()) 
-        {
-            displayStatusPage(); 
-            continue;
-        }
-*/
+
         if (button_1_4_pressed()) {t = 4;p = 1;}
         if (button_1_3_pressed()) {t = 3;p = 1;}
         if (button_1_2_pressed()) {t = 2;p = 1;}
         if (button_1_1_pressed()) {t = 1;p = 1;}
-
-
-
 
         // invalid - but break the test
         if (Vec_Joy_1_X != 0) {t=5; p = 1;}
@@ -188,9 +148,6 @@ int testForButton(int d)
 
         // inherent debounce
         if ((p) && (Vec_Joy_1_X == 0) && (Vec_Joy_1_Y == 0) && (!buttons_pressed())) break;
-        
-
-//        if (buttons_pressed()) break; 
     }
     while (1);
 
@@ -395,7 +352,6 @@ monsterAgain:
    
         if (testForButton(1) != 4) 
         {
-//            pause(SMALL_PAUSE);
             return RETURN_TREASURE; 
         }
     }
@@ -466,8 +422,6 @@ monsterForced:
     // 3012 I=PEEK(SP):POKE SP,18:PRINT
     // 3013 PRINT CR$;"LVL ";ML;" ";M$
     // 3015 POKE SP,I-ONE:PRINT :
-// TODO
-    // display monster + level as current "monster stat"
 
     l=ml; 
     tmp = 0; 
@@ -716,7 +670,6 @@ doEvade:
 evadeOut:                            
                             //  Move in evade direction 
                             // 3795 GOSUB 20600:GOSUB CLWND:GOTO 8120 
-//                            generateDisplayMap();
                             monsterOnStack((signed int)m, ml, mh);
                             
                             return RETURN_NEW_TURN;
@@ -808,7 +761,6 @@ evadeOut:
         }
         case 3: // cast
         {
-//todo
             tmp2 = castSpell(1);
             if (tmp2 == 1) goto label3300;
             else if (tmp2 == 2) goto fightStart;
@@ -926,7 +878,6 @@ label3320:
             ch = ch - ltmp;
             if (ch <1)
             {
-// TODO                    DEAD
                 return RETURN_PLAYER_DEAD;
             }
             // 3321 GOSUB PAUSE: 
@@ -1068,6 +1019,21 @@ int handleMovement()
     if ((Vec_Joy_1_X == 0) && (Vec_Joy_1_Y == 0))
     {
         clearMessage();
+        //8118 IF SF(11)>ZERO AND C<SIX THEN PRINT "You're confused ->";:C=INT(RND(ONE)*FIVE+ONE) 
+        if ((Vec_Joy_1_X != 0) || (Vec_Joy_1_Y != 0) )
+        {
+            if (sf[DRUNK]>0)
+            {
+                lastX = 0;
+                lastY = 0;
+                tmp = (signed int)RandMax(4);
+                if (tmp ==0) lastX=1;
+                else if (tmp ==1) lastX=-1;
+                else if (tmp ==2) lastY=1;
+                else if (tmp ==3) lastY=-1;
+                printMessage("DRUNK! ...");
+            }
+        }
 
         // MOVEMENT
         if (lastX>0) 
@@ -1117,9 +1083,6 @@ int handleMovement()
         lastX = 0;
         lastY = 0;
     }
-//    pause(VERY_SMALL_PAUSE);
-
-
     return fillMap;
 }
 
@@ -1440,7 +1403,6 @@ doElevator:
                 elevator();
                 cz=cz-1;
                 fillMap =GO_REDRAW;
-//                pause(SMALL_PAUSE);
                 return RETURN_NEW_TURN;
             }
             break;
@@ -1519,8 +1481,6 @@ doElevator:
         {
             // / Display message and clear monster stack 
             // 6400 GOSUB 16600:PRINT " * ":GOSUB 16500 
-// todo
-//                addEffect(EFFECT_TELEPORT);
 teleportNow:
             // 6403 PRINT "ZZAP!! You've been teleported...":GOSUB 30200 
             printMessage("ZZAP!! YOU'VE BEEN TELEPORTED...");
@@ -1757,7 +1717,6 @@ dirtyPaganTrash:
                 // 6710 GOSUB CLWND:GOTO ARRW 
                 return RETURN_PAUSE;
             }
-//            pause(SMALL_PAUSE);
             clearMessage();
             
             // * 3/5 of the time something skip to special types of fountain 
@@ -2101,21 +2060,6 @@ boxAgain:
             printMessage("<U>RED, <D>GREEN, <L>YELLOW, <R>BLUE");
             printMessage("BUTTON TO STOP");
 
-/*
-        if (Vec_Joy_1_X > 0) {t = 8; b=1;} // RIGHT
-        if (Vec_Joy_1_X < 0) {t = 7; b=1;} // LEFT
-        if (Vec_Joy_1_Y < 0) {t = 6; b=1;} // DOWN
-        if (Vec_Joy_1_Y > 0) {t = 5; b=1;} // UP
-
-const char * const box[]=
-{
-    "RED\x80",
-    "GREEN\x80",
-    "YELLOW\x80",
-    "BLUE\x80"
-};
-*/
-
             pause(SMALL_PAUSE);
 
             // * Get input and check if user decides not to push 
@@ -2212,8 +2156,10 @@ restart:
     Vec_Text_HW = 0xfa50;
     _x = Vec_Loop_Count_lo;
     setRandSeedNP();
-    // TODO
+
+    // TODO ?
     //1600 GOSUB19800:CX=25:CY=13:EX=0:SU=1:CS=1:PRINT"?YOUR NAME,  NOBLE SIRE? ";
+
     createCharacter();
 
 #if START_STRONG == 1
@@ -2286,7 +2232,7 @@ monsterReturns:
             ///////////////////////////////////////
             tmp = handleTreasure(tmp);
             printTreasure=-1;
-//tmp=0;
+
             if (tmp == RETURN_PLAYER_DEAD) 
             {
                 tmp = 0;
@@ -2347,8 +2293,8 @@ handleSpecial:
         clearMessage();
         printMessage(">");
 
-// ARRW: 
-// 8000 M=ZERO:GOSUB CLWND
+        // ARRW: 
+        // 8000 M=ZERO:GOSUB CLWND
 
         ///////////////////////////////////////
         ///////////////////////////////////////
@@ -2359,20 +2305,10 @@ handleSpecial:
             pause(VERY_SMALL_PAUSE);
             goto newTurnStart;
         }
-// todo handle input
-// save game
-// quit ???
-// help ???
-
-// 
-// if input == 0 (and movement) and timer = 0
-// -> than "stay"
-
-
-//8118 IF SF(11)>ZERO AND C<SIX THEN PRINT "You're confused ->";:C=INT(RND(ONE)*FIVE+ONE) 
-// todo check for confusion
-
-// evaded 
+        // todo 
+        // save game
+        // quit ???
+        // help ???
 
         if (button_1_4_pressed()) timer = 0; // "stay"
         else if (button_1_3_pressed()) // "cast"
@@ -2388,11 +2324,6 @@ handleSpecial:
         {
             displayStatusPage();
         }
-
-
-// if movement != 0 or input != 0
-// then do an encounter
-
 
         // game is a "real time rpg"
         // some action happens after time out...
