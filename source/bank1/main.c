@@ -402,6 +402,15 @@ monsterForced:
         goto monsterAgain;
 #endif
     
+       
+    // ----
+    // Handle time stop
+    // 3011 IF SF(NIN)>ZERO AND M<16 AND M<>11 THEN GOSUB WTCLR:GOTO TRSR
+    // it seems in the C64 sources some monster are resistent to time stop!
+#ifndef ATARI_VERSION
+    if ((sf[TIMESTOP]>0) && (m<16) && (m<>11)) return RETURN_TREASURE;
+#endif
+
     // ----
     // Display monster name
     // 3010 GOSUB 16500:GOSUB 19700:PRINT "YOU ENCOUNTER A LVL ";ML;" ";M$
@@ -410,14 +419,7 @@ monsterForced:
     clearMessage();
     _fsi2_s("YOU ENCOUNTER A LVL % %", ml, mo[m]);
     printMessage(stringBuffer40);
-        
-    // ----
-    // Handle time stop
-    // 3011 IF SF(NIN)>ZERO AND M<16 AND M<>11 THEN GOSUB WTCLR:GOTO TRSR
-    // it seems in the C64 sources some monster are resistent to time stop!
-#ifndef ATARI_VERSION
-    if ((sf[TIMESTOP]>0) && (m<16) && (m<>11)) return RETURN_TREASURE;
-#endif
+
     
     // ----
     // Display monster level
@@ -1022,7 +1024,7 @@ int handleMovement()
     {
         clearMessage();
         //8118 IF SF(11)>ZERO AND C<SIX THEN PRINT "You're confused ->";:C=INT(RND(ONE)*FIVE+ONE) 
-        if ((Vec_Joy_1_X != 0) || (Vec_Joy_1_Y != 0) )
+        if ((lastX != 0) || (lastY != 0) )
         {
             if (sf[DRUNK]>0)
             {
