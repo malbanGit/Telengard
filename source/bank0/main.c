@@ -243,9 +243,9 @@ void titleScreen()
     initSong();
 
     if (flashAvailable) checkSavedFlash();
+    _XC=-0x60;
 titleStart:
     clearMessage();
-    _XC=-0x60;
     ltmp=TITLE_TIMER;
     int stage = 0;
     printMessage("ORIGINAL BY DANIEL MICHAEL LAWRENCE");
@@ -313,24 +313,12 @@ titleStart:
     if ((!Vec_Num_Players) && (flashAvailable))
     {
         if (button_1_4_pressed()) 
-            ch = 1;
+            ch = 1;            // indicator flag for "load"
     }
-
-
-
-    // the AKY player
-    // has a reversed register buffer
-    // we must correct the PSG registers buffer, otherwise
-    // later e.g. joystick will not work
-    // since reg7 is initialized falsly
-    Vec_Music_Wk_7 = 0x3f;
-    Vec_XXX_04 = 0x0; // volume A
-    Vec_XXX_03 = 0x0; // volume B
-    Vec_Music_Wk_A = 0x0;
 
     m=-1;       // not monster
     _XC = -0x70; // default msg x pos
-    PLY_SONG_PLAYING = 0;
+    PLY_SONG_PLAYING = 0; // ensure song not playing anymore
 }
 
 
@@ -571,7 +559,8 @@ __NO_INLINE void drawRoom(unsigned int content,unsigned int drawUp,unsigned int 
     if ((content + drawUp + drawLeft) == 0) return;
     dp_VIA_t1_cnt_lo  = 0x46;
     
-    MOVETO_START; // this is a special macro with use of ry, and rx
+    MOVETO_START;   // this is a special macro with use of ry, and rx
+                    // move end is done by the "draws"
     dp_VIA_t1_cnt_lo  = 9;
     
     if (drawUp == 2) // exactly 2 is door
@@ -631,7 +620,7 @@ void drawMap()
         _x_ =0;
         _y_ =elevatorY;
         dp_VIA_t1_cnt_lo  = 0x7f;
-        MOVETO_START_yx
+        MOVETO_START_yx // special macro which takey _x_ and _y_
         printEnvironment = 0;
         elevatorY++;
         if (elevatorY==120)
@@ -645,7 +634,7 @@ void drawMap()
 
         // this is needed to "transport" the player
         dp_VIA_t1_cnt_lo  = 0x7f;
-        MOVETO_START_yx
+        MOVETO_START_yx // special macro which takey _x_ and _y_
         dp_VIA_t1_cnt_lo  = 0x09;
         MY_MOVE_TO_A_END
     }
@@ -667,7 +656,7 @@ void drawMap()
         else if (specialAction == SPECIAL_THRONE_MUSIC)
         {
             initThroneSong();
-            specialAction = 0;
+            specialAction = 0; // once only
         }
     }
     if (initSoundNo)
