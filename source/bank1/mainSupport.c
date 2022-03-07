@@ -53,9 +53,14 @@ int displayStatusPage()
 
     do
     {
-        Wait_Recal();
+#if DO_ORIGINAL_WR == 1
+    Wait_Recal();
+#else
+    wr2(); 
+#endif
         Do_Sound();
-        Joy_Digital();
+//        Joy_Digital();
+        Joy_Digital2();
         check_buttons();
         dp_VIA_t1_cnt_lo  = 0x7f;
 

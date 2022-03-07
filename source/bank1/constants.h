@@ -42,7 +42,7 @@ const char * const items[]=
 {
     "SWORD",
     "ARMOR",
-    "SHILED",
+    "SHIELD",
     "ELVEN CLOAK",
     "ELVEN BOOTS",
     "RING OF REGENERATION",

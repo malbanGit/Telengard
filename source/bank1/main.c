@@ -361,8 +361,11 @@ monsterSet:
     // 3007 ? "ý";:ML=INT((RND(ONE) (THREE/TWO))*(CZ*TWO+TWO)+ONE):
     // C64: ML=INT((RND(1)^1.5)*(CZ*2+2)+1):GOSUB6340
     // todo: level determination
-    ml = RandMax(cz+1)*RandMax(2+1) + 1;
-    ml = ml - RandMax(ml);
+    ml = RandMax((cz<<1)+2)+ 1;
+    ml = ml * RandMax((2)+ 1);
+    ml = ml >> 1;
+    ml = ml +1;
+
 
     // Malban 
     // this is a little bit earlier, that is because we can pull monsters from stack and jump to the following 
@@ -1483,6 +1486,7 @@ doElevator:
 teleportNow:
             // 6403 PRINT "ZZAP!! You've been teleported...":GOSUB 30200 
             printMessage("ZZAP!! YOU'VE BEEN TELEPORTED...");
+            clearMonsterStack();
 teleportAgain:
             // / Calculate new position 
             // 6405 IF USR(LG,ONE,CX+CY,ONE)=ZERO THEN CZ=CZ-ONE:
