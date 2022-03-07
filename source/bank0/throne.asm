@@ -23,8 +23,7 @@ Throne_Subsong0DisarkWordForceNonReference2
 
 Throne_Subsong0DisarkWordForceNonReference3
 	dw 0	; Loops (duration = 0).
-	dw 0	; Loops (duration = 0). ; no loop
-;	dw Throne_Subsong0_LinkerLoop
+	dw 0;Throne_Subsong0_LinkerLoop
 Throne_Subsong0DisarkPointerRegionEnd1
 
 ; The tracks.
@@ -264,113 +263,113 @@ Throne_Subsong0DisarkPointerRegionEnd67
 
 Throne_Subsong0_RegisterBlock_12
 	db 121	; Initial State: software only.
-	db 114, 4	; Software period.
+	db 57, 2	; Software period.
 
 	db 253	; Non-initial State, software only.
-	db 247	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
+	db 124	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 121	; Non-initial State, software only.
-	db 57	; New LSB for software period.
+	db 28	; New LSB for software period.
 
 	db 249	; Non-initial State, software only.
-	db 114	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
+	db 57	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
 
 	db 245	; Non-initial State, software only.
-	db 247	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
+	db 124	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 117	; Non-initial State, software only.
+	db 28	; New LSB for software period.
+
+	db 241	; Non-initial State, software only.
 	db 57	; New LSB for software period.
-
-	db 241	; Non-initial State, software only.
-	db 114	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
-
-	db 241	; Non-initial State, software only.
-	db 247	; New LSB for software period.
 	db 2	; New MSB for software period, maybe with noise.
+
+	db 241	; Non-initial State, software only.
+	db 124	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 109	; Non-initial State, software only.
-	db 57	; New LSB for software period.
+	db 28	; New LSB for software period.
 
 	db 237	; Non-initial State, software only.
-	db 114	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
+	db 57	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
 
 	db 233	; Non-initial State, software only.
-	db 247	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
+	db 124	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 105	; Non-initial State, software only.
+	db 28	; New LSB for software period.
+
+	db 229	; Non-initial State, software only.
 	db 57	; New LSB for software period.
-
-	db 229	; Non-initial State, software only.
-	db 114	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
-
-	db 229	; Non-initial State, software only.
-	db 247	; New LSB for software period.
 	db 2	; New MSB for software period, maybe with noise.
+
+	db 229	; Non-initial State, software only.
+	db 124	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 97	; Non-initial State, software only.
-	db 57	; New LSB for software period.
+	db 28	; New LSB for software period.
 
 	db 225	; Non-initial State, software only.
-	db 114	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
+	db 57	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
 
 	db 221	; Non-initial State, software only.
-	db 247	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
+	db 124	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 93	; Non-initial State, software only.
+	db 28	; New LSB for software period.
+
+	db 217	; Non-initial State, software only.
 	db 57	; New LSB for software period.
-
-	db 217	; Non-initial State, software only.
-	db 114	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
-
-	db 217	; Non-initial State, software only.
-	db 247	; New LSB for software period.
 	db 2	; New MSB for software period, maybe with noise.
+
+	db 217	; Non-initial State, software only.
+	db 124	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 85	; Non-initial State, software only.
-	db 57	; New LSB for software period.
+	db 28	; New LSB for software period.
 
 	db 213	; Non-initial State, software only.
-	db 114	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
+	db 57	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
 
 	db 209	; Non-initial State, software only.
-	db 247	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
+	db 124	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 81	; Non-initial State, software only.
+	db 28	; New LSB for software period.
+
+	db 205	; Non-initial State, software only.
 	db 57	; New LSB for software period.
-
-	db 205	; Non-initial State, software only.
-	db 114	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
-
-	db 205	; Non-initial State, software only.
-	db 247	; New LSB for software period.
 	db 2	; New MSB for software period, maybe with noise.
+
+	db 205	; Non-initial State, software only.
+	db 124	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 73	; Non-initial State, software only.
-	db 57	; New LSB for software period.
+	db 28	; New LSB for software period.
 
 	db 201	; Non-initial State, software only.
-	db 114	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
-
-	db 197	; Non-initial State, software only.
-	db 247	; New LSB for software period.
+	db 57	; New LSB for software period.
 	db 2	; New MSB for software period, maybe with noise.
 
+	db 197	; Non-initial State, software only.
+	db 124	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
 	db 69	; Non-initial State, software only.
-	db 57	; New LSB for software period.
+	db 28	; New LSB for software period.
 
 	db 4	; Non-initial State, no software no hardware.
 
@@ -379,113 +378,113 @@ Throne_Subsong0_RegisterBlock_12
 
 Throne_Subsong0_RegisterBlock_28
 	db 121	; Initial State: software only.
-	db 50, 4	; Software period.
+	db 25, 2	; Software period.
 
 	db 253	; Non-initial State, software only.
-	db 205	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
+	db 102	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 121	; Non-initial State, software only.
-	db 25	; New LSB for software period.
+	db 12	; New LSB for software period.
 
 	db 249	; Non-initial State, software only.
-	db 50	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
+	db 25	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
 
 	db 245	; Non-initial State, software only.
-	db 205	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
+	db 102	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 117	; Non-initial State, software only.
+	db 12	; New LSB for software period.
+
+	db 241	; Non-initial State, software only.
 	db 25	; New LSB for software period.
-
-	db 241	; Non-initial State, software only.
-	db 50	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
-
-	db 241	; Non-initial State, software only.
-	db 205	; New LSB for software period.
 	db 2	; New MSB for software period, maybe with noise.
+
+	db 241	; Non-initial State, software only.
+	db 102	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 109	; Non-initial State, software only.
-	db 25	; New LSB for software period.
+	db 12	; New LSB for software period.
 
 	db 237	; Non-initial State, software only.
-	db 50	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
+	db 25	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
 
 	db 233	; Non-initial State, software only.
-	db 205	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
+	db 102	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 105	; Non-initial State, software only.
+	db 12	; New LSB for software period.
+
+	db 229	; Non-initial State, software only.
 	db 25	; New LSB for software period.
-
-	db 229	; Non-initial State, software only.
-	db 50	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
-
-	db 229	; Non-initial State, software only.
-	db 205	; New LSB for software period.
 	db 2	; New MSB for software period, maybe with noise.
+
+	db 229	; Non-initial State, software only.
+	db 102	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 97	; Non-initial State, software only.
-	db 25	; New LSB for software period.
+	db 12	; New LSB for software period.
 
 	db 225	; Non-initial State, software only.
-	db 50	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
+	db 25	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
 
 	db 221	; Non-initial State, software only.
-	db 205	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
+	db 102	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 93	; Non-initial State, software only.
+	db 12	; New LSB for software period.
+
+	db 217	; Non-initial State, software only.
 	db 25	; New LSB for software period.
-
-	db 217	; Non-initial State, software only.
-	db 50	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
-
-	db 217	; Non-initial State, software only.
-	db 205	; New LSB for software period.
 	db 2	; New MSB for software period, maybe with noise.
+
+	db 217	; Non-initial State, software only.
+	db 102	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 85	; Non-initial State, software only.
-	db 25	; New LSB for software period.
+	db 12	; New LSB for software period.
 
 	db 213	; Non-initial State, software only.
-	db 50	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
+	db 25	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
 
 	db 209	; Non-initial State, software only.
-	db 205	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
+	db 102	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 81	; Non-initial State, software only.
+	db 12	; New LSB for software period.
+
+	db 205	; Non-initial State, software only.
 	db 25	; New LSB for software period.
-
-	db 205	; Non-initial State, software only.
-	db 50	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
-
-	db 205	; Non-initial State, software only.
-	db 205	; New LSB for software period.
 	db 2	; New MSB for software period, maybe with noise.
+
+	db 205	; Non-initial State, software only.
+	db 102	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
 
 	db 73	; Non-initial State, software only.
-	db 25	; New LSB for software period.
+	db 12	; New LSB for software period.
 
 	db 201	; Non-initial State, software only.
-	db 50	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
-
-	db 197	; Non-initial State, software only.
-	db 205	; New LSB for software period.
+	db 25	; New LSB for software period.
 	db 2	; New MSB for software period, maybe with noise.
 
+	db 197	; Non-initial State, software only.
+	db 102	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
 	db 69	; Non-initial State, software only.
-	db 25	; New LSB for software period.
+	db 12	; New LSB for software period.
 
 	db 4	; Non-initial State, no software no hardware.
 
@@ -493,219 +492,6 @@ Throne_Subsong0_RegisterBlock_28
 
 
 Throne_Subsong0_RegisterBlock_0
-	db 121	; Initial State: software only.
-	db 239, 5	; Software period.
-
-	db 253	; Non-initial State, software only.
-	db 246	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
-
-	db 249	; Non-initial State, software only.
-	db 247	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
-
-	db 249	; Non-initial State, software only.
-	db 239	; New LSB for software period.
-	db 5	; New MSB for software period, maybe with noise.
-
-	db 245	; Non-initial State, software only.
-	db 246	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
-
-	db 245	; Non-initial State, software only.
-	db 247	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
-
-	db 241	; Non-initial State, software only.
-	db 239	; New LSB for software period.
-	db 5	; New MSB for software period, maybe with noise.
-
-	db 241	; Non-initial State, software only.
-	db 246	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
-
-	db 237	; Non-initial State, software only.
-	db 247	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
-
-	db 237	; Non-initial State, software only.
-	db 239	; New LSB for software period.
-	db 5	; New MSB for software period, maybe with noise.
-
-	db 233	; Non-initial State, software only.
-	db 246	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
-
-	db 233	; Non-initial State, software only.
-	db 247	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
-
-	db 229	; Non-initial State, software only.
-	db 239	; New LSB for software period.
-	db 5	; New MSB for software period, maybe with noise.
-
-	db 229	; Non-initial State, software only.
-	db 246	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
-
-	db 225	; Non-initial State, software only.
-	db 247	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
-
-	db 225	; Non-initial State, software only.
-	db 239	; New LSB for software period.
-	db 5	; New MSB for software period, maybe with noise.
-
-
-Throne_Subsong0_RegisterBlock_1
-	db 121	; Initial State: software only.
-	db 153, 5	; Software period.
-
-	db 253	; Non-initial State, software only.
-	db 189	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
-
-	db 249	; Non-initial State, software only.
-	db 205	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
-
-	db 249	; Non-initial State, software only.
-	db 153	; New LSB for software period.
-	db 5	; New MSB for software period, maybe with noise.
-
-	db 245	; Non-initial State, software only.
-	db 189	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
-
-	db 245	; Non-initial State, software only.
-	db 205	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
-
-	db 241	; Non-initial State, software only.
-	db 153	; New LSB for software period.
-	db 5	; New MSB for software period, maybe with noise.
-
-	db 241	; Non-initial State, software only.
-	db 189	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
-
-	db 237	; Non-initial State, software only.
-	db 205	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
-
-	db 237	; Non-initial State, software only.
-	db 153	; New LSB for software period.
-	db 5	; New MSB for software period, maybe with noise.
-
-	db 233	; Non-initial State, software only.
-	db 189	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
-
-	db 233	; Non-initial State, software only.
-	db 205	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
-
-	db 229	; Non-initial State, software only.
-	db 153	; New LSB for software period.
-	db 5	; New MSB for software period, maybe with noise.
-
-	db 229	; Non-initial State, software only.
-	db 189	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
-
-	db 225	; Non-initial State, software only.
-	db 205	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
-
-	db 225	; Non-initial State, software only.
-	db 153	; New LSB for software period.
-	db 5	; New MSB for software period, maybe with noise.
-
-
-Throne_Subsong0_RegisterBlock_2
-	db 121	; Initial State: software only.
-	db 253, 4	; Software period.
-
-	db 253	; Non-initial State, software only.
-	db 84	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
-
-	db 249	; Non-initial State, software only.
-	db 126	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
-
-	db 249	; Non-initial State, software only.
-	db 253	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
-
-	db 245	; Non-initial State, software only.
-	db 84	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
-
-	db 245	; Non-initial State, software only.
-	db 126	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
-
-	db 241	; Non-initial State, software only.
-	db 253	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
-
-	db 241	; Non-initial State, software only.
-	db 84	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
-
-	db 237	; Non-initial State, software only.
-	db 126	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
-
-	db 237	; Non-initial State, software only.
-	db 253	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
-
-	db 233	; Non-initial State, software only.
-	db 84	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
-
-	db 233	; Non-initial State, software only.
-	db 126	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
-
-	db 229	; Non-initial State, software only.
-	db 253	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
-
-	db 229	; Non-initial State, software only.
-	db 84	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
-
-	db 225	; Non-initial State, software only.
-	db 126	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
-
-	db 225	; Non-initial State, software only.
-	db 253	; New LSB for software period.
-	db 4	; New MSB for software period, maybe with noise.
-
-
-Throne_Subsong0_RegisterBlock_3
-	db 121	; Initial State: software only.
-	db 114, 4	; Software period.
-
-	db 8
-Throne_Subsong0DisarkPointerRegionStart68
-	dw Throne_Subsong0_RegisterBlock_12 + 3	; Optimization: goto common Block at index 1.
-Throne_Subsong0DisarkPointerRegionEnd68
-
-Throne_Subsong0_RegisterBlock_4
-	db 121	; Initial State: software only.
-	db 50, 4	; Software period.
-
-	db 8
-Throne_Subsong0DisarkPointerRegionStart69
-	dw Throne_Subsong0_RegisterBlock_28 + 3	; Optimization: goto common Block at index 1.
-Throne_Subsong0DisarkPointerRegionEnd69
-
-Throne_Subsong0_RegisterBlock_23
 	db 121	; Initial State: software only.
 	db 247, 2	; Software period.
 
@@ -765,69 +551,262 @@ Throne_Subsong0_RegisterBlock_23
 	db 2	; New MSB for software period, maybe with noise.
 
 
-Throne_Subsong0_RegisterBlock_24
+Throne_Subsong0_RegisterBlock_1
 	db 121	; Initial State: software only.
-	db 84, 3	; Software period.
+	db 205, 2	; Software period.
 
 	db 253	; Non-initial State, software only.
-	db 57	; New LSB for software period.
+	db 222	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
+	db 121	; Non-initial State, software only.
+	db 102	; New LSB for software period.
+
+	db 249	; Non-initial State, software only.
+	db 205	; New LSB for software period.
 	db 2	; New MSB for software period, maybe with noise.
+
+	db 245	; Non-initial State, software only.
+	db 222	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
+	db 117	; Non-initial State, software only.
+	db 102	; New LSB for software period.
+
+	db 241	; Non-initial State, software only.
+	db 205	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
+
+	db 241	; Non-initial State, software only.
+	db 222	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
+	db 109	; Non-initial State, software only.
+	db 102	; New LSB for software period.
+
+	db 237	; Non-initial State, software only.
+	db 205	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
+
+	db 233	; Non-initial State, software only.
+	db 222	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
+	db 105	; Non-initial State, software only.
+	db 102	; New LSB for software period.
+
+	db 229	; Non-initial State, software only.
+	db 205	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
+
+	db 229	; Non-initial State, software only.
+	db 222	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
+	db 97	; Non-initial State, software only.
+	db 102	; New LSB for software period.
+
+	db 225	; Non-initial State, software only.
+	db 205	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
+
+
+Throne_Subsong0_RegisterBlock_2
+	db 121	; Initial State: software only.
+	db 126, 2	; Software period.
+
+	db 253	; Non-initial State, software only.
+	db 170	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
+	db 121	; Non-initial State, software only.
+	db 63	; New LSB for software period.
+
+	db 249	; Non-initial State, software only.
+	db 126	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
+
+	db 245	; Non-initial State, software only.
+	db 170	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
+	db 117	; Non-initial State, software only.
+	db 63	; New LSB for software period.
+
+	db 241	; Non-initial State, software only.
+	db 126	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
+
+	db 241	; Non-initial State, software only.
+	db 170	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
+	db 109	; Non-initial State, software only.
+	db 63	; New LSB for software period.
+
+	db 237	; Non-initial State, software only.
+	db 126	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
+
+	db 233	; Non-initial State, software only.
+	db 170	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
+	db 105	; Non-initial State, software only.
+	db 63	; New LSB for software period.
+
+	db 229	; Non-initial State, software only.
+	db 126	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
+
+	db 229	; Non-initial State, software only.
+	db 170	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
+	db 97	; Non-initial State, software only.
+	db 63	; New LSB for software period.
+
+	db 225	; Non-initial State, software only.
+	db 126	; New LSB for software period.
+	db 2	; New MSB for software period, maybe with noise.
+
+
+Throne_Subsong0_RegisterBlock_3
+	db 121	; Initial State: software only.
+	db 57, 2	; Software period.
+
+	db 8
+Throne_Subsong0DisarkPointerRegionStart68
+	dw Throne_Subsong0_RegisterBlock_12 + 3	; Optimization: goto common Block at index 1.
+Throne_Subsong0DisarkPointerRegionEnd68
+
+Throne_Subsong0_RegisterBlock_4
+	db 121	; Initial State: software only.
+	db 25, 2	; Software period.
+
+	db 8
+Throne_Subsong0DisarkPointerRegionStart69
+	dw Throne_Subsong0_RegisterBlock_28 + 3	; Optimization: goto common Block at index 1.
+Throne_Subsong0DisarkPointerRegionEnd69
+
+Throne_Subsong0_RegisterBlock_23
+	db 121	; Initial State: software only.
+	db 124, 1	; Software period.
+
+	db 253	; Non-initial State, software only.
+	db 253	; New LSB for software period.
+	db 0	; New MSB for software period, maybe with noise.
+
+	db 121	; Non-initial State, software only.
+	db 190	; New LSB for software period.
+
+	db 249	; Non-initial State, software only.
+	db 124	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
+	db 245	; Non-initial State, software only.
+	db 253	; New LSB for software period.
+	db 0	; New MSB for software period, maybe with noise.
+
+	db 117	; Non-initial State, software only.
+	db 190	; New LSB for software period.
+
+	db 241	; Non-initial State, software only.
+	db 124	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
+	db 241	; Non-initial State, software only.
+	db 253	; New LSB for software period.
+	db 0	; New MSB for software period, maybe with noise.
+
+	db 109	; Non-initial State, software only.
+	db 190	; New LSB for software period.
+
+	db 237	; Non-initial State, software only.
+	db 124	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
+	db 233	; Non-initial State, software only.
+	db 253	; New LSB for software period.
+	db 0	; New MSB for software period, maybe with noise.
+
+	db 105	; Non-initial State, software only.
+	db 190	; New LSB for software period.
+
+	db 229	; Non-initial State, software only.
+	db 124	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
+	db 229	; Non-initial State, software only.
+	db 253	; New LSB for software period.
+	db 0	; New MSB for software period, maybe with noise.
+
+	db 97	; Non-initial State, software only.
+	db 190	; New LSB for software period.
+
+	db 225	; Non-initial State, software only.
+	db 124	; New LSB for software period.
+	db 1	; New MSB for software period, maybe with noise.
+
+
+Throne_Subsong0_RegisterBlock_24
+	db 121	; Initial State: software only.
+	db 170, 1	; Software period.
+
+	db 125	; Non-initial State, software only.
+	db 28	; New LSB for software period.
+
+	db 249	; Non-initial State, software only.
+	db 213	; New LSB for software period.
+	db 0	; New MSB for software period, maybe with noise.
 
 	db 249	; Non-initial State, software only.
 	db 170	; New LSB for software period.
 	db 1	; New MSB for software period, maybe with noise.
 
-	db 249	; Non-initial State, software only.
-	db 84	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
+	db 117	; Non-initial State, software only.
+	db 28	; New LSB for software period.
 
 	db 245	; Non-initial State, software only.
-	db 57	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
+	db 213	; New LSB for software period.
+	db 0	; New MSB for software period, maybe with noise.
 
-	db 245	; Non-initial State, software only.
+	db 241	; Non-initial State, software only.
 	db 170	; New LSB for software period.
 	db 1	; New MSB for software period, maybe with noise.
 
-	db 241	; Non-initial State, software only.
-	db 84	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
+	db 113	; Non-initial State, software only.
+	db 28	; New LSB for software period.
 
-	db 241	; Non-initial State, software only.
-	db 57	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
+	db 237	; Non-initial State, software only.
+	db 213	; New LSB for software period.
+	db 0	; New MSB for software period, maybe with noise.
 
 	db 237	; Non-initial State, software only.
 	db 170	; New LSB for software period.
 	db 1	; New MSB for software period, maybe with noise.
 
-	db 237	; Non-initial State, software only.
-	db 84	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
+	db 105	; Non-initial State, software only.
+	db 28	; New LSB for software period.
 
 	db 233	; Non-initial State, software only.
-	db 57	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
+	db 213	; New LSB for software period.
+	db 0	; New MSB for software period, maybe with noise.
 
-	db 233	; Non-initial State, software only.
+	db 229	; Non-initial State, software only.
 	db 170	; New LSB for software period.
 	db 1	; New MSB for software period, maybe with noise.
 
-	db 229	; Non-initial State, software only.
-	db 84	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
+	db 101	; Non-initial State, software only.
+	db 28	; New LSB for software period.
 
-	db 229	; Non-initial State, software only.
-	db 57	; New LSB for software period.
-	db 2	; New MSB for software period, maybe with noise.
+	db 225	; Non-initial State, software only.
+	db 213	; New LSB for software period.
+	db 0	; New MSB for software period, maybe with noise.
 
 	db 225	; Non-initial State, software only.
 	db 170	; New LSB for software period.
 	db 1	; New MSB for software period, maybe with noise.
-
-	db 225	; Non-initial State, software only.
-	db 84	; New LSB for software period.
-	db 3	; New MSB for software period, maybe with noise.
 
 
 Throne_Subsong0DisarkByteRegionEnd66

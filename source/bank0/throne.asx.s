@@ -34,8 +34,7 @@ _Throne_Subsong0DisarkWordForceNonReference2:
  .globl _Throne_Subsong0DisarkWordForceNonReference3
 _Throne_Subsong0DisarkWordForceNonReference3:
 	.word 0	; Loops (duration = 0).
-	.word 0	; Loops (duration = 0).
-;	.word Throne_Subsong0_LinkerLoop
+	.word 0;Throne_Subsong0_LinkerLoop
  .globl Throne_Subsong0DisarkPointerRegionEnd1
 Throne_Subsong0DisarkPointerRegionEnd1:
 ; The tracks.
@@ -371,338 +370,171 @@ Throne_Subsong0DisarkPointerRegionEnd67:
  .globl _Throne_Subsong0_RegisterBlock_12
 _Throne_Subsong0_RegisterBlock_12:
 	.byte 121	; Initial State: software only.
-	.byte 114, 4	; Software period.
+	.byte 57, 2	; Software period.
 	.byte 253	; Non-initial State, software only.
-	.byte 247	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 124	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 121	; Non-initial State, software only.
-	.byte 57	; New LSB for software period.
+	.byte 28	; New LSB for software period.
 	.byte 249	; Non-initial State, software only.
-	.byte 114	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
+	.byte 57	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
 	.byte 245	; Non-initial State, software only.
-	.byte 247	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 124	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 117	; Non-initial State, software only.
+	.byte 28	; New LSB for software period.
+	.byte 241	; Non-initial State, software only.
 	.byte 57	; New LSB for software period.
-	.byte 241	; Non-initial State, software only.
-	.byte 114	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
-	.byte 241	; Non-initial State, software only.
-	.byte 247	; New LSB for software period.
 	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 241	; Non-initial State, software only.
+	.byte 124	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 109	; Non-initial State, software only.
-	.byte 57	; New LSB for software period.
+	.byte 28	; New LSB for software period.
 	.byte 237	; Non-initial State, software only.
-	.byte 114	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
+	.byte 57	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
 	.byte 233	; Non-initial State, software only.
-	.byte 247	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 124	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 105	; Non-initial State, software only.
+	.byte 28	; New LSB for software period.
+	.byte 229	; Non-initial State, software only.
 	.byte 57	; New LSB for software period.
-	.byte 229	; Non-initial State, software only.
-	.byte 114	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
-	.byte 229	; Non-initial State, software only.
-	.byte 247	; New LSB for software period.
 	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 229	; Non-initial State, software only.
+	.byte 124	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 97	; Non-initial State, software only.
-	.byte 57	; New LSB for software period.
+	.byte 28	; New LSB for software period.
 	.byte 225	; Non-initial State, software only.
-	.byte 114	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
+	.byte 57	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
 	.byte 221	; Non-initial State, software only.
-	.byte 247	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 124	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 93	; Non-initial State, software only.
+	.byte 28	; New LSB for software period.
+	.byte 217	; Non-initial State, software only.
 	.byte 57	; New LSB for software period.
-	.byte 217	; Non-initial State, software only.
-	.byte 114	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
-	.byte 217	; Non-initial State, software only.
-	.byte 247	; New LSB for software period.
 	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 217	; Non-initial State, software only.
+	.byte 124	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 85	; Non-initial State, software only.
-	.byte 57	; New LSB for software period.
+	.byte 28	; New LSB for software period.
 	.byte 213	; Non-initial State, software only.
-	.byte 114	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
+	.byte 57	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
 	.byte 209	; Non-initial State, software only.
-	.byte 247	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 124	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 81	; Non-initial State, software only.
+	.byte 28	; New LSB for software period.
+	.byte 205	; Non-initial State, software only.
 	.byte 57	; New LSB for software period.
-	.byte 205	; Non-initial State, software only.
-	.byte 114	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
-	.byte 205	; Non-initial State, software only.
-	.byte 247	; New LSB for software period.
 	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 205	; Non-initial State, software only.
+	.byte 124	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 73	; Non-initial State, software only.
-	.byte 57	; New LSB for software period.
+	.byte 28	; New LSB for software period.
 	.byte 201	; Non-initial State, software only.
-	.byte 114	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
-	.byte 197	; Non-initial State, software only.
-	.byte 247	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 69	; Non-initial State, software only.
 	.byte 57	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 197	; Non-initial State, software only.
+	.byte 124	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
+	.byte 69	; Non-initial State, software only.
+	.byte 28	; New LSB for software period.
 	.byte 4	; Non-initial State, no software no hardware.
 	.byte 4	; Non-initial State, no software no hardware.
  .globl _Throne_Subsong0_RegisterBlock_28
 _Throne_Subsong0_RegisterBlock_28:
 	.byte 121	; Initial State: software only.
-	.byte 50, 4	; Software period.
+	.byte 25, 2	; Software period.
 	.byte 253	; Non-initial State, software only.
-	.byte 205	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 102	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 121	; Non-initial State, software only.
-	.byte 25	; New LSB for software period.
+	.byte 12	; New LSB for software period.
 	.byte 249	; Non-initial State, software only.
-	.byte 50	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
+	.byte 25	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
 	.byte 245	; Non-initial State, software only.
-	.byte 205	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 102	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 117	; Non-initial State, software only.
+	.byte 12	; New LSB for software period.
+	.byte 241	; Non-initial State, software only.
 	.byte 25	; New LSB for software period.
-	.byte 241	; Non-initial State, software only.
-	.byte 50	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
-	.byte 241	; Non-initial State, software only.
-	.byte 205	; New LSB for software period.
 	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 241	; Non-initial State, software only.
+	.byte 102	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 109	; Non-initial State, software only.
-	.byte 25	; New LSB for software period.
+	.byte 12	; New LSB for software period.
 	.byte 237	; Non-initial State, software only.
-	.byte 50	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
+	.byte 25	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
 	.byte 233	; Non-initial State, software only.
-	.byte 205	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 102	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 105	; Non-initial State, software only.
+	.byte 12	; New LSB for software period.
+	.byte 229	; Non-initial State, software only.
 	.byte 25	; New LSB for software period.
-	.byte 229	; Non-initial State, software only.
-	.byte 50	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
-	.byte 229	; Non-initial State, software only.
-	.byte 205	; New LSB for software period.
 	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 229	; Non-initial State, software only.
+	.byte 102	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 97	; Non-initial State, software only.
-	.byte 25	; New LSB for software period.
+	.byte 12	; New LSB for software period.
 	.byte 225	; Non-initial State, software only.
-	.byte 50	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
+	.byte 25	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
 	.byte 221	; Non-initial State, software only.
-	.byte 205	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 102	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 93	; Non-initial State, software only.
+	.byte 12	; New LSB for software period.
+	.byte 217	; Non-initial State, software only.
 	.byte 25	; New LSB for software period.
-	.byte 217	; Non-initial State, software only.
-	.byte 50	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
-	.byte 217	; Non-initial State, software only.
-	.byte 205	; New LSB for software period.
 	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 217	; Non-initial State, software only.
+	.byte 102	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 85	; Non-initial State, software only.
-	.byte 25	; New LSB for software period.
+	.byte 12	; New LSB for software period.
 	.byte 213	; Non-initial State, software only.
-	.byte 50	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
+	.byte 25	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
 	.byte 209	; Non-initial State, software only.
-	.byte 205	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 102	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 81	; Non-initial State, software only.
+	.byte 12	; New LSB for software period.
+	.byte 205	; Non-initial State, software only.
 	.byte 25	; New LSB for software period.
-	.byte 205	; Non-initial State, software only.
-	.byte 50	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
-	.byte 205	; Non-initial State, software only.
-	.byte 205	; New LSB for software period.
 	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 205	; Non-initial State, software only.
+	.byte 102	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
 	.byte 73	; Non-initial State, software only.
-	.byte 25	; New LSB for software period.
+	.byte 12	; New LSB for software period.
 	.byte 201	; Non-initial State, software only.
-	.byte 50	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
-	.byte 197	; Non-initial State, software only.
-	.byte 205	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 69	; Non-initial State, software only.
 	.byte 25	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 197	; Non-initial State, software only.
+	.byte 102	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
+	.byte 69	; Non-initial State, software only.
+	.byte 12	; New LSB for software period.
 	.byte 4	; Non-initial State, no software no hardware.
 	.byte 4	; Non-initial State, no software no hardware.
  .globl _Throne_Subsong0_RegisterBlock_0
 _Throne_Subsong0_RegisterBlock_0:
-	.byte 121	; Initial State: software only.
-	.byte 239, 5	; Software period.
-	.byte 253	; Non-initial State, software only.
-	.byte 246	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 249	; Non-initial State, software only.
-	.byte 247	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 249	; Non-initial State, software only.
-	.byte 239	; New LSB for software period.
-	.byte 5	; New MSB for software period, maybe with noise.
-	.byte 245	; Non-initial State, software only.
-	.byte 246	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 245	; Non-initial State, software only.
-	.byte 247	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 241	; Non-initial State, software only.
-	.byte 239	; New LSB for software period.
-	.byte 5	; New MSB for software period, maybe with noise.
-	.byte 241	; Non-initial State, software only.
-	.byte 246	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 237	; Non-initial State, software only.
-	.byte 247	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 237	; Non-initial State, software only.
-	.byte 239	; New LSB for software period.
-	.byte 5	; New MSB for software period, maybe with noise.
-	.byte 233	; Non-initial State, software only.
-	.byte 246	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 233	; Non-initial State, software only.
-	.byte 247	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 229	; Non-initial State, software only.
-	.byte 239	; New LSB for software period.
-	.byte 5	; New MSB for software period, maybe with noise.
-	.byte 229	; Non-initial State, software only.
-	.byte 246	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 225	; Non-initial State, software only.
-	.byte 247	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 225	; Non-initial State, software only.
-	.byte 239	; New LSB for software period.
-	.byte 5	; New MSB for software period, maybe with noise.
- .globl _Throne_Subsong0_RegisterBlock_1
-_Throne_Subsong0_RegisterBlock_1:
-	.byte 121	; Initial State: software only.
-	.byte 153, 5	; Software period.
-	.byte 253	; Non-initial State, software only.
-	.byte 189	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 249	; Non-initial State, software only.
-	.byte 205	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 249	; Non-initial State, software only.
-	.byte 153	; New LSB for software period.
-	.byte 5	; New MSB for software period, maybe with noise.
-	.byte 245	; Non-initial State, software only.
-	.byte 189	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 245	; Non-initial State, software only.
-	.byte 205	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 241	; Non-initial State, software only.
-	.byte 153	; New LSB for software period.
-	.byte 5	; New MSB for software period, maybe with noise.
-	.byte 241	; Non-initial State, software only.
-	.byte 189	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 237	; Non-initial State, software only.
-	.byte 205	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 237	; Non-initial State, software only.
-	.byte 153	; New LSB for software period.
-	.byte 5	; New MSB for software period, maybe with noise.
-	.byte 233	; Non-initial State, software only.
-	.byte 189	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 233	; Non-initial State, software only.
-	.byte 205	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 229	; Non-initial State, software only.
-	.byte 153	; New LSB for software period.
-	.byte 5	; New MSB for software period, maybe with noise.
-	.byte 229	; Non-initial State, software only.
-	.byte 189	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 225	; Non-initial State, software only.
-	.byte 205	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 225	; Non-initial State, software only.
-	.byte 153	; New LSB for software period.
-	.byte 5	; New MSB for software period, maybe with noise.
- .globl _Throne_Subsong0_RegisterBlock_2
-_Throne_Subsong0_RegisterBlock_2:
-	.byte 121	; Initial State: software only.
-	.byte 253, 4	; Software period.
-	.byte 253	; Non-initial State, software only.
-	.byte 84	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 249	; Non-initial State, software only.
-	.byte 126	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 249	; Non-initial State, software only.
-	.byte 253	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
-	.byte 245	; Non-initial State, software only.
-	.byte 84	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 245	; Non-initial State, software only.
-	.byte 126	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 241	; Non-initial State, software only.
-	.byte 253	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
-	.byte 241	; Non-initial State, software only.
-	.byte 84	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 237	; Non-initial State, software only.
-	.byte 126	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 237	; Non-initial State, software only.
-	.byte 253	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
-	.byte 233	; Non-initial State, software only.
-	.byte 84	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 233	; Non-initial State, software only.
-	.byte 126	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 229	; Non-initial State, software only.
-	.byte 253	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
-	.byte 229	; Non-initial State, software only.
-	.byte 84	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 225	; Non-initial State, software only.
-	.byte 126	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 225	; Non-initial State, software only.
-	.byte 253	; New LSB for software period.
-	.byte 4	; New MSB for software period, maybe with noise.
- .globl _Throne_Subsong0_RegisterBlock_3
-_Throne_Subsong0_RegisterBlock_3:
-	.byte 121	; Initial State: software only.
-	.byte 114, 4	; Software period.
-	.byte 8
- .globl _Throne_Subsong0DisarkPointerRegionStart68
-_Throne_Subsong0DisarkPointerRegionStart68:
-	.word _Throne_Subsong0_RegisterBlock_12 + 3	; Optimization: goto common Block at index 1.
- .globl Throne_Subsong0DisarkPointerRegionEnd68
-Throne_Subsong0DisarkPointerRegionEnd68:
- .globl _Throne_Subsong0_RegisterBlock_4
-_Throne_Subsong0_RegisterBlock_4:
-	.byte 121	; Initial State: software only.
-	.byte 50, 4	; Software period.
-	.byte 8
- .globl _Throne_Subsong0DisarkPointerRegionStart69
-_Throne_Subsong0DisarkPointerRegionStart69:
-	.word _Throne_Subsong0_RegisterBlock_28 + 3	; Optimization: goto common Block at index 1.
- .globl Throne_Subsong0DisarkPointerRegionEnd69
-Throne_Subsong0DisarkPointerRegionEnd69:
- .globl _Throne_Subsong0_RegisterBlock_23
-_Throne_Subsong0_RegisterBlock_23:
 	.byte 121	; Initial State: software only.
 	.byte 247, 2	; Software period.
 	.byte 253	; Non-initial State, software only.
@@ -745,54 +577,201 @@ _Throne_Subsong0_RegisterBlock_23:
 	.byte 225	; Non-initial State, software only.
 	.byte 247	; New LSB for software period.
 	.byte 2	; New MSB for software period, maybe with noise.
+ .globl _Throne_Subsong0_RegisterBlock_1
+_Throne_Subsong0_RegisterBlock_1:
+	.byte 121	; Initial State: software only.
+	.byte 205, 2	; Software period.
+	.byte 253	; Non-initial State, software only.
+	.byte 222	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
+	.byte 121	; Non-initial State, software only.
+	.byte 102	; New LSB for software period.
+	.byte 249	; Non-initial State, software only.
+	.byte 205	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 245	; Non-initial State, software only.
+	.byte 222	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
+	.byte 117	; Non-initial State, software only.
+	.byte 102	; New LSB for software period.
+	.byte 241	; Non-initial State, software only.
+	.byte 205	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 241	; Non-initial State, software only.
+	.byte 222	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
+	.byte 109	; Non-initial State, software only.
+	.byte 102	; New LSB for software period.
+	.byte 237	; Non-initial State, software only.
+	.byte 205	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 233	; Non-initial State, software only.
+	.byte 222	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
+	.byte 105	; Non-initial State, software only.
+	.byte 102	; New LSB for software period.
+	.byte 229	; Non-initial State, software only.
+	.byte 205	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 229	; Non-initial State, software only.
+	.byte 222	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
+	.byte 97	; Non-initial State, software only.
+	.byte 102	; New LSB for software period.
+	.byte 225	; Non-initial State, software only.
+	.byte 205	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
+ .globl _Throne_Subsong0_RegisterBlock_2
+_Throne_Subsong0_RegisterBlock_2:
+	.byte 121	; Initial State: software only.
+	.byte 126, 2	; Software period.
+	.byte 253	; Non-initial State, software only.
+	.byte 170	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
+	.byte 121	; Non-initial State, software only.
+	.byte 63	; New LSB for software period.
+	.byte 249	; Non-initial State, software only.
+	.byte 126	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 245	; Non-initial State, software only.
+	.byte 170	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
+	.byte 117	; Non-initial State, software only.
+	.byte 63	; New LSB for software period.
+	.byte 241	; Non-initial State, software only.
+	.byte 126	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 241	; Non-initial State, software only.
+	.byte 170	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
+	.byte 109	; Non-initial State, software only.
+	.byte 63	; New LSB for software period.
+	.byte 237	; Non-initial State, software only.
+	.byte 126	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 233	; Non-initial State, software only.
+	.byte 170	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
+	.byte 105	; Non-initial State, software only.
+	.byte 63	; New LSB for software period.
+	.byte 229	; Non-initial State, software only.
+	.byte 126	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 229	; Non-initial State, software only.
+	.byte 170	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
+	.byte 97	; Non-initial State, software only.
+	.byte 63	; New LSB for software period.
+	.byte 225	; Non-initial State, software only.
+	.byte 126	; New LSB for software period.
+	.byte 2	; New MSB for software period, maybe with noise.
+ .globl _Throne_Subsong0_RegisterBlock_3
+_Throne_Subsong0_RegisterBlock_3:
+	.byte 121	; Initial State: software only.
+	.byte 57, 2	; Software period.
+	.byte 8
+ .globl _Throne_Subsong0DisarkPointerRegionStart68
+_Throne_Subsong0DisarkPointerRegionStart68:
+	.word _Throne_Subsong0_RegisterBlock_12 + 3	; Optimization: goto common Block at index 1.
+ .globl Throne_Subsong0DisarkPointerRegionEnd68
+Throne_Subsong0DisarkPointerRegionEnd68:
+ .globl _Throne_Subsong0_RegisterBlock_4
+_Throne_Subsong0_RegisterBlock_4:
+	.byte 121	; Initial State: software only.
+	.byte 25, 2	; Software period.
+	.byte 8
+ .globl _Throne_Subsong0DisarkPointerRegionStart69
+_Throne_Subsong0DisarkPointerRegionStart69:
+	.word _Throne_Subsong0_RegisterBlock_28 + 3	; Optimization: goto common Block at index 1.
+ .globl Throne_Subsong0DisarkPointerRegionEnd69
+Throne_Subsong0DisarkPointerRegionEnd69:
+ .globl _Throne_Subsong0_RegisterBlock_23
+_Throne_Subsong0_RegisterBlock_23:
+	.byte 121	; Initial State: software only.
+	.byte 124, 1	; Software period.
+	.byte 253	; Non-initial State, software only.
+	.byte 253	; New LSB for software period.
+	.byte 0	; New MSB for software period, maybe with noise.
+	.byte 121	; Non-initial State, software only.
+	.byte 190	; New LSB for software period.
+	.byte 249	; Non-initial State, software only.
+	.byte 124	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
+	.byte 245	; Non-initial State, software only.
+	.byte 253	; New LSB for software period.
+	.byte 0	; New MSB for software period, maybe with noise.
+	.byte 117	; Non-initial State, software only.
+	.byte 190	; New LSB for software period.
+	.byte 241	; Non-initial State, software only.
+	.byte 124	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
+	.byte 241	; Non-initial State, software only.
+	.byte 253	; New LSB for software period.
+	.byte 0	; New MSB for software period, maybe with noise.
+	.byte 109	; Non-initial State, software only.
+	.byte 190	; New LSB for software period.
+	.byte 237	; Non-initial State, software only.
+	.byte 124	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
+	.byte 233	; Non-initial State, software only.
+	.byte 253	; New LSB for software period.
+	.byte 0	; New MSB for software period, maybe with noise.
+	.byte 105	; Non-initial State, software only.
+	.byte 190	; New LSB for software period.
+	.byte 229	; Non-initial State, software only.
+	.byte 124	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
+	.byte 229	; Non-initial State, software only.
+	.byte 253	; New LSB for software period.
+	.byte 0	; New MSB for software period, maybe with noise.
+	.byte 97	; Non-initial State, software only.
+	.byte 190	; New LSB for software period.
+	.byte 225	; Non-initial State, software only.
+	.byte 124	; New LSB for software period.
+	.byte 1	; New MSB for software period, maybe with noise.
  .globl _Throne_Subsong0_RegisterBlock_24
 _Throne_Subsong0_RegisterBlock_24:
 	.byte 121	; Initial State: software only.
-	.byte 84, 3	; Software period.
-	.byte 253	; Non-initial State, software only.
-	.byte 57	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 170, 1	; Software period.
+	.byte 125	; Non-initial State, software only.
+	.byte 28	; New LSB for software period.
+	.byte 249	; Non-initial State, software only.
+	.byte 213	; New LSB for software period.
+	.byte 0	; New MSB for software period, maybe with noise.
 	.byte 249	; Non-initial State, software only.
 	.byte 170	; New LSB for software period.
 	.byte 1	; New MSB for software period, maybe with noise.
-	.byte 249	; Non-initial State, software only.
-	.byte 84	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
+	.byte 117	; Non-initial State, software only.
+	.byte 28	; New LSB for software period.
 	.byte 245	; Non-initial State, software only.
-	.byte 57	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 245	; Non-initial State, software only.
+	.byte 213	; New LSB for software period.
+	.byte 0	; New MSB for software period, maybe with noise.
+	.byte 241	; Non-initial State, software only.
 	.byte 170	; New LSB for software period.
 	.byte 1	; New MSB for software period, maybe with noise.
-	.byte 241	; Non-initial State, software only.
-	.byte 84	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 241	; Non-initial State, software only.
-	.byte 57	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 113	; Non-initial State, software only.
+	.byte 28	; New LSB for software period.
+	.byte 237	; Non-initial State, software only.
+	.byte 213	; New LSB for software period.
+	.byte 0	; New MSB for software period, maybe with noise.
 	.byte 237	; Non-initial State, software only.
 	.byte 170	; New LSB for software period.
 	.byte 1	; New MSB for software period, maybe with noise.
-	.byte 237	; Non-initial State, software only.
-	.byte 84	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
+	.byte 105	; Non-initial State, software only.
+	.byte 28	; New LSB for software period.
 	.byte 233	; Non-initial State, software only.
-	.byte 57	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
-	.byte 233	; Non-initial State, software only.
+	.byte 213	; New LSB for software period.
+	.byte 0	; New MSB for software period, maybe with noise.
+	.byte 229	; Non-initial State, software only.
 	.byte 170	; New LSB for software period.
 	.byte 1	; New MSB for software period, maybe with noise.
-	.byte 229	; Non-initial State, software only.
-	.byte 84	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
-	.byte 229	; Non-initial State, software only.
-	.byte 57	; New LSB for software period.
-	.byte 2	; New MSB for software period, maybe with noise.
+	.byte 101	; Non-initial State, software only.
+	.byte 28	; New LSB for software period.
+	.byte 225	; Non-initial State, software only.
+	.byte 213	; New LSB for software period.
+	.byte 0	; New MSB for software period, maybe with noise.
 	.byte 225	; Non-initial State, software only.
 	.byte 170	; New LSB for software period.
 	.byte 1	; New MSB for software period, maybe with noise.
-	.byte 225	; Non-initial State, software only.
-	.byte 84	; New LSB for software period.
-	.byte 3	; New MSB for software period, maybe with noise.
  .globl _Throne_Subsong0DisarkByteRegionEnd66
 _Throne_Subsong0DisarkByteRegionEnd66:

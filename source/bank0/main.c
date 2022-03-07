@@ -77,6 +77,8 @@ extern void subBank1(int);
 #define displayMessages()         subBank1(0)
 #define displayRound()            subBank1(1)
 #define setRandSeedNP()           subBank1(2)
+#define Do_Sound()                subBank1(3)
+
 
 __INLINE void ayfx_sound1() \
   {asm_ayfx_sound1(); } 
@@ -252,6 +254,7 @@ titleStart:
     {
         check_buttons();
         playSong();
+        Do_Sound();
         Wait_Recal();
         dp_VIA_t1_cnt_lo  = 0x80;
         Intensity_a(0x4f);

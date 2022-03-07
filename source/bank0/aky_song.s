@@ -85,6 +85,23 @@ Vec_Music_Wk_5  =     0xC847   ;        register 5
 ;                       0xC84A   ;        register 2
 Vec_Music_Wk_1  =     0xC84B   ;        register 1
 ;                       0xC84C   ;        register 0
+
+_REG_13 = 0
+_REG_12 = 1
+_REG_11 = 2
+_REG_10 = 3
+_REG_9 = 4
+_REG_8 = 5
+_REG_7 = 6
+_REG_6 = 7
+_REG_5 = 8
+_REG_4 = 7
+_REG_3 = 10
+_REG_2 = 11
+_REG_1 = 12
+_REG_0 = 13
+
+
 Vec_Freq_Table  =     0xC84D   ;Pointer to note-to-frequency table (normally 0xFC8D)
 Vec_Max_Players =     0xC84F   ;Maximum number of players for Select_Game
 Vec_Max_Games   =     0xC850   ;Maximum number of games for Select_Game
@@ -425,50 +442,7 @@ CORRECTION          =        10
 ;***************************************************************************
 ; CODE SECTION
 ;***************************************************************************
-; here the cartridge program starts off
- .globl _playSong
-_playSong:
-                    jsr      _PLY_AKY_PLAY 
 
- .globl doymsound100
-doymsound100: 
- .globl do_ym_sound2
-do_ym_sound2:                                              ;#isfunction  
-; Warning - direct line found!
-;                    direct   0xd0 
- .globl copySoundRegs
-copySoundRegs: 
-; copy all shadows
-                    lda      #13                          ; number of regs to copy (+1) 
-                    ldx      #Vec_Music_Work              ; music players write here 
-                    ldu      #Vec_Snd_Shadow              ; shadow of actual PSG 
- .globl next_reg_dsy
-next_reg_dsy: 
-                    ldb      a, x 
-                    cmpb     a, u 
-                    beq      inc_reg_dsy 
-; no put to psg
-                    stb      a,u                          ; ensure shadow has copy 
-; a = register
-; b = value
-                    STA      *VIA_port_a                  ;store register select byte 
-                    LDA      #0x19                         ;sound BDIR on, BC1 on, mux off _ LATCH 
-                    STA      *VIA_port_b 
-                    LDA      #0x01                         ;sound BDIR off, BC1 off, mux off - INACTIVE 
-                    STA      *VIA_port_b 
-                    LDA      *VIA_port_a                  ;read sound chip status (?) 
-                    STB      *VIA_port_a                  ;store data byte 
-                    LDB      #0x11                         ;sound BDIR on, BC1 off, mux off - WRITE 
-                    STB      *VIA_port_b 
-                    LDB      #0x01                         ;sound BDIR off, BC1 off, mux off - INACTIVE 
-                    STB      *VIA_port_b 
- .globl inc_reg_dsy
-inc_reg_dsy: 
-                    deca     
-                    bpl      next_reg_dsy 
- .globl doneSound_2
-doneSound_2: 
-                    rts      
 ;***************************************************************************
 ; DATA SECTION
 ;***************************************************************************
@@ -10488,9 +10462,17 @@ channelError:
                     rts      
 end_ofSong:
  clr _PLY_SONG_PLAYING
+; lda #0x3f
+; sta 0xC845
+; clra 
+; sta 0xC844
+; sta 0xC843
+; sta 0xC842
  rts
 ;-----------
 ;       Plays the music. It must have been initialized before.
+ .globl _playSong
+_playSong:
  .globl _PLY_AKY_PLAY
 _PLY_AKY_PLAY: 
  ldb _PLY_SONG_PLAYING
@@ -10577,10 +10559,10 @@ _PLY_AKY_CHANNEL3_REGISTERBLOCK_PROCESS:
 ; =====================================
 ;Reading the RegisterBlock.
 ; =====================================
-                    LDA      #08 
+                    LDA      #_REG_8;08 
                     STA      _volumeRegister               ; first volume register 
-                    clr      _frequencyRegister 
-                                                          ; Register 7 with default values: fully sound-open but noise-close. 
+ lda #_REG_0
+ sta _frequencyRegister 
                                                           ;R7 has been shift twice to the left, it will be shifted back as the channels are treated. 
                     LDA      #0xE0 
                     STA      _r7 
@@ -10615,23 +10597,23 @@ _PLY_AKY_CHANNEL3_REGISTERBLOCK_PROCESS:
 ;Register 7. Note that managing register 7 before 6/11/12 is done on purpose.
 ; macro call ->                     SET_PSG_DIR_VAR  7, _r7 
                     lda      _r7 
-                    sta      7, u 
+                    sta      _REG_7, u 
 ; macro call ->                     SET_PSG_DIR_VAR  6, _PLY_AKY_PSGREGISTER6 
                     lda      _PLY_AKY_PSGREGISTER6 
-                    sta      6, u 
+                    sta      _REG_6, u 
 ; macro call ->                     SET_PSG_DIR_VAR  11, _PLY_AKY_PSGREGISTER11 
                     lda      _PLY_AKY_PSGREGISTER11 
-                    sta      11, u 
+                    sta      _REG_11, u 
 ; macro call ->                     SET_PSG_DIR_VAR  12, _PLY_AKY_PSGREGISTER12 
                     lda      _PLY_AKY_PSGREGISTER12 
-                    sta      12, u 
+                    sta      _REG_12, u 
                     lda      _PLY_AKY_PSGREGISTER13 
                     cmpa     _PLY_AKY_PSGREGISTER13_RETRIG ;If IsRetrig?, force the R13 to be triggered. 
                     beq      _PLY_AKY_PSGREGISTER13_END 
                     sta      _PLY_AKY_PSGREGISTER13_RETRIG 
 ; macro call ->                     SET_PSG_DIR_VAR  13, _PLY_AKY_PSGREGISTER13 
                     lda      _PLY_AKY_PSGREGISTER13 
-                    sta      13, u 
+                    sta      _REG_13, u 
  .globl _PLY_AKY_PSGREGISTER13_END
 _PLY_AKY_PSGREGISTER13_END: 
  .globl _PLY_AKY_EXIT
@@ -10686,9 +10668,9 @@ _PLY_AKY_RRB_NIS_NOSOFTWARENOHARDWARE_READVOLUME:
                     lda      _ACCA 
                     ldb      _volumeRegister 
                     sta      b,u 
-                    inc      _volumeRegister               ;Increases the volume register. 
-                    inc      _frequencyRegister 
-                    inc      _frequencyRegister 
+                    dec      _volumeRegister               ;Increases the volume register. 
+                    dec      _frequencyRegister 
+                    dec      _frequencyRegister 
                     LDA      _r7                           ;Closes the sound channel. 
                     ORA      #0b00000100                   ; set bit 2 (close) 
                     STA      _r7 
@@ -10726,9 +10708,9 @@ _PLY_AKY_RRB_IS_HO_NONOISE:
                     lda      #0xff 
                     ldb      _volumeRegister 
                     sta      b, u 
-                    inc      _volumeRegister               ;Increases the volume register. 
-                    inc      _frequencyRegister 
-                    inc      _frequencyRegister 
+                    dec      _volumeRegister               ;Increases the volume register. 
+                    dec      _frequencyRegister 
+                    dec      _frequencyRegister 
                     RTS      
 
 ; -------------------------------------
@@ -10753,17 +10735,17 @@ _PLY_AKY_RRB_IS_SOFTWAREONLY_NONOISE:
                     lda      _ACCA 
                     ldb      _volumeRegister 
                     sta      b,u 
-                    INC      _volumeRegister               ;Increases the volume register. 
+                    dec      _volumeRegister               ;Increases the volume register. 
 ; macro call ->                     SET_PSG_VAR_DATA_Y_INC  _frequencyRegister ;Sends the LSB software frequency. 
                     ldb      _frequencyRegister 
                     lda      ,y+ 
                     sta      b, u 
-                    inc      _frequencyRegister 
+                    dec      _frequencyRegister 
 ; macro call ->                     SET_PSG_VAR_DATA_Y_INC  _frequencyRegister ;Sends the MSB software frequency. 
                     ldb      _frequencyRegister 
                     lda      ,y+ 
                     sta      b, u 
-                    inc      _frequencyRegister 
+                    dec      _frequencyRegister 
                     RTS      
 
 ; -------------------------------------
@@ -10793,17 +10775,17 @@ _PLY_AKY_RRB_IS_SAH_NONOISE:
                     ldb      _frequencyRegister 
                     lda      ,y+ 
                     sta      b, u 
-                    inc      _frequencyRegister 
+                    dec      _frequencyRegister 
 ; macro call ->                     SET_PSG_VAR_DATA_Y_INC  _frequencyRegister ;Sends the MSB software frequency. 
                     ldb      _frequencyRegister 
                     lda      ,y+ 
                     sta      b, u 
-                    inc      _frequencyRegister 
+                    dec      _frequencyRegister 
 ; macro call ->                     SET_PSG_VAR_DIR  _volumeRegister, 0xff  ;Sets the hardware volume. 
                     lda      #0xff 
                     ldb      _volumeRegister 
                     sta      b, u 
-                    inc      _volumeRegister               ;Increases the volume register. 
+                    dec      _volumeRegister               ;Increases the volume register. 
                     ldd      ,y++                         ;Copies the hardware period. 
                     std      _PLY_AKY_PSGREGISTER11        ; 11+12 
                     RTS      
@@ -10846,9 +10828,9 @@ _PLY_AKY_RRB_NONINITIALSTATE:
  .globl _PLY_AKY_RRB_NIS_NOVOLUME
 _PLY_AKY_RRB_NIS_NOVOLUME: 
 ;Sadly, have to lose a bit of CPU here, as this must be done in all cases. 
-                    INC      _volumeRegister               ;Next volume register. 
-                    inc      _frequencyRegister 
-                    inc      _frequencyRegister 
+                    dec      _volumeRegister               ;Next volume register. 
+                    dec      _frequencyRegister 
+                    dec      _frequencyRegister 
 ;Noise? Was on bit 7, but there has been two shifts. We can't use A, it may have been modified by the volume AND. 
                     LDA      #0b00100000                   ; bit 7-2 
                     BITA     _ACCB 
@@ -10879,7 +10861,7 @@ _PLY_AKY_RRB_NIS_SOFTWAREONLYORSOFTWAREANDHARDWARE:
                     lda      _ACCA 
                     ldb      _volumeRegister 
                     sta      b,u 
-                    INC      _volumeRegister               ;Increases the volume register. 
+                    dec      _volumeRegister               ;Increases the volume register. 
                                                           ;LSP? (Least Significant byte of Period). Was bit 6, but now shifted. 
                     LDA      #0b00010000                   ; bit 6-2 
                     BITA     _ACCB 
@@ -10896,8 +10878,8 @@ _PLY_AKY_RRB_NIS_SOFTWAREONLY_NOLSP:
                     BITA     _ACCB 
                     BNE      _PLY_AKY_RRB_NIS_SOFTWAREONLY_MSPANDMAYBENOISE 
 ;Bit of loss of CPU, but has to be done in all cases. 
-                    inc      _frequencyRegister 
-                    inc      _frequencyRegister 
+                    dec      _frequencyRegister 
+                    dec      _frequencyRegister 
                     RTS      
 
 ; -------------------------------------
@@ -10906,12 +10888,12 @@ _PLY_AKY_RRB_NIS_SOFTWAREONLY_MSPANDMAYBENOISE:
 ;MSP and noise?, in the next byte. nipppp (n = newNoise? i = isNoise? p = MSB period). 
                     lda      ,y+                          ;Useless bits at the end, not a problem. 
                     sta      _ACCA 
-                    inc      _frequencyRegister            ;Sends the MSB software frequency. 
+                    dec      _frequencyRegister            ;Sends the MSB software frequency. 
 ; macro call ->                     SET_PSG_VAR_VAR  _frequencyRegister, _ACCA 
                     lda      _ACCA 
                     ldb      _frequencyRegister 
                     sta      b,u 
-                    inc      _frequencyRegister 
+                    dec      _frequencyRegister 
                     ROL      _ACCA                         ;Carry is isNoise? 
                     BCS      isNoise2 
                     RTS      
@@ -10948,9 +10930,9 @@ _PLY_AKY_RRB_NIS_HARDWAREONLY:
                     lda      #0xff 
                     ldb      _volumeRegister 
                     sta      b, u 
-                    inc      _volumeRegister               ;Increases the volume register. 
-                    inc      _frequencyRegister 
-                    inc      _frequencyRegister 
+                    dec      _volumeRegister               ;Increases the volume register. 
+                    dec      _frequencyRegister 
+                    dec      _frequencyRegister 
                     LDA      _ACCB                         ;LSB for hardware period? Currently on b6. 
                     ROLA     
                     ROLA     
@@ -10977,7 +10959,7 @@ _PLY_AKY_RRB_NIS_SOFTWAREANDHARDWARE:
                     lda      #0xff 
                     ldb      _volumeRegister 
                     sta      b, u 
-                    inc      _volumeRegister               ;Increases the volume register. 
+                    dec      _volumeRegister               ;Increases the volume register. 
                     ROR      _ACCA                         ;LSB of hardware period? 
                     BCC      _PLY_AKY_RRB_NIS_SAHH_AFTERLSBH 
                     lda      ,y+ 
@@ -11005,7 +10987,7 @@ _PLY_AKY_RRB_NIS_SAHH_AFTERLSBS:
                     RORA                                  ;MSB of software period? 
                     BCC      _PLY_AKY_RRB_NIS_SAHH_AFTERMSBS 
                     STA      _ACCB 
-                    inc      _frequencyRegister            ;Sends the MSB software frequency. 
+                    dec      _frequencyRegister            ;Sends the MSB software frequency. 
 ; macro call ->                     SET_PSG_VAR_DATA_Y_INC  _frequencyRegister 
                     ldb      _frequencyRegister 
                     lda      ,y+ 
@@ -11015,8 +10997,8 @@ _PLY_AKY_RRB_NIS_SAHH_AFTERLSBS:
  .globl _PLY_AKY_RRB_NIS_SAHH_AFTERMSBS
 _PLY_AKY_RRB_NIS_SAHH_AFTERMSBS: 
 ;A bit of loss of CPU, but this has to be done every time! 
-                    inc      _frequencyRegister 
-                    inc      _frequencyRegister 
+                    dec      _frequencyRegister 
+                    dec      _frequencyRegister 
                     RORa                                  ;New hardware envelope? 
                     STA      _ACCA 
                     BCC      _PLY_AKY_RRB_NIS_SAHH_AFTERENVELOPE 

@@ -17,13 +17,14 @@
 extern void displayMessages();
 extern void displayRound();
 extern void setRandSeedNP();
+extern void Do_Sound();
 
 const void* const bankFunctions[NUMBER_OF_FUNCTIONS] __attribute__((section(".bankswitch.data"), used)) = 
 {
     (void*)displayMessages,
     (void*)displayRound,
     (void*)setRandSeedNP,
-    (void*)1,
+    (void*)Do_Sound,
     (void*)1,
     (void*)1,
     (void*)1,
