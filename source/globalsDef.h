@@ -21,7 +21,7 @@ uint_16 screen[4][4];
 unsigned int above; // this one can be changed by "special"
 unsigned int realAbove; // this is the real deal!
 
-unsigned int inElevator;
+signed int inElevator;
 signed int elevatorY;
 signed int lightChange;
 unsigned int specialAction;
@@ -150,6 +150,7 @@ unsigned int ml; // monster level
 
 unsigned int l; // level for testing, can be monster level...
 
+unsigned int animCounter;
 
 int lastX;
 int lastY;

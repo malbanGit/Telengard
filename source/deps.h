@@ -2,7 +2,7 @@
 // #define NO_MONSTER 1
 // #define NO_TITLE 1
 // #define DO_ORIGINAL_WR 1
-// #define START_STRONG 1
+ #define START_STRONG 1
 
 
 
@@ -24,6 +24,8 @@ while (1) \
 #define SPECIAL_DRAGONBREATH 1
 #define SPECIAL_BOX 2
 #define SPECIAL_THRONE_MUSIC 3
+#define SPECIAL_HOLY_SYMBOL 4
+#define SPECIAL_PRISMATIC_WALL 5
 
 #define SOUND_CUBE 1
 #define SOUND_TELEPORT 2
@@ -32,7 +34,7 @@ while (1) \
 #define SOUND_DEATH 5
 #define SOUND_GONG 6
 #define SOUND_PIT 7
-#define SOUND_LIGHTNING 7
+#define SOUND_LIGHTNING 8
  
 #define RESET0REF() dp_VIA_cntl = 0xcc;
 

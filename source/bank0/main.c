@@ -125,7 +125,8 @@ extern void drawStaircase();
 extern void drawThrone();
 extern void drawCube();
 extern void drawBox();
-
+extern void drawHolySymboly(unsigned int anim);
+extern void drawPrismaticWall();
 
 extern void drawTreasure(int t);
 extern void drawJewels();
@@ -284,10 +285,10 @@ titleStart:
 
             if (stage == 1)
             {
-                printMessage("        PRESS <1-3> BUTTON TO PLAY");
+                printMessage("    PRESS <1-3> BUTTON TO PLAY");
                 if ((!Vec_Num_Players) && (flashAvailable))
                 {
-                    printMessage("        PRESS <4> BUTTON TO LOAD");
+                    printMessage("     PRESS <4> BUTTON TO LOAD");
                 }
             }
             if (stage == 2)
@@ -299,7 +300,7 @@ titleStart:
             if (stage == 3)
             {
                 printMessage("    TITLE MUSIC BY ROALD STRAUSS");
-                printMessage("    INTERNET: INDIEGAMEMUSIC.COM");
+                printMessage("         INDIEGAMEMUSIC.COM");
                 printMessage("             THANKS!!!");
             }
             if (stage == 4)
@@ -315,6 +316,12 @@ titleStart:
         if (button_1_4_pressed()) 
             ch = 1;            // indicator flag for "load"
     }
+    // song might be "broken" in between, ensure everything is quiet
+    // be quiet
+    Vec_Music_Wk_7 = 0x3f; // switch off all sound channels
+    Vec_XXX_04 = 0; //Volume channel A = 0;
+    Vec_XXX_03 = 0; //Volume channel B = 0;
+    Vec_Music_Wk_A = 0; //Volume channel C = 0;
 
     m=-1;       // not monster
     _XC = -0x70; // default msg x pos
@@ -615,7 +622,7 @@ void drawMap()
     printEnvironment = (int)map11_hi;
     if (above == 4) printEnvironment = 4; // staircase to above beats everything   
 
-    if (inElevator)
+    if (inElevator==1)
     {
         _x_ =0;
         _y_ =elevatorY;
@@ -631,6 +638,24 @@ void drawMap()
         dp_VIA_t1_cnt_lo  = 0x09;
         MY_MOVE_TO_A_END
         drawElevator();
+
+        // this is needed to "transport" the player
+        dp_VIA_t1_cnt_lo  = 0x7f;
+        MOVETO_START_yx // special macro which takey _x_ and _y_
+        dp_VIA_t1_cnt_lo  = 0x09;
+        MY_MOVE_TO_A_END
+    }
+    else if (inElevator==-1)
+    {
+        _x_ =0;
+        _y_ =elevatorY;
+        printEnvironment = 0;
+        elevatorY--;
+        if (elevatorY==-60)
+        {
+            elevatorY = 0;
+            inElevator = 0;
+        }
 
         // this is needed to "transport" the player
         dp_VIA_t1_cnt_lo  = 0x7f;
@@ -657,6 +682,37 @@ void drawMap()
         {
             initThroneSong();
             specialAction = 0; // once only
+        }
+        else if (specialAction == SPECIAL_HOLY_SYMBOL)
+        {
+            _x_ =0;
+            _y_ = -0x58;
+            dp_VIA_t1_cnt_lo  = 0x7f;
+            MOVETO_START_yx // special macro which takey _x_ and _y_
+            dp_VIA_t1_cnt_lo  = 0x09;
+            if ((Vec_Loop_Count_lo&0x03)==0)
+            {
+                animCounter++;
+                if (animCounter>11) animCounter = 0;
+            }
+            MY_MOVE_TO_A_END
+            drawHolySymboly(animCounter);
+        }
+
+        else if (specialAction == SPECIAL_PRISMATIC_WALL)
+        {
+            tmp = Vec_Brightness;
+            Intensity_a(RandMax(0x4f)+0x30);
+            _x_ =0;
+            _y_ =0;
+
+            dp_VIA_t1_cnt_lo  = 0x7f;
+            MOVETO_START_yx // special macro which takey _x_ and _y_
+            dp_VIA_t1_cnt_lo  = 0x09;
+            MY_MOVE_TO_A_END
+            drawPrismaticWall();
+
+            Intensity_a((unsigned int)tmp);
         }
     }
     if (initSoundNo)

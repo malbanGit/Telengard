@@ -127,3 +127,14 @@ Input to various "sub screens" should be documented on screen.
 - Cube (level select via number input / joystick)
 - Throne (money select via number input / joystick)
 
+
+Changelog:
+V1.0 -> V1.01
+- spell corrections
+  - pit with spreite movement 
+  - prismatic wall sprite added, wait corrected
+  - Holy Symbol sprite added, wait corrected
+- speeling corrections
+- things I can't remember
+  
+

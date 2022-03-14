@@ -21,7 +21,7 @@
 
 extern uint_16 screen[4][4];
 extern unsigned int above;
-extern unsigned int inElevator;
+extern signed int inElevator;
 extern signed int elevatorY;
 
 #define ACTION_TIME 250 // 5 seconds
@@ -100,7 +100,7 @@ extern signed int stackM[20];    // 20 monster on stack, TYPE
 extern unsigned int stackML[20];   // LEVEL
 extern signed long int stackMH[20];   // HitPoints
 
-
+extern unsigned int animCounter;
 extern int lastX;
 extern int lastY;
 

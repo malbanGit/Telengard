@@ -438,6 +438,12 @@ _drawFighter:
                     ldu      #_FighterList 
                     clra     
                     pulu     b,x,pc 
+ .globl _drawPrismaticWall
+_drawPrismaticWall: 
+                    pshs     u 
+                    ldu      #_PrismaticWall 
+                    clra     
+                    pulu     b,x,pc 
  .globl _drawMummy
 _drawMummy: 
                     pshs     u 
@@ -555,6 +561,15 @@ _drawElevator:
  .globl _drawNone
 _drawNone: 
                     rts      
+ .globl _drawHolySymboly
+_drawHolySymboly:
+                    pshs     u 
+                    ldu      #_HolySymbolAni 
+                    aslb
+                    ldu b,u
+                    clra     
+                    pulu     b,x,pc 
+                    rts
  .globl _drawThrone
 _drawThrone: 
                     pshs     u 
@@ -4892,6 +4907,149 @@ _DragonFlame_3:
                     .byte       0x0A, 0x01, -0x20 
                     .byte       0xfe, 0x00, 0x00 
                     .word       SMVB_lastDraw_rts2 
+ .globl _HolySymbolAni
+_HolySymbolAni: 
+ .word _HolySymbolAni_0 ; list of all single vectorlists in this
+ .word _HolySymbolAni_1
+ .word _HolySymbolAni_2
+ .word _HolySymbolAni_3
+ .word _HolySymbolAni_4
+ .word _HolySymbolAni_5
+ .word _HolySymbolAni_6
+ .word _HolySymbolAni_5
+ .word _HolySymbolAni_4
+ .word _HolySymbolAni_3
+ .word _HolySymbolAni_2
+ .word _HolySymbolAni_1
+ .word 0
+ .globl _HolySymbolAni_0
+_HolySymbolAni_0:
+	.byte  0x1B, 0x01,  0x00
+	.word SMVB_continue_single
+	.byte -0x12, 0x01,  0x09
+	.word SMVB_startDraw_single
+	.byte -0x09, 0x01,  0x15
+	.word SMVB_continue7_single
+	.byte -0x06, 0x01, -0x15
+	.byte -0x15, 0x01, -0x09
+	.byte  0x15, 0x01, -0x09
+	.byte  0x06, 0x01, -0x15
+	.byte  0x09, 0x01,  0x15
+	.byte  0x12, 0x01,  0x09
+	.byte  0xfe, 0x00,  0x00
+	.word SMVB_lastDraw_rts2
+ .globl _HolySymbolAni_1
+_HolySymbolAni_1:
+	.byte  0x1B, 0x01,  0x00
+	.word SMVB_continue_single
+	.byte -0x0F, 0x01,  0x0C
+	.word SMVB_startDraw_single
+	.byte -0x0C, 0x01,  0x0F
+	.word SMVB_continue7_single
+	.byte -0x09, 0x01, -0x0F
+	.byte -0x0F, 0x01, -0x0C
+	.byte  0x0F, 0x01, -0x0C
+	.byte  0x09, 0x01, -0x0F
+	.byte  0x0C, 0x01,  0x0F
+	.byte  0x0F, 0x01,  0x0C
+	.byte  0xfe, 0x00,  0x00
+	.word SMVB_lastDraw_rts2
+ .globl _HolySymbolAni_2
+_HolySymbolAni_2:
+	.byte  0x1B, 0x01,  0x00
+	.word SMVB_continue_single
+	.byte -0x0C, 0x01,  0x0F
+	.word SMVB_startDraw_single
+	.byte -0x0F, 0x01,  0x0C
+	.word SMVB_continue7_single
+	.byte -0x0C, 0x01, -0x0C
+	.byte -0x0C, 0x01, -0x0F
+	.byte  0x0C, 0x01, -0x0F
+	.byte  0x0C, 0x01, -0x0C
+	.byte  0x0F, 0x01,  0x0C
+	.byte  0x0C, 0x01,  0x0F
+	.byte  0xfe, 0x00,  0x00
+	.word SMVB_lastDraw_rts2
+ .globl _HolySymbolAni_3
+_HolySymbolAni_3:
+	.byte  0x1B, 0x01,  0x00
+	.word SMVB_continue_single
+	.byte -0x09, 0x01,  0x12
+	.word SMVB_startDraw_single
+	.byte -0x12, 0x01,  0x09
+	.word SMVB_continue7_single
+	.byte -0x0F, 0x01, -0x09
+	.byte -0x09, 0x01, -0x12
+	.byte  0x09, 0x01, -0x12
+	.byte  0x0F, 0x01, -0x09
+	.byte  0x12, 0x01,  0x09
+	.byte  0x09, 0x01,  0x12
+	.byte  0xfe, 0x00,  0x00
+	.word SMVB_lastDraw_rts2
+ .globl _HolySymbolAni_4
+_HolySymbolAni_4:
+	.byte  0x1B, 0x01,  0x00
+	.word SMVB_continue_single
+	.byte -0x06, 0x01,  0x15
+	.word SMVB_startDraw_single
+	.byte -0x15, 0x01,  0x06
+	.word SMVB_continue7_single
+	.byte -0x12, 0x01, -0x06
+	.byte -0x06, 0x01, -0x15
+	.byte  0x06, 0x01, -0x15
+	.byte  0x12, 0x01, -0x06
+	.byte  0x15, 0x01,  0x06
+	.byte  0x06, 0x01,  0x15
+	.byte  0xfe, 0x00,  0x00
+	.word SMVB_lastDraw_rts2
+ .globl _HolySymbolAni_5
+_HolySymbolAni_5:
+	.byte  0x1B, 0x01,  0x00
+	.word SMVB_continue_single
+	.byte -0x03, 0x01,  0x18
+	.word SMVB_startDraw_single
+	.byte -0x18, 0x01,  0x03
+	.word SMVB_continue7_single
+	.byte -0x15, 0x01, -0x03
+	.byte -0x03, 0x01, -0x18
+	.byte  0x03, 0x01, -0x18
+	.byte  0x15, 0x01, -0x03
+	.byte  0x18, 0x01,  0x03
+	.byte  0x03, 0x01,  0x18
+	.byte  0xfe, 0x00,  0x00
+	.word SMVB_lastDraw_rts2
+ .globl _HolySymbolAni_6
+_HolySymbolAni_6:
+	.byte  0x1B, 0x01,  0x00
+	.word SMVB_continue_single
+	.byte SHITREG_POKE_VALUE, 0x01,  0x1B
+	.word SMVB_startDraw_newY_eq_oldX_single ; y was  0x00, now SHIFT
+	.byte -0x1B, 0x01,  0x00
+	.word SMVB_continue_double
+	.byte  0x00, 0x01, -0x1B
+	.word SMVB_continue_double
+	.byte  0x1B, 0x01,  0x00
+	.word SMVB_continue_double
+	.byte  0x00, 0x01,  0x1B
+	.word SMVB_continue_newY_eq_oldX_single ; y is  0x00
+	.byte  0xfe, 0x00,  0x00
+	.word SMVB_lastDraw_rts2
+ .globl _PrismaticWall
+_PrismaticWall:
+	.byte  0x42, 0x01, -0x03
+	.word SMVB_continue_single
+	.byte  0x18, 0x01,  0x49
+	.word SMVB_startDraw_single
+	.byte -0x77, 0x01,  0x00
+	.word SMVB_continue_yd4_single
+	.byte -0x1C, 0x01, -0x51
+	.word SMVB_continue_double
+	.byte  0x78, 0x01,  0x00
+	.word SMVB_continue_single
+	.byte  0x1F, 0x01,  0x5A
+	.word SMVB_continue_yd4_single
+	.byte  0xfe, 0x00,  0x00
+	.word SMVB_lastDraw_rts2
 ;wr2
 ; MY_WAIT_RECAL
 ; rts

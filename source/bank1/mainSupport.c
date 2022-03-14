@@ -59,7 +59,6 @@ int displayStatusPage()
     wr2(); 
 #endif
         Do_Sound();
-//        Joy_Digital();
         Joy_Digital2();
         check_buttons();
         dp_VIA_t1_cnt_lo  = 0x7f;
@@ -221,7 +220,7 @@ int displayStatusPage()
                         cz = 1; // current z position in dungeon
                         cx = 25;
                         cy = 13;
-                        printMessage("***ZAP!!***");
+                        printMessage("*** ZAP!! ***");
                         ret = 1;
                         fillMap = GO_REDRAW;
                     }
@@ -293,7 +292,7 @@ void elevator()
 
     signed long int freq = 5000;
 
-    while (inElevator)
+    while (inElevator==1)
     {
         freq = freq-5;
         Vec_XXX_08 = (signed int) (freq&0xff); // fine A
@@ -979,8 +978,14 @@ onlyStone:
             // 25200 GOSUB CLWND:SETCOLOR TWO,TWO,TWO:PRINT "WHOOOOOSHH!!!":SETCOLOR TWO,ZERO,ZERO:IF D=ZERO THEN 21800 
             printMessage("WHOOOOOSHH!!!");
 
+            lightChange = 0x5f;
+            while (++lightChange <0x7f)
+                displayRound();
+            while (--lightChange >0x5f)
+                displayRound();
+            lightChange = 0;
+
             // 25205 PRINT "The ";M$;" is burning!":I=INT(RND(ONE)*12*LV+15):GOSUB PAUSE:GOTO 21700 
-            pause(SMALL_PAUSE);
             _fs("THE % IS BURNING!", mo[m]);
             printMessage(stringBuffer40);
             tmp = (signed int) RandMax(12*lv)+15;
@@ -1164,7 +1169,10 @@ teleportAgain:
             // 26300 GOSUB WTCLR:IF D=ZERO THEN 21800 
             if (!inCombat) goto noCombatSpell;
             // 26305 PRINT "QWERTY!!!!":GOSUB PAUSE:IF UN=ZERO AND RND(ONE)<EIG/TEN THEN GOTO MOND 
-            printMessage("QWERTY!!!!!!");
+            // Malban:
+            // oh well - there was no Harry Potter back in 1982...    
+            printMessage("AVADA KEDAVRA!!!");
+
             pause(SMALL_PAUSE);
             // 26307 IF UN=ONE THEN 21930 
             // 26310 PRINT "The ";M$;" doesn't hear...":GOTO 21900
@@ -1236,7 +1244,7 @@ teleportAgain:
                 return 2; // monster dead
             }
             printMessage("THE SPELL BACKFIRES!!");
-            return 7;
+            return 7; // Player dead
         }
     }
 
@@ -1270,10 +1278,16 @@ teleportAgain:
             if (!inCombat) goto noCombatSpell;
             // 27305 PRINT "----";:MI$=".O* ":FOR I=ONE TO EIG:PRINT MI$(I,I);"-";:GOSUB 19500:NEXT I:PRINT 
             // todo display holy symbol
+
+            animCounter = 0;
+            specialAction = SPECIAL_HOLY_SYMBOL;
+            pause(SMALL_PAUSE);
+            specialAction = 0;
+        
             // 27307 GOSUB PAUSE:IF RND(ONE)<NIN/TEN THEN GOTO MOND 
             if (RandMax(10+1) != 10)
             {
-                return 2; // monster dead
+                return 3; // monster dead
             }
             // 27310 PRINT "The ";M$;" doesn't see...":GOTO 21900
             _fs("THE % DOESN'T SEE...", mo[m]);
@@ -1302,7 +1316,7 @@ teleportAgain:
             cx = 25;
             cy = 13;
             ch = hp;
-            printMessage("***ZAP!!***");
+            printMessage("*** ZAP!! ***");
             pause(SMALL_PAUSE);
             return 1;
         }
@@ -1320,6 +1334,7 @@ teleportAgain:
             // 27600 GOSUB WTCLR:PRINT "A scintillating shifting wall appears":J=ZERO:IF D=ZERO THEN 21800 
             printMessage("A SCINILLATING SHIFTING WALL APPEARS");
             if (!inCombat) goto noCombatSpell;
+            specialAction = SPECIAL_PRISMATIC_WALL;
             pause(SMALL_PAUSE);
 
             // 27605 FOR I=60 TO 79:POKE SC+373,I:NEXT I:J=J+1:IF J<FOUR THEN 27605 
@@ -1327,6 +1342,9 @@ teleportAgain:
             // 27615 PRINT "The ";M$;" is gone":GOTO 21920 
             _fs("THE % IS GONE...", mo[m]);
             printMessage(stringBuffer40);
+            m=-1;
+            pause(SMALL_PAUSE);
+            specialAction = 0;
             return 6;
         }
     }

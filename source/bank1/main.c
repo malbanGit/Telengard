@@ -1197,7 +1197,7 @@ int handleTreasure(int fix)
 
         printTreasure=5;
         printMessage("YOU HAVE FOUND A TREASURE CHEST!!");
-        printMessage("<4> TO OPEN IT: ");
+        printMessage("<4> TO OPEN IT:");
 
 
         // * You detect a trap if detect trap spell is in effect or 10% of the time otherwise 
@@ -1280,7 +1280,13 @@ itemFound:
     // 4205 J=INT(RND(ONE) (ONE/TWO)*(L+ONE)+ONE):IF I>SEV THEN PRINT MI$:GOTO 4215 
     ilv = (unsigned long int) RandMax((l+1)>>2) + (unsigned long int) RandMax((l+1)>>2) + 1;
         
-    _fsl_s("YOU SEE A % +%", items[tno], ilv);
+    // Malban:
+    // added "not +" display
+    if (tno<SCROLL_OF_RESCUE) 
+        _fsl_s("YOU SEE A % +%", items[tno], ilv);
+    else
+        _fs("YOU SEE A %", items[tno]);
+
     printMessage(stringBuffer40);
 
     // * Prompt player to pick it up 
@@ -1368,6 +1374,7 @@ int handleSpecial(int fix)
     // note - such a stair case is not visable with LIGHT spell
     // this is also the case in the original!
     if (above == 4) goto doStaircase;
+
     // "map11_hi" is current item (0-9)
     switch (map11_hi)
     {
@@ -1398,7 +1405,7 @@ upperInn:
                     pause(SMALL_PAUSE);
                 return RETURN_NEW_TURN;
             }
-            else // elevator
+            else // elevator (inn item on a level lower than 1)
             {
 doElevator:
                 // 6200 GOSUB 16600:PRINT " ":GOSUB 16500:PRINT "You feel heavy for a moment" 
@@ -1460,11 +1467,19 @@ doElevator:
             initSoundNo = SOUND_PIT;
             l = 3;
 
+            inElevator = -1;
+            elevatorY=0;
+            while (inElevator==-1)
+            {
+                displayRound();
+            }
+
+
+
             // * Handle damage 
             // 20000 D=INT(RND(ONE)*L*SIX+ONE):PRINT "You suffer ";D;" hit points":CH=CH-D 
             // 20005 IF CH>ZERO THEN GOSUB RHITS:RETURN 
             // 20010 GOSUB RSTAT:GOSUB WTCLR:GOTO 9000
-            pause(SMALL_PAUSE);
             clearMessage();
 
             tmp = (signed int)RandMax(l*3)+1;
@@ -1788,6 +1803,7 @@ dirtyPaganTrash:
                 // 6785 Q=TEN+ONE:IF SF(Q)<ZERO THEN SF(Q)=ZERO 
                 // 6786 SF(Q)=SF(Q)+INT(RND(ONE)*16+ONE):GOSUB 15000:GOSUB CLWND:GOTO ARRW
                 printMessage("YOU FEEL REFRESHED!");
+                pause(VERY_SMALL_PAUSE);
                 printMessage("ACTUALLY YOU'RE DRUNK!!");
                 sf[DRUNK] = RandMax(16)+1;
                 return RETURN_PAUSE;
@@ -1820,7 +1836,7 @@ dirtyPaganTrash:
             // 6800 GOSUB 16600:PRINT " ":GOSUB CLWND:PRINT "You see a large gray misty cube" 
             // 6805 PRINT "<RET> to walk in:";:GOSUB GTCHR:IF C$<>RT$ THEN GOTO ARRW 
 
-            printMessage("YOU CAN SEE A LARGE MISTY CUBE");
+            printMessage("YOU SEE A LARGE GRAY MISTY CUBE");
             printMessage("<4> TO WALK IN");
             tmp = testForButton(1);
             if (tmp != 4)
@@ -1911,7 +1927,7 @@ throneNothingHappens:
                 printMessage("THEY POP INTO YOUR GREEDY HANDS!!");
                 ultmp = UL(RandMax(100)+1)*UL(10)*UL(cz);
                 gd = gd + ULL(ultmp);
-                _fl_s("THEY ARE WORT % GOLD", ultmp);
+                _fl_s("THEY ARE WORTH % GOLD", ultmp);
                 printMessage(stringBuffer40);
                 pause(SMALL_PAUSE);
                 return RETURN_PAUSE;
@@ -1955,8 +1971,12 @@ createAKing:
                     goto teleportNow;
                 }
                 // 6970 PRINT "A loud ýGONGý sounds!";:GOSUB WTCLR:IF RND(ONE)<ONE/TWO THEN 6975 
+                PLY_SONG_PLAYING = 0; // if throne tune is still playing
+                pause(VERY_SMALL_PAUSE);
+
                 printMessage("A LOUD GONG SOUNDS!");
                 initSoundNo = SOUND_GONG;
+
                 if (RandMax(100) > 50)
                 {
                     // * 50% of the time you loose ½ experiece 
@@ -2004,7 +2024,7 @@ createAKing:
                 
                 // * Read 
                 // 7005 PRINT :PRINT "A mysterious magic grips you..":GOSUB 20200 
-                printMessage("A MYSTERIOUS MAGIG GRIPS YOU..");
+                printMessage("A MYSTERIOUS MAGIC GRIPS YOU..");
 
                 // 20200 I=INT(RND(ONE)*6):IF RND(ONE)>ONE/TWO THEN 20220 
 throneRoleStatAgain:
@@ -2017,7 +2037,7 @@ throneRoleStatAgain:
                     // 20225 PRINT "Your ";S$(I*THREE+ONE,I*THREE+THREE);" goes down";:S(I)=S(I)-ONE 
                     // 20240 PRINT " by 1":GOSUB RSTAT:GOSUB PAUSE:RETURN
                     s[tmp] = s[tmp] - 1;
-                    _fs("YOU % GOES DOWN BY 1", stats[tmp]);
+                    _fs("YOUR % GOES DOWN BY 1", stats[tmp]);
                 }
                 else
                 {
@@ -2026,7 +2046,7 @@ throneRoleStatAgain:
 
                     // 20215 PRINT "Your ";S$(I*THREE+ONE,I*THREE+THREE);" goes up";:S(I)=S(I)+ONE:GOTO 20240 
                     s[tmp] = s[tmp] + 1;
-                    _fs("YOU % GOES UP BY 1", stats[tmp]);
+                    _fs("YOUR % GOES UP BY 1", stats[tmp]);
                 }
                 printMessage(stringBuffer40);
                 return RETURN_PAUSE;
@@ -2150,7 +2170,7 @@ int main(void)
 restart:
     initVars();
 #ifndef NO_TITLE
-    ch = -1;
+    ch = -1;    // ch here will be indicator whether flash should be loaded
     titleScreen();
     if (ch != -1)
     {
@@ -2473,6 +2493,13 @@ loadFromFlash:
                     clearMonsterStack();    
                     _x = Vec_Loop_Count_lo;
                     setRandSeedNP();
+
+                    // Malban:
+                    // added this to level up upon an INN reenter!
+                    tmp2 = (signed int)lv;
+                    checkXP();
+                    if (lv != (unsigned int) tmp2)
+                        pause(SMALL_PAUSE);
 
                     goto newTurnStart;
                 }

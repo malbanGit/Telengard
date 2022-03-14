@@ -459,6 +459,14 @@ _drawFighter
                     ldu      #FighterList 
                     clra     
                     pulu     b,x,pc 
+_drawPrismaticWall 
+                    pshs     u 
+                    ldu      #PrismaticWall 
+                    clra     
+                    pulu     b,x,pc 
+
+
+
 _drawMummy 
                     pshs     u 
                     ldu      #MummyList 
@@ -565,6 +573,14 @@ _drawElevator
 _drawNone 
                     rts      
 
+_drawHolySymboly
+                    pshs     u 
+                    ldu      #HolySymbolAni 
+                    aslb
+                    ldu b,u
+                    clra     
+                    pulu     b,x,pc 
+                    rts
 
 
 _drawThrone 
@@ -4884,6 +4900,143 @@ DragonFlame_3
                     db       $0A, $01, -$20 
                     db       $fe, $00, $00 
                     dw       SMVB_lastDraw_rts2 
+
+HolySymbolAni 
+ DW HolySymbolAni_0 ; list of all single vectorlists in this
+ DW HolySymbolAni_1
+ DW HolySymbolAni_2
+ DW HolySymbolAni_3
+ DW HolySymbolAni_4
+ DW HolySymbolAni_5
+ DW HolySymbolAni_6
+ DW HolySymbolAni_5
+ DW HolySymbolAni_4
+ DW HolySymbolAni_3
+ DW HolySymbolAni_2
+ DW HolySymbolAni_1
+ DW 0
+
+HolySymbolAni_0
+	db  $1B, $01,  $00
+	dw SMVB_continue_single
+	db -$12, $01,  $09
+	dw SMVB_startDraw_single
+	db -$09, $01,  $15
+	dw SMVB_continue7_single
+	db -$06, $01, -$15
+	db -$15, $01, -$09
+	db  $15, $01, -$09
+	db  $06, $01, -$15
+	db  $09, $01,  $15
+	db  $12, $01,  $09
+	db  $fe, $00,  $00
+	dw SMVB_lastDraw_rts2
+HolySymbolAni_1
+	db  $1B, $01,  $00
+	dw SMVB_continue_single
+	db -$0F, $01,  $0C
+	dw SMVB_startDraw_single
+	db -$0C, $01,  $0F
+	dw SMVB_continue7_single
+	db -$09, $01, -$0F
+	db -$0F, $01, -$0C
+	db  $0F, $01, -$0C
+	db  $09, $01, -$0F
+	db  $0C, $01,  $0F
+	db  $0F, $01,  $0C
+	db  $fe, $00,  $00
+	dw SMVB_lastDraw_rts2
+HolySymbolAni_2
+	db  $1B, $01,  $00
+	dw SMVB_continue_single
+	db -$0C, $01,  $0F
+	dw SMVB_startDraw_single
+	db -$0F, $01,  $0C
+	dw SMVB_continue7_single
+	db -$0C, $01, -$0C
+	db -$0C, $01, -$0F
+	db  $0C, $01, -$0F
+	db  $0C, $01, -$0C
+	db  $0F, $01,  $0C
+	db  $0C, $01,  $0F
+	db  $fe, $00,  $00
+	dw SMVB_lastDraw_rts2
+HolySymbolAni_3
+	db  $1B, $01,  $00
+	dw SMVB_continue_single
+	db -$09, $01,  $12
+	dw SMVB_startDraw_single
+	db -$12, $01,  $09
+	dw SMVB_continue7_single
+	db -$0F, $01, -$09
+	db -$09, $01, -$12
+	db  $09, $01, -$12
+	db  $0F, $01, -$09
+	db  $12, $01,  $09
+	db  $09, $01,  $12
+	db  $fe, $00,  $00
+	dw SMVB_lastDraw_rts2
+HolySymbolAni_4
+	db  $1B, $01,  $00
+	dw SMVB_continue_single
+	db -$06, $01,  $15
+	dw SMVB_startDraw_single
+	db -$15, $01,  $06
+	dw SMVB_continue7_single
+	db -$12, $01, -$06
+	db -$06, $01, -$15
+	db  $06, $01, -$15
+	db  $12, $01, -$06
+	db  $15, $01,  $06
+	db  $06, $01,  $15
+	db  $fe, $00,  $00
+	dw SMVB_lastDraw_rts2
+HolySymbolAni_5
+	db  $1B, $01,  $00
+	dw SMVB_continue_single
+	db -$03, $01,  $18
+	dw SMVB_startDraw_single
+	db -$18, $01,  $03
+	dw SMVB_continue7_single
+	db -$15, $01, -$03
+	db -$03, $01, -$18
+	db  $03, $01, -$18
+	db  $15, $01, -$03
+	db  $18, $01,  $03
+	db  $03, $01,  $18
+	db  $fe, $00,  $00
+	dw SMVB_lastDraw_rts2
+HolySymbolAni_6
+	db  $1B, $01,  $00
+	dw SMVB_continue_single
+	db SHITREG_POKE_VALUE, $01,  $1B
+	dw SMVB_startDraw_newY_eq_oldX_single ; y was  $00, now SHIFT
+	db -$1B, $01,  $00
+	dw SMVB_continue_double
+	db  $00, $01, -$1B
+	dw SMVB_continue_double
+	db  $1B, $01,  $00
+	dw SMVB_continue_double
+	db  $00, $01,  $1B
+	dw SMVB_continue_newY_eq_oldX_single ; y is  $00
+	db  $fe, $00,  $00
+	dw SMVB_lastDraw_rts2
+
+PrismaticWall
+	db  $42, $01, -$03
+	dw SMVB_continue_single
+	db  $18, $01,  $49
+	dw SMVB_startDraw_single
+	db -$77, $01,  $00
+	dw SMVB_continue_yd4_single
+	db -$1C, $01, -$51
+	dw SMVB_continue_double
+	db  $78, $01,  $00
+	dw SMVB_continue_single
+	db  $1F, $01,  $5A
+	dw SMVB_continue_yd4_single
+	db  $fe, $00,  $00
+	dw SMVB_lastDraw_rts2
 
 MY_WAIT_RECAL       macro    
                     direct   $d0 
