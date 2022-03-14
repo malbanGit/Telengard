@@ -2,7 +2,7 @@
 // #define NO_MONSTER 1
 // #define NO_TITLE 1
 // #define DO_ORIGINAL_WR 1
- #define START_STRONG 1
+// #define START_STRONG 1
 
 
 
