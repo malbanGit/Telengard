@@ -137,10 +137,10 @@ To generate 64k bin, switch in the proejct settings the checkbox "48k ROM" to fa
 Changelog:
 V1.0 -> V1.01
 - spell corrections
-  - pit with spreite movement 
+  - pit with sprite movement 
   - prismatic wall sprite added, wait corrected
   - Holy Symbol sprite added, wait corrected
-- speeling corrections
+- spelling corrections
 - things I can't remember
   
 
