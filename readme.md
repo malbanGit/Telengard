@@ -1,6 +1,6 @@
+## Telengard for Vectrex 
 ![Image](http://vide.malban.de/wp-content/uploads/2022/02/TelengardDemonFight-1-886x1024.png)
 
-##Telengard for Vectrex 
 Changerequests / bug reports pls to Vide AT malban DOT de.
 Or create issues on github.
 
