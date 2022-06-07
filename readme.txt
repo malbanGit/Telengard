@@ -10,7 +10,8 @@ still available: https://www.aquest.com/telen.htm
 Vectrex port by Malban (2022).
 For more information about the Vectrex port look at my blog entries with
 the tag "Telengard": http://vide.malban.de/tag/telengard
-![Video](https://youtu.be/bQrrjSsiXcM)
+![Example](http://vide.malban.de/wp-content/uploads/2022/02/TelengardDemonFight-1-886x1024.png)
+Video at: https://youtu.be/bQrrjSsiXcM)
 
 Title music by Roald Strauss (INDIEGAMEMUSIC.COM), thanks!
 
