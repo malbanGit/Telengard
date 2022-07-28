@@ -146,6 +146,8 @@ Sources
 To generate 128k / 256k bins, switch in the project settings the checkbox "48k ROM" to true.
 To generate 64k bin, switch in the proejct settings the checkbox "48k ROM" to false.
 
+-------
+
 Changelog:
 V1.0 -> V1.01
 - spell corrections
