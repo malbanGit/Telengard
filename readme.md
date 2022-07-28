@@ -94,21 +94,26 @@ information on the main screen. With the vectrex that was not possible.
 The screen itself consists of 5 pages (navigate with joystick)
 
 Page 1: STATS
+
 You character status values are displayed, alnog with the current dungeon level and
 current hitpoints.
 
 Page 2: ENV
+
 Curent dungeon location, current room environment, current monster (+level).
 
 Page 3: VARS
+
 Additional variable information about your character, as
 level, spell units, experience points and gold in the tavern.
 
-page 4: MODS
+Page 4: MODS
+
 Things that influence your game success, in general your inventory, displayed are
 e.g. your Armor, Shield, Boots, Cloaks etc...
 
-page 5: Items
+Page 5: ITEMS
+
 Usable items are displayed here, as there are:
 - Scroll of Rescue
 - Potion of Healing
