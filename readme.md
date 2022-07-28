@@ -57,8 +57,9 @@ the often unfair random whims of the game.
 
 General controls
 ----------------
-Joystick - movement of the player.
-         - and color selection with the "box" feature.
+Joystick 
+- movement of the player.
+- and color selection with the "box" feature.
 
 Buttons	 
 please read the screen instructions.
