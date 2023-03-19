@@ -138,6 +138,7 @@ drawSmart:                                            ;#isfunction
 ;***************************************************************************
 ;/* HIGHEST SCALE FOR SMARTLIST + CONTINUE is 16!
 
+
  .globl SMVB_continue_yd4_yStays_single
 SMVB_continue_yd4_yStays_single: ;#isfunction  
  .globl SMVB_continue_yStays_single
@@ -736,10 +737,7 @@ SMVB_startMove_double:                                    ;#isfunction
 ; macro call ->                     ADD_NOPS  
  nop 
                     jmp      SMVB_repeat_same2 
-
- .globl SMVB_startDraw_yd4_tripple
  .globl SMVB_startDraw_tripple
-SMVB_startDraw_yd4_tripple:
 SMVB_startDraw_tripple: ;#isfunction 
 ; macro call ->                     SET_Y_INT  
                     sta      *VIA_port_b                  ; 4 
@@ -945,7 +943,8 @@ SMVB_startMove_double_sj:                                  ;#isfunction
                     sta      *VIA_shift_reg               ; 
 ; macro call ->                     ADD_NOPS  
  nop 
-                    tfr a,a 
+; macro call -> 					WAIT6
+                    tfr      a,a                          ; wait 6 cycles 
                     clr      *VIA_t1_cnt_hi 
 ; macro call ->                     ADD_NOPS                              ; reduced by ldu ,u - 5 cycles 
  nop 
@@ -1124,7 +1123,6 @@ SMVB_startMove_yEqx_single:                                ;#isfunction
 
                     inc      *VIA_port_b 
                     sta      *VIA_t1_cnt_hi 
-
                     sta      *VIA_shift_reg               ; 4 
 ; macro call ->                     ADD_NOPS  
  nop 
@@ -1269,9 +1267,8 @@ SMVB_startMove_yd4_yEqx_single_sj:                             ;#isfunction
                     ldu      ,u 
                     pulu     b,x,pc 
  .globl SMVB_startMove_yd4_newY_eq_oldX_single
-SMVB_startMove_yd4_newY_eq_oldX_single:
-
  .globl SMVB_startMove_newY_eq_oldX_single
+SMVB_startMove_yd4_newY_eq_oldX_single:
 SMVB_startMove_newY_eq_oldX_single:;#isfunction  
                     sta      *VIA_port_b                  ; 4 
 ; macro call ->                     INIT_MOVE  
@@ -1279,7 +1276,6 @@ SMVB_startMove_newY_eq_oldX_single:;#isfunction
                     stb      *VIA_shift_reg               ; 
 ; macro call ->  DELAY_NONE
 ; macro call ->  ADD_BURST
- nop ; y4d
  
                     stx      *VIA_port_b                  ; 5 
                     sta      *VIA_t1_cnt_hi 
@@ -1300,6 +1296,9 @@ SMVB_startMove_newY_eq_oldX_single_sj: ;#isfunction
 ; macro call ->                     ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
  nop 
                     pulu     b,x,pc 
+
+ .globl SMVB_startDraw_yd4_newY_eq_oldX_single
+SMVB_startDraw_yd4_newY_eq_oldX_single:
  .globl SMVB_startDraw_newY_eq_oldX_single
 SMVB_startDraw_newY_eq_oldX_single:                       ;#isfunction  
                     sta      *VIA_port_b                  ; 4 
@@ -1327,6 +1326,14 @@ SMVB_startDraw_newY_eq_oldX_single_sj:                    ;#isfunction
  nop 
                     ldu      ,u 
                     pulu     b,x,pc 
+
+
+
+
+
+
+
+
 
 
  .globl SMVB_lastDraw_rts                                         ;#isfunction  
@@ -1411,29 +1418,39 @@ __SMVB_sceneData:
  .word _telengard_0 ; list of all single vectorlists in this
  .word _telengard_1
  .word _telengard_2
+ .word _telengard_3
+ .word _telengard_4
+ .word _telengard_5
+ .word _telengard_6
+ .word _telengard_7
+ .word _telengard_8
  .word 0
 
  .globl _telengard_0
 _telengard_0:
-	.byte  0x68, 0x01, -0x7B
+	.byte  0x45, 0x01, -0x52
 	.word SMVB_continue_octo
+	.byte  0x45, 0x01, -0x52
+	.word SMVB_continue_quadro
 	.byte  0x0A, 0x01,  0x50
-	.word SMVB_startDraw_yd4_single
+	.word SMVB_startDraw_single
 	.byte  0x07, 0x01,  0x5F
 	.word SMVB_continue_double
 	.byte  0x00, 0x01,  0x46
-	.word SMVB_continue7_single
+	.word SMVB_continue2_single
 	.byte -0x05, 0x01,  0x5A
-	.byte -0x0A, 0x01,  0x7D
+	.byte -0x05, 0x01,  0x3E
+	.word SMVB_continue_double
 	.byte -0x23, 0x01, -0x0F
+	.word SMVB_continue7_single
 	.byte  0x19, 0x01, -0x36
 	.byte  0x00, 0x01, -0x4B
 	.byte -0x0A, 0x01, -0x5A
 	.byte -0x2D, 0x01, -0x19
-	.word SMVB_continue6_single
 	.byte -0x46, 0x01,  0x0A
 	.byte -0x37, 0x01,  0x00
 	.byte -0x41, 0x01,  0x0A
+	.word SMVB_continue3_single
 	.byte -0x5F, 0x01,  0x05
 	.byte -0x5A, 0x01,  0x0A
 	.byte -0x52, 0x01,  0x05
@@ -1451,31 +1468,43 @@ _telengard_0:
 	.word SMVB_continue_double
 	.byte  0x56, 0x01, -0x03
 	.word SMVB_continue_tripple
-	.byte  0x6E, 0x01, -0x0A
-	.word SMVB_continue2_single
-	.byte  0x73, 0x01, -0x05
+	.byte  0x37, 0x01, -0x05
+	.word SMVB_continue_double
+	.byte  0x39, 0x01, -0x02
+	.word SMVB_continue_double
 	.byte  0x2D, 0x01, -0x0A
-	.word SMVB_continue_yd4_single
+	.word SMVB_continue6_single
 	.byte  0x23, 0x01, -0x1E
-	.word SMVB_continue5_single
 	.byte  0x0A, 0x01, -0x5A
 	.byte -0x0A, 0x01, -0x5F
 	.byte -0x19, 0x01, -0x28
 	.byte  0x2D, 0x01, -0x05
-	.byte  0x07, 0x01,  0x68
-	.word SMVB_startMove_hex
-	.byte -0x23, 0x01, -0x1E
+	.byte  0x40, 0x00,  0x00
+	.word SMVB_lastDraw_rts
+ .globl _telengard_1
+_telengard_1:
+	.byte  0x4B, 0x01, -0x5C
+	.word SMVB_continue_octo
+	.byte  0x4B, 0x01, -0x5C
+	.word SMVB_continue_quadro
+	.byte -0x0A, 0x01,  0x37
 	.word SMVB_startDraw_single
-	.byte -0x78, 0x01, -0x19
-	.word SMVB_continue_yd4_single
+	.byte  0x01, 0x01,  0x53
+	.word SMVB_continue_octo
+	.byte  0x0F, 0x01,  0x2D
+	.word SMVB_continue3_single
+	.byte -0x23, 0x01, -0x05
+	.byte -0x23, 0x01, -0x1E
+	.byte -0x3C, 0x01, -0x0C
+	.word SMVB_continue_double
 	.byte -0x2D, 0x01, -0x1E
 	.word SMVB_continue5_single
 	.byte  0x41, 0x01, -0x0F
 	.byte  0x23, 0x01, -0x1E
 	.byte  0x14, 0x01, -0x32
 	.byte -0x14, 0x01, -0x55
-	.byte -0x69, 0x01, -0x0F
-	.word SMVB_continue_yd4_single
+	.byte -0x34, 0x01, -0x07
+	.word SMVB_continue_double
 	.byte -0x52, 0x01,  0x00
 	.word SMVB_continue_double
 	.byte -0x50, 0x01,  0x0A
@@ -1484,48 +1513,41 @@ _telengard_0:
 	.word SMVB_continue_double
 	.byte -0x55, 0x01,  0x05
 	.word SMVB_continue_double
-	.byte -0x65, 0x01, -0x02
+	.byte -0x43, 0x01, -0x01
 	.word SMVB_continue_octo
+	.byte -0x43, 0x01, -0x01
+	.word SMVB_continue_quadro
 	.byte  0x5A, 0x01, -0x17
 	.word SMVB_continue_tripple
 	.byte  0x3C, 0x01, -0x1E
 	.word SMVB_continue_single
-	.byte  0x6B, 0x01, -0x39
-	.word SMVB_continue_double
+	.byte  0x47, 0x01, -0x26
+	.word SMVB_continue_tripple
 	.byte  0x14, 0x01,  0x37
-	.word SMVB_continue_yd4_single
+	.word SMVB_continue2_single
 	.byte  0x64, 0x01,  0x0F
-	.word SMVB_continue_single
 	.byte  0x64, 0x01,  0x00
 	.word SMVB_continue_quadro
-	.byte  0x65, 0x01, -0x05
-	.word SMVB_continue_tripple
+	.byte  0x4C, 0x01, -0x03
+	.word SMVB_continue_quadro
 	.byte  0x64, 0x01,  0x00
-	.word SMVB_continue_single
-	.byte  0x0F, 0x01, -0x4B
-	.word SMVB_continue_yd4_single
-	.byte -0x0F, 0x01, -0x3C
 	.word SMVB_continue7_single
+	.byte  0x0F, 0x01, -0x4B
+	.byte -0x0F, 0x01, -0x3C
 	.byte -0x1E, 0x01, -0x23
 	.byte -0x2D, 0x01, -0x14
 	.byte -0x2D, 0x01,  0x14
 	.byte  0x50, 0x01, -0x4B
 	.byte  0x55, 0x01, -0x23
+	.word SMVB_continue3_single
 	.byte  0x32, 0x01, -0x23
 	.byte  0x28, 0x01, -0x1E
-	.word SMVB_continue2_single
-	.byte -0x0A, 0x01,  0x37
-	.byte  0x01, 0x01,  0x6E
-	.word SMVB_continue_hex
-	.byte  0x0F, 0x01,  0x2D
-	.word SMVB_continue2_single
-	.byte -0x23, 0x01, -0x05
 	.byte  0x40, 0x00,  0x00
 	.word SMVB_lastDraw_rts
- .globl _telengard_1
-_telengard_1:
-	.byte  0x53, 0x01, -0x67
-	.word SMVB_continue_hex
+ .globl _telengard_2
+_telengard_2:
+	.byte  0x3E, 0x01, -0x4D
+	.word SMVB_continue_octo
 	.byte  0x4B, 0x01,  0x0A
 	.word SMVB_startDraw_single
 	.byte  0x37, 0x01,  0x1E
@@ -1534,16 +1556,15 @@ _telengard_1:
 	.byte -0x64, 0x01,  0x28
 	.word SMVB_continue_yd4_single
 	.byte  0x14, 0x01, -0x2D
-	.word SMVB_continue4_single
+	.word SMVB_continue7_single
 	.byte -0x1E, 0x01, -0x27
 	.byte -0x3C, 0x01, -0x0F
 	.byte  0x23, 0x01,  0x3B
 	.byte -0x37, 0x01,  0x14
-	.word SMVB_continue_yd4_single
 	.byte -0x19, 0x01, -0x36
-	.word SMVB_continue4_single
 	.byte -0x23, 0x01, -0x0A
 	.byte  0x05, 0x01,  0x36
+	.word SMVB_continue2_single
 	.byte  0x28, 0x01,  0x1E
 	.byte -0x41, 0x01,  0x2D
 	.word SMVB_continue_yd4_single
@@ -1552,8 +1573,12 @@ _telengard_1:
 	.byte  0x00, 0x01, -0x36
 	.byte  0x23, 0x01, -0x2D
 	.byte  0x50, 0x01, -0x14
-	.byte  0x2D, 0x01,  0x63
-	.word SMVB_startMove_tripple
+	.byte  0x40, 0x00,  0x00
+	.word SMVB_lastDraw_rts
+ .globl _telengard_3
+_telengard_3:
+	.byte  0x4F, 0x01, -0x28
+	.word SMVB_continue_octo
 	.byte -0x5A, 0x01,  0x00
 	.word SMVB_startDraw_yd4_double
 	.byte  0x37, 0x01,  0x3C
@@ -1562,26 +1587,30 @@ _telengard_1:
 	.byte -0x50, 0x01,  0x1E
 	.word SMVB_continue_yd4_single
 	.byte -0x64, 0x01,  0x19
-	.word SMVB_continue6_single
+	.word SMVB_continue5_single
 	.byte  0x0A, 0x01, -0x5A
 	.byte -0x0A, 0x01, -0x50
 	.byte  0x37, 0x01, -0x0A
 	.byte  0x3C, 0x01,  0x00
-	.byte  0x6E, 0x01, -0x14
+	.byte  0x37, 0x01, -0x0A
+	.word SMVB_continue_double
 	.byte  0x37, 0x01, -0x19
-	.word SMVB_continue_yd4_single
+	.word SMVB_continue2_single
 	.byte  0x2D, 0x01,  0x50
-	.word SMVB_continue_single
 	.byte -0x4B, 0x01,  0x14
 	.word SMVB_continue_yd4_single
-	.byte  0x02, 0x01,  0x6C
-	.word SMVB_startMove_quadro
+	.byte  0x40, 0x00,  0x00
+	.word SMVB_lastDraw_rts
+ .globl _telengard_4
+_telengard_4:
+	.byte  0x50, 0x01,  0x0E
+	.word SMVB_continue_octo
 	.byte  0x41, 0x01, -0x14
 	.word SMVB_startDraw_single
 	.byte  0x00, 0x01,  0x4B
-	.word SMVB_continue_yd4_single
-	.byte -0x6E, 0x01,  0x00
-	.word SMVB_continue_yd4_single
+	.word SMVB_continue_single
+	.byte -0x37, 0x01,  0x00
+	.word SMVB_continue_double
 	.byte -0x5A, 0x01, -0x0A
 	.word SMVB_continue6_single
 	.byte -0x46, 0x01,  0x19
@@ -1600,45 +1629,42 @@ _telengard_1:
 	.byte  0x00, 0x01, -0x2D
 	.byte  0x19, 0x01, -0x32
 	.byte  0x28, 0x01, -0x1E
-	.word SMVB_continue6_single
+	.word SMVB_continue7_single
 	.byte  0x46, 0x01, -0x0F
 	.byte  0x37, 0x01,  0x05
 	.byte  0x37, 0x01,  0x1E
 	.byte  0x2D, 0x01,  0x2D
 	.byte  0x19, 0x01,  0x3C
 	.byte -0x46, 0x01,  0x28
-	.word SMVB_continue_yd4_single
 	.byte -0x0A, 0x01, -0x4B
-	.word SMVB_continue4_single
+	.word SMVB_continue7_single
 	.byte -0x2D, 0x01, -0x23
 	.byte -0x23, 0x01, -0x0A
 	.byte  0x19, 0x01,  0x4B
 	.byte -0x2D, 0x01,  0x0F
-	.word SMVB_continue_yd4_single
 	.byte -0x19, 0x01, -0x2D
-	.word SMVB_continue4_single
 	.byte -0x28, 0x01, -0x19
 	.byte -0x05, 0x01,  0x2D
+	.word SMVB_continue2_single
 	.byte  0x32, 0x01,  0x2D
 	.byte -0x3C, 0x01,  0x23
 	.word SMVB_continue_yd4_single
 	.byte  0x2D, 0x01,  0x0F
-	.word SMVB_continue4_single
+	.word SMVB_continue7_single
 	.byte  0x64, 0x01,  0x05
 	.byte  0x3C, 0x01, -0x0A
 	.byte  0x41, 0x01, -0x1E
 	.byte  0x00, 0x01,  0x46
-	.word SMVB_continue_yd4_single
 	.byte -0x2D, 0x01,  0x0F
-	.word SMVB_continue5_single
 	.byte -0x2D, 0x01,  0x0A
 	.byte -0x2D, 0x01,  0x2D
+	.word SMVB_continue3_single
 	.byte  0x2D, 0x01,  0x14
 	.byte  0x19, 0x01, -0x0A
 	.byte  0x40, 0x00,  0x00
 	.word SMVB_lastDraw_rts
- .globl _telengard_2
-_telengard_2:
+ .globl _telengard_5
+_telengard_5:
 	.byte  0x62, 0x01,  0x64
 	.word SMVB_continue_quadro
 	.byte -0x09, 0x01, -0x46
@@ -1652,33 +1678,70 @@ _telengard_2:
 	.byte  0x19, 0x01,  0x22
 	.byte  0x1E, 0x01,  0x37
 	.byte -0x26, 0x01,  0x11
-	.word SMVB_continue_yd4_single
-	.byte -0x25, 0x01,  0x12
 	.word SMVB_continue7_single
+	.byte -0x25, 0x01,  0x12
 	.byte  0x00, 0x01, -0x37
 	.byte -0x2D, 0x01, -0x2D
 	.byte -0x32, 0x01, -0x0E
 	.byte -0x40, 0x01,  0x09
 	.byte -0x19, 0x01,  0x3C
 	.byte  0x2D, 0x01,  0x0A
+	.word SMVB_continue3_single
 	.byte  0x0F, 0x01, -0x2D
-	.word SMVB_continue2_single
 	.byte  0x36, 0x01,  0x46
 	.byte -0x45, 0x01,  0x1E
 	.word SMVB_continue_yd4_single
 	.byte -0x41, 0x01,  0x0F
-	.word SMVB_continue7_single
+	.word SMVB_continue_single
+	.byte  0x40, 0x00,  0x00
+	.word SMVB_lastDraw_rts
+ .globl _telengard_6
+_telengard_6:
+	.byte  0x47, 0x01,  0x42
+	.word SMVB_continue_hex
 	.byte  0x5A, 0x01,  0x2D
+	.word SMVB_startDraw_single
 	.byte  0x50, 0x01,  0x1E
+	.word SMVB_continue3_single
 	.byte  0x4B, 0x01,  0x0F
 	.byte  0x2D, 0x01, -0x0F
-	.byte  0x00, 0x01,  0x69
+	.byte  0x00, 0x01,  0x34
+	.word SMVB_continue_double
 	.byte -0x2D, 0x01, -0x05
-	.byte -0x78, 0x01,  0x23
-	.word SMVB_continue_yd4_single
-	.byte -0x72, 0x01,  0x19
+	.word SMVB_continue_single
+	.byte -0x3C, 0x01,  0x11
+	.word SMVB_continue_double
+	.byte -0x39, 0x01,  0x0C
+	.word SMVB_continue_double
+	.byte -0x1B, 0x01,  0x37
+	.word SMVB_startMove_double
+	.byte  0x00, 0x01, -0x47
+	.word SMVB_startDraw_tripple
+	.byte  0x23, 0x01,  0x20
+	.word SMVB_continue7_single
+	.byte  0x2D, 0x01,  0x07
+	.byte  0x2D, 0x01, -0x05
+	.byte  0x00, 0x01, -0x50
+	.byte -0x23, 0x01, -0x0A
+	.byte -0x2D, 0x01,  0x00
+	.byte -0x2D, 0x01,  0x0F
+	.byte  0x09, 0x01, -0x5A
+	.word SMVB_continue_single
+	.byte  0x47, 0x01,  0x28
+	.word SMVB_startMove_tripple
+	.byte -0x41, 0x01,  0x19
+	.word SMVB_startDraw_yd4_single
+	.byte  0x14, 0x01, -0x2D
 	.word SMVB_continue2_single
-	.byte  0x68, 0x01,  0x23
+	.byte  0x2D, 0x01,  0x14
+	.byte  0x40, 0x00,  0x00
+	.word SMVB_lastDraw_rts
+ .globl _telengard_7
+_telengard_7:
+	.byte  0x37, 0x01,  0x4F
+	.word SMVB_continue_octo
+	.byte  0x34, 0x01,  0x11
+	.word SMVB_startDraw_double
 	.byte  0x41, 0x01,  0x00
 	.word SMVB_continue_double
 	.byte  0x23, 0x01, -0x0F
@@ -1690,70 +1753,60 @@ _telengard_2:
 	.byte -0x23, 0x01, -0x19
 	.byte -0x3B, 0x01,  0x23
 	.byte -0x4B, 0x01,  0x1E
-	.word SMVB_continue2_single
-	.byte  0x23, 0x01,  0x0F
-	.byte  0x68, 0x01, -0x05
-	.word SMVB_continue_double
-	.byte  0x2D, 0x01, -0x05
-	.word SMVB_continue_yd4_single
-	.byte  0x00, 0x01,  0x50
-	.word SMVB_continue2_single
-	.byte -0x2D, 0x01,  0x50
-	.byte -0x78, 0x01,  0x37
-	.word SMVB_continue_yd4_single
-	.byte -0x31, 0x01,  0x0A
-	.word SMVB_continue3_single
-	.byte -0x41, 0x01, -0x14
-	.byte -0x2D, 0x01, -0x23
+	.word SMVB_continue_single
+	.byte -0x11, 0x01,  0x55
+	.word SMVB_startMove_double
 	.byte  0x00, 0x01, -0x56
-	.word SMVB_continue_tripple
+	.word SMVB_startDraw_tripple
 	.byte  0x2D, 0x01,  0x05
 	.word SMVB_continue4_single
 	.byte  0x23, 0x01, -0x05
 	.byte  0x2D, 0x01, -0x1E
 	.byte  0x13, 0x01, -0x2D
-	.byte -0x6E, 0x01,  0x00
-	.word SMVB_continue_yd4_single
+	.byte -0x37, 0x01,  0x00
+	.word SMVB_continue_double
 	.byte -0x23, 0x01,  0x14
 	.word SMVB_continue_single
-	.byte  0x00, 0x01, -0x6B
-	.word SMVB_continue_double
-	.byte  0x23, 0x01,  0x20
-	.word SMVB_continue7_single
-	.byte  0x2D, 0x01,  0x07
+	.byte  0x60, 0x01,  0x03
+	.word SMVB_startMove_tripple
+	.byte -0x28, 0x01,  0x19
+	.word SMVB_startDraw_yd4_single
+	.byte -0x2D, 0x01, -0x0A
+	.word SMVB_continue4_single
+	.byte -0x05, 0x01, -0x2D
+	.byte  0x5A, 0x01,  0x00
+	.byte  0x00, 0x01,  0x1E
+	.byte  0x40, 0x00,  0x00
+	.word SMVB_lastDraw_rts
+ .globl _telengard_8
+_telengard_8:
+	.byte  0x23, 0x01,  0x4A
+	.word SMVB_continue_octo
+	.byte  0x23, 0x01,  0x4A
+	.word SMVB_continue_quadro
+	.byte  SHITREG_POKE_VALUE, 0x01,  0x0F
+	.word SMVB_startDraw_yStays_single; y was  0x23, now SHIFT Poke
+	.byte  0x45, 0x01, -0x03
+	.word SMVB_continue_tripple
 	.byte  0x2D, 0x01, -0x05
-	.byte  0x00, 0x01, -0x50
-	.byte -0x23, 0x01, -0x0A
-	.byte -0x2D, 0x01,  0x00
-	.byte -0x2D, 0x01,  0x0F
-	.byte  0x09, 0x01, -0x5A
-	.word SMVB_continue_single
-	.byte  0x0A, 0x01,  0x60
-	.word SMVB_startMove_hex
-	.byte  0x68, 0x01, -0x0A
-	.word SMVB_startDraw_double
+	.word SMVB_continue3_single
+	.byte  0x00, 0x01,  0x50
+	.byte -0x2D, 0x01,  0x50
+	.byte -0x3C, 0x01,  0x1B
+	.word SMVB_continue_double
+	.byte -0x31, 0x01,  0x0A
+	.word SMVB_continue3_single
+	.byte -0x41, 0x01, -0x14
+	.byte -0x2D, 0x01, -0x23
+	.byte  0x46, 0x01, -0x4F
+	.word SMVB_startMove_single
+	.byte  0x45, 0x01, -0x06
+	.word SMVB_startDraw_tripple
 	.byte -0x2D, 0x01,  0x2D
 	.word SMVB_continue_yd4_single
 	.byte -0x4B, 0x01,  0x14
 	.word SMVB_continue3_single
 	.byte -0x3B, 0x01,  0x00
 	.byte -0x1E, 0x01, -0x2D
-	.byte  0x6E, 0x01, -0x70
-	.word SMVB_startMove_double
-	.byte -0x28, 0x01,  0x19
-	.word SMVB_startDraw_yd4_single
-	.byte -0x2D, 0x01, -0x0A
-	.word SMVB_continue3_single
-	.byte -0x05, 0x01, -0x2D
-	.byte  0x5A, 0x01,  0x00
-	.byte  0x00, 0x01,  0x1E
-	.word SMVB_continue_yd4_newY_eq_oldX_single ; y is  0x00
-	.byte -0x20, 0x01, -0x75
-	.word SMVB_startMove_double
-	.byte -0x41, 0x01,  0x19
-	.word SMVB_startDraw_single
-	.byte  0x14, 0x01, -0x2D
-	.word SMVB_continue2_single
-	.byte  0x2D, 0x01,  0x14
 	.byte  0x40, 0x00,  0x00
 	.word SMVB_lastDraw_rts
