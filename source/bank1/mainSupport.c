@@ -44,6 +44,15 @@ int displayStatusPage()
     int lastDirY = 0;
     int ret = 0;
 
+
+// song might be "broken" in between, ensure everything is quiet
+// be quiet
+Vec_Music_Wk_7 = 0x3f; // switch off all sound channels
+Vec_XXX_04 = 0; //Volume channel A = 0;
+Vec_XXX_03 = 0; //Volume channel B = 0;
+Vec_Music_Wk_A = 0; //Volume channel C = 0;
+
+
     // debounce
     do
     {
@@ -519,6 +528,16 @@ void createCharacter()
 // return 2 -> goto 2000 new turn
 int castSpell(int inCombat)
 {
+
+    // song might be "broken" in between, ensure everything is quiet
+    // be quiet
+    Vec_Music_Wk_7 = 0x3f; // switch off all sound channels
+    Vec_XXX_04 = 0; //Volume channel A = 0;
+    Vec_XXX_03 = 0; //Volume channel B = 0;
+    Vec_Music_Wk_A = 0; //Volume channel C = 0;
+
+
+
     unsigned int spellLevel = 0;
     unsigned int spellSelect = 0;
     unsigned int availableLevel = (lv/3);
