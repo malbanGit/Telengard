@@ -2166,6 +2166,7 @@ boxAgain:
 
 int main(void)
 {
+    calibrationValue = 0;
     initFlash();
 restart:
     initVars();

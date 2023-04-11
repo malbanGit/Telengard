@@ -149,6 +149,10 @@ To generate 64k bin, switch in the proejct settings the checkbox "48k ROM" to fa
 -------
 
 Changelog:
+V1.01 -> V1.02
+- added calibration (Button 3 in title screen)
+
+Changelog:
 V1.0 -> V1.01
 - spell corrections
   - pit with sprite movement 

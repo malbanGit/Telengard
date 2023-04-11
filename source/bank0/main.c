@@ -238,17 +238,117 @@ extern void checkSavedFlash();
 extern void saveFlash();
 #define TITLE_TIMER 150
 
+
+
+#ifdef USE_CALIBRATION
+void doCalibrate()
+{
+    // song might be "broken" in between, ensure everything is quiet
+    // be quiet
+    Vec_Music_Wk_7 = 0x3f; // switch off all sound channels
+    Vec_XXX_04 = 0; //Volume channel A = 0;
+    Vec_XXX_03 = 0; //Volume channel B = 0;
+    Vec_Music_Wk_A = 0; //Volume channel C = 0;
+
+    _XC = -0x70; // default msg x pos
+    PLY_SONG_PLAYING = 0; // ensure song not playing anymore
+    playSong();
+    Do_Sound();
+
+    _XC=-0x60;
+    clearMessage();
+    ltmp=TITLE_TIMER;
+    int stage = 0;
+
+    printMessage("JOYSTICK LEFT RIGHT");
+    printMessage("BUTTON <1/2> - BUZZ/NO BUZZ");
+    printMessage("BUTTON <4> - FINISH");
+    int lastButton = 0;
+    while(1)
+    {
+        check_buttons();
+        Wait_Recal();
+Joy_Digital(); 
+
+    if (joystick_1_x()>10)
+        calibrationValue++;
+    if (joystick_1_x()<-10)
+        calibrationValue--;
+
+//; change buzz: noBuzzVectrex
+
+
+        dp_VIA_t1_cnt_lo  = 0x80;
+        Intensity_a(0x4f);
+        displayMessages();
+        Intensity_a(0x3f);
+        dp_VIA_t1_cnt_lo  = 0x09;
+        dp_VIA_cntl = 0xce;
+
+
+
+        monsterDrawer[m]();
+        __ass("clra\n\tsta *0x0a\n\t"::: "cc","a","b","d"); // set shiftregister to 0, without clear, gets rid of annoying DOT in the middle
+
+        dp_VIA_t1_cnt_lo  = 0x80;
+        Moveto_d(0,30);
+
+        dp_VIA_t1_cnt_lo  = 0x09;
+        dp_VIA_cntl = 0xce;
+        drawPlayer();
+
+        drawTitle();
+        
+        if (button_1_4_pressed()) lastButton = 4;
+        if (button_1_3_pressed()) lastButton = 3;
+        if (button_1_2_pressed()) lastButton = 2;
+        if (button_1_1_pressed()) lastButton = 1;
+
+        if (!buttons_pressed())
+        {
+            if (lastButton == 4) break;
+            if (lastButton == 2) noBuzzVectrex = 1;
+            if (lastButton == 1) noBuzzVectrex = 0;
+            lastButton = 0;
+        }
+    }
+    ltmp = 1;
+    tmp_calibrationValue = calibrationValue;
+    if (flashAvailable)
+    {
+        saveFlash();
+    }
+    initSong();
+}
+#endif
+
+
+
 void titleScreen()
 {
     m = 0;
     initSong();
 
-    if (flashAvailable) checkSavedFlash();
+#ifdef USE_CALIBRATION
+    // calibrationValue = 0;
+#endif
+    if (flashAvailable) 
+    {
+        checkSavedFlash();
+#ifdef USE_CALIBRATION
+        unsigned int tmp = Vec_Num_Players;
+extern void loadFlash();
+        loadFlash();
+        Vec_Num_Players = tmp;
+#endif
+    }
+
     _XC=-0x60;
+    int stage;
 titleStart:
     clearMessage();
     ltmp=TITLE_TIMER;
-    int stage = 0;
+    stage = 0;
     printMessage("ORIGINAL BY DANIEL MICHAEL LAWRENCE");
     printMessage("     VECTREX VERSION BY MALBAN");
     while(1)
@@ -257,6 +357,7 @@ titleStart:
         playSong();
         Do_Sound();
         Wait_Recal();
+
         dp_VIA_t1_cnt_lo  = 0x80;
         Intensity_a(0x4f);
         displayMessages();
@@ -285,15 +386,26 @@ titleStart:
 
             if (stage == 1)
             {
+#ifdef USE_CALIBRATION
+                printMessage("    PRESS <1-2> BUTTON TO PLAY");
+                printMessage("         <3> CALIBRATE");
+                if ((!Vec_Num_Players) && (flashAvailable))
+                {
+                    printMessage("     PRESS <4> BUTTON TO LOAD");
+                }
+#else
                 printMessage("    PRESS <1-3> BUTTON TO PLAY");
                 if ((!Vec_Num_Players) && (flashAvailable))
                 {
                     printMessage("     PRESS <4> BUTTON TO LOAD");
                 }
+#endif
+
+
             }
             if (stage == 2)
             {
-                printMessage("           GREETINGS TO:");
+                printMessage("         GREETINGS TO:");
                 printMessage("     PEER, BRETT AND PHILLIP");
             }
 
@@ -308,6 +420,15 @@ titleStart:
                 goto titleStart;
             }
         }
+#ifdef USE_CALIBRATION
+        if (button_1_3_pressed()) 
+        {
+            doCalibrate();
+        }
+        if (!button_1_3_pressed()) 
+#endif
+    if (!flashAvailable) if (!button_1_4_pressed()) continue;
+
 
         if (buttons_pressed())break;
     }

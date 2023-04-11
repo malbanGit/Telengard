@@ -64,6 +64,7 @@ Joy_Digital         =      0xF1F8
  .globl _drawTitle
 _drawTitle: 
     pshs u,y
+    bsr calibrationZero
  .globl redoFromStart
 redoFromStart: 
                     LDy      #__SMVB_sceneData                ; address of data 
@@ -79,7 +80,49 @@ nextScenePart:
                     BRA      nextScenePart
  .globl drawTtileDone
 drawTtileDone:
+    bsr uncalibrationZero
     puls u,y,pc
+
+ .globl uncalibrationZero
+uncalibrationZero:
+ 
+;                    ldb      #$CC 
+;                    stb      *VIA_cntl 
+                    ldd      #0x8100 
+                    std      *VIA_port_b 
+                    dec      *VIA_port_b 
+                    lda      #0x82 
+                    std      *VIA_port_b 
+                    lda      #0x83
+                    sta      *VIA_port_b 
+                    rts      
+
+ .globl calibrationZero
+calibrationZero:
+ 
+;                    ldb      #0xCC 
+;                    stb      *VIA_cntl 
+                    ldd      #0x8100 
+                    std      *VIA_port_b 
+                    dec      *VIA_port_b 
+                    ldb      _calibrationValue
+                    lda      _noBuzzVectrex 
+                    beq      buzzVectrex
+                    lda      #0x82 
+                    std      *VIA_port_b 
+                    ldd      #0x83FF                       ; 2 cycles 
+                    stb      *VIA_port_a 
+                    sta      *VIA_port_b 
+                    rts      
+buzzVectrex:
+                    lda      #0x82 
+                    std      *VIA_port_b 
+                    ldd      #0x83FF                       ; 2 cycles 
+                    stb      *VIA_port_a 
+                    nop       
+                    nop      
+                    sta      *VIA_port_b 
+                    rts      
 
 ;***************************************************************************
 ; ROUTINE SECTION
@@ -301,46 +344,6 @@ SMVB_continue_yd4_newY_eq_oldX_single:                       ;#isfunction
 ; macro call ->                     ADD_NOPS  
  nop 
                     pulu     b,x,pc
-
-
- .globl SMVB_continue_single_sj
-SMVB_continue_single_sj:                                   ;#isfunction  
-                    stb      *VIA_port_a                  ; 4 shift not changed, move might also be a draw 
-; y is inherently known to be == old_x, y was = to 0 by generator
- .globl SMVB_continue_newY_eq_oldX_single_sj
-SMVB_continue_newY_eq_oldX_single_sj:                     ;#isfunction  
-                    sta      *VIA_port_b                  ; 4 
-; macro call ->                     Y_DELAY                               ; 4 
-; macro call ->  Y_DELAY_4
- nop 
- nop 
-; macro call ->  ADD_BURST
- 
-; macro call ->  ADD_BURST
- 
-                    stx      *VIA_port_b                  ; 5 
-                    sta      *VIA_t1_cnt_hi 
-; macro call ->                     ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
- nop 
-                    ldu      ,u 
-                    pulu     b,x,pc 
-; continue uses same shift
-; y is inherently known to be == x, 
- .globl SMVB_continue_yd4_yEqx_single
-SMVB_continue_yd4_yEqx_single: ;#isfunction 
-; macro call ->                     SET_Y_INT  
-                    sta      *VIA_port_b                  ; 4 
-                    stb      *VIA_port_a                  ; 4 
-; macro call ->                     Y_DELAY_HALF_4                          ; 4 
- nop 
-; macro call ->  ADD_BURST
- 
-
-                    inc      *VIA_port_b 
-                    sta      *VIA_t1_cnt_hi 
-; macro call ->                     ADD_NOPS  
- nop 
-                    pulu     b,x,pc 
 
  .globl SMVB_continue_yEqx_single
 SMVB_continue_yEqx_single:                                 ;#isfunction  
@@ -602,20 +605,6 @@ SMVB_continue_yd4_double:;#isfunction
                     jmp      SMVB_repeat_same 
 
 
- .globl SMVB_continue_yd4_octo
-SMVB_continue_yd4_octo:
-                    stb      *VIA_port_a                  ; 4 shift not changed, move might also be a draw 
-                    sta      *VIA_port_b                  ; 4 
-; macro call ->                     Y_DELAY_4                             ; 4 
- nop 
- nop 
-; macro call ->  ADD_BURST
- 
-                    stx      *VIA_port_b                  ; 5 
-                    sta      *VIA_t1_cnt_hi 
-; macro call ->                     ADD_NOPS  
- nop 
-                    jmp      cont7 
  .globl SMVB_continue_yd4_hex
 SMVB_continue_yd4_hex:
                     stb      *VIA_port_a                  ; 4 shift not changed, move might also be a draw 
@@ -682,41 +671,6 @@ SMVB_startMove_single:                                    ;#isfunction
 ; macro call ->                     ADD_NOPS  
  nop 
                     pulu     b,x,pc 
- .globl SMVB_startMove_single_sj
-SMVB_startMove_single_sj:                                 ;#isfunction  
-; macro call ->                     SET_Y_INT  
-                    sta      *VIA_port_b                  ; 4 
-                    stb      *VIA_port_a                  ; 4 
-                    ldu      ,u 
- 
-; macro call ->                     INIT_MOVE_SJ  
-; macro call ->  DELAY_NONE
-; macro call ->  ADD_BURST
- 
-                    stx      *VIA_port_b                  ; 5 
-                    sta      *VIA_t1_cnt_hi 
-                    sta      *VIA_shift_reg               ; 
-; macro call ->                     ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
- nop 
-                    pulu     b,x,pc 
-
- .globl SMVB_startMove_yd4_single_sj
-SMVB_startMove_yd4_single_sj:                                 ;#isfunction  
-; macro call ->                     SET_Y_INT  
-                    sta      *VIA_port_b                  ; 4 
-                    stb      *VIA_port_a                  ; 4 
-                    ldu      ,u 
-; macro call ->                     INIT_MOVE_SJ  
-; macro call ->  DELAY_NONE
-; macro call ->  ADD_BURST
- 
-                    stx      *VIA_port_b                  ; 5 
-                    sta      *VIA_t1_cnt_hi 
-                    sta      *VIA_shift_reg               ; 
-; macro call ->                     ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
- nop 
-                    pulu     b,x,pc 
-
 
 
  .globl SMVB_startMove_yd4_double
@@ -928,27 +882,6 @@ SMVB_repeat_same2:                                           ;#isfunction
 ; macro call ->                     ADD_NOPS  
  nop 
                     pulu     pc 
- .globl SMVB_startMove_double_sj
-SMVB_startMove_double_sj:                                  ;#isfunction  
-; macro call ->                     SET_Y_INT  
-                    sta      *VIA_port_b                  ; 4 
-                    stb      *VIA_port_a                  ; 4 
-                    ldu      ,u 
-; macro call ->                     INIT_MOVE_SJ  
-; macro call ->  DELAY_NONE
-; macro call ->  ADD_BURST
- 
-                    stx      *VIA_port_b                  ; 5 
-                    sta      *VIA_t1_cnt_hi 
-                    sta      *VIA_shift_reg               ; 
-; macro call ->                     ADD_NOPS  
- nop 
-; macro call -> 					WAIT6
-                    tfr      a,a                          ; wait 6 cycles 
-                    clr      *VIA_t1_cnt_hi 
-; macro call ->                     ADD_NOPS                              ; reduced by ldu ,u - 5 cycles 
- nop 
-                    pulu     b,x, pc 
  .globl SMVB_startMove_yStays_single
 SMVB_startMove_yStays_single:                              ;#isfunction  
 ; macro call ->                     INIT_MOVE  
@@ -960,19 +893,6 @@ SMVB_startMove_yStays_single:                              ;#isfunction
                     stx      *VIA_port_b                  ; 5 
                     sta      *VIA_t1_cnt_hi 
 ; macro call ->                     ADD_NOPS  
- nop 
-                    pulu     b,x,pc 
- .globl SMVB_startMove_yStays_single_sj
-SMVB_startMove_yStays_single_sj: 
-                    ldu      ,u 
-; macro call ->                     INIT_MOVE_SJ  
-; macro call ->  DELAY_NONE
-; macro call ->  ADD_BURST
- 
-                    stx      *VIA_port_b                  ; 5 
-                    sta      *VIA_t1_cnt_hi 
-                    sta      *VIA_shift_reg               ; 
-; macro call ->                     ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
  nop 
                     pulu     b,x,pc 
 ; assuming b = 1
@@ -987,29 +907,6 @@ SMVB_startDraw_yStays_single:                              ;#isfunction
 ; macro call ->                     ADD_NOPS  
  nop 
                     pulu     b,x,pc 
-; assume b contains SHIFT
-
- .globl SMVB_startDraw_xyStays_single
-SMVB_startDraw_xyStays_single:                             ;#isfunction  
-                    stb      *VIA_shift_reg 
-                    sta      *VIA_t1_cnt_hi 
-; macro call ->                     ADD_NOPS  
- nop 
-                    pulu     b,x,pc 
- .globl SMVB_startDraw_yStays_single_sj
-SMVB_startDraw_yStays_single_sj:                           ;#isfunction  
-;                    ldb      #SHITREG_POKE_VALUE          ; 2 
-                    stb      *VIA_shift_reg               ; 4 
-; macro call ->  DELAY_NONE
-; macro call ->  ADD_BURST
- 
-                    stx      *VIA_port_b                  ; 5 
-                    sta      *VIA_t1_cnt_hi               ; 4 
-; macro call ->                     ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
- nop 
-                    ldu      ,u 
-                    pulu     b,x,pc 
-
 
  .globl SMVB_startDraw_yd4_double
 SMVB_startDraw_yd4_double:
@@ -1026,22 +923,6 @@ SMVB_startDraw_yd4_double:
 ; macro call ->                     ADD_NOPS  
  nop 
                     jmp      SMVB_repeat_same2 
-
- .globl SMVB_startDraw_yd4_octo
-SMVB_startDraw_yd4_octo:
-; macro call ->                     SET_Y_INT  
-                    sta      *VIA_port_b                  ; 4 
-                    stb      *VIA_port_a                  ; 4 
-                    ldb      #SHITREG_POKE_VALUE          ; 2 
-                    stb      *VIA_shift_reg               ; 4 
-; macro call ->  DELAY_NONE
-; macro call ->  ADD_BURST
- 
-                    stx      *VIA_port_b                  ; 5 
-                    sta      *VIA_t1_cnt_hi               ; 4 
-; macro call ->                     ADD_NOPS  
- nop 
-                    jmp      cont7
 
 
  .globl SMVB_startDraw_yd4_single
@@ -1060,38 +941,6 @@ SMVB_startDraw_single:                                    ;#isfunction
                     sta      *VIA_t1_cnt_hi               ; 4 
 ; macro call ->                     ADD_NOPS  
  nop 
-                    pulu     b,x,pc 
- .globl SMVB_startDraw_single_sj
-SMVB_startDraw_single_sj: 
-; macro call ->                     SET_Y_INT  
-                    sta      *VIA_port_b                  ; 4 
-                    stb      *VIA_port_a                  ; 4 
-                    ldb      #SHITREG_POKE_VALUE          ; 2 
-                    stb      *VIA_shift_reg               ; 4 
-; macro call ->  DELAY_NONE
-; macro call ->  ADD_BURST
- 
-                    stx      *VIA_port_b                  ; 5 
-                    sta      *VIA_t1_cnt_hi               ; 4 
-; macro call ->                     ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
- nop 
-                    ldu      ,u 
-                    pulu     b,x,pc 
- .globl SMVB_startDraw_yEqx_single_sj
-SMVB_startDraw_yEqx_single_sj:                             ;#isfunction  
-; macro call ->                     SET_Y_INT  
-                    sta      *VIA_port_b                  ; 4 
-                    stb      *VIA_port_a                  ; 4 
-                    ldb      #0x01 
-                    stb      *VIA_shift_reg               ; 4 - ASSUMING SHITREG_POKE_VALUE = 1 
-; macro call ->  DELAY_NONE
-; macro call ->  ADD_BURST
- 
-                    stb      *VIA_port_b 
-                    sta      *VIA_t1_cnt_hi 
-; macro call ->                     ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
- nop 
-                    ldu      ,u 
                     pulu     b,x,pc 
  .globl SMVB_startDraw_yEqx_single
 SMVB_startDraw_yEqx_single:                                ;#isfunction  
@@ -1147,63 +996,6 @@ SMVB_startMove_yd4_hex:
  nop 
                     jmp      cont5
 
- .globl SMVB_startMove_yd4_octo
-SMVB_startMove_yd4_octo:
-; macro call ->                     SET_Y_INT  
-                    sta      *VIA_port_b                  ; 4 
-                    stb      *VIA_port_a                  ; 4 
-; macro call ->  Y_DELAY_HALF_4
- nop 
-; macro call ->  ADD_BURST
- 
-
-                    sta      *VIA_shift_reg               ; 4 
-; macro call ->  DELAY_NONE
-; macro call ->  ADD_BURST
- 
-                    stx      *VIA_port_b                  ; 5 
-                    sta      *VIA_t1_cnt_hi               ; 4 
-; macro call ->                     ADD_NOPS  
- nop 
-                    jmp      cont7
- .globl SMVB_startMove_yd4_quadro
-SMVB_startMove_yd4_quadro:
-; macro call ->                     SET_Y_INT  
-                    sta      *VIA_port_b                  ; 4 
-                    stb      *VIA_port_a                  ; 4 
-; macro call ->  Y_DELAY_HALF_4
- nop 
-; macro call ->  ADD_BURST
- 
-
-                    sta      *VIA_shift_reg               ; 4 
-; macro call ->  DELAY_NONE
-; macro call ->  ADD_BURST
- 
-                    stx      *VIA_port_b                  ; 5 
-                    sta      *VIA_t1_cnt_hi               ; 4 
-; macro call ->                     ADD_NOPS  
- nop 
-                    jmp      cont3
- .globl SMVB_startMove_yd4_tripple
-SMVB_startMove_yd4_tripple:
-; macro call ->                     SET_Y_INT  
-                    sta      *VIA_port_b                  ; 4 
-                    stb      *VIA_port_a                  ; 4 
-; macro call ->  Y_DELAY_HALF_4
- nop 
-; macro call ->  ADD_BURST
- 
-
-                    sta      *VIA_shift_reg               ; 4 
-; macro call ->  DELAY_NONE
-; macro call ->  ADD_BURST
- 
-                    stx      *VIA_port_b                  ; 5 
-                    sta      *VIA_t1_cnt_hi               ; 4 
-; macro call ->                     ADD_NOPS  
- nop 
-                    jmp      cont2
 
  .globl SMVB_startMove_yd4_yEqx_single
 SMVB_startMove_yd4_yEqx_single:                                ;#isfunction  
@@ -1229,43 +1021,6 @@ SMVB_startMove_xyStays_single: ;#isfunction
  nop 
                     pulu     b,x,pc 
 
- .globl SMVB_startMove_yEqx_single_sj
-SMVB_startMove_yEqx_single_sj:                             ;#isfunction  
-; macro call ->                     SET_Y_INT  
-                    sta      *VIA_port_b                  ; 4 
-                    stb      *VIA_port_a                  ; 4 
-; macro call ->                     WAIT2    
- nop ;     wait 2 cycles 
-; macro call ->  DELAY_NONE
-; macro call ->  ADD_BURST
- 
-                    inc      *VIA_port_b 
-                    sta      *VIA_t1_cnt_hi 
-                    sta      *VIA_shift_reg               ; 4 
-; macro call ->                     ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
- nop 
-                    ldu      ,u 
-                    pulu     b,x,pc 
- .globl SMVB_startMove_yd4_yEqx_single_sj
-SMVB_startMove_yd4_yEqx_single_sj:                             ;#isfunction  
-
-; macro call ->                     SET_Y_INT  
-                    sta      *VIA_port_b                  ; 4 
-                    stb      *VIA_port_a                  ; 4 
-; macro call ->                     WAIT2    
- nop ;     wait 2 cycles 
-; macro call ->  Y_DELAY_HALF_4
- nop 
-; macro call ->  ADD_BURST
- 
-
-                    inc      *VIA_port_b 
-                    sta      *VIA_t1_cnt_hi 
-                    sta      *VIA_shift_reg               ; 4 
-; macro call ->                     ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
- nop 
-                    ldu      ,u 
-                    pulu     b,x,pc 
  .globl SMVB_startMove_yd4_newY_eq_oldX_single
  .globl SMVB_startMove_newY_eq_oldX_single
 SMVB_startMove_yd4_newY_eq_oldX_single:
@@ -1280,20 +1035,6 @@ SMVB_startMove_newY_eq_oldX_single:;#isfunction
                     stx      *VIA_port_b                  ; 5 
                     sta      *VIA_t1_cnt_hi 
 ; macro call ->                     ADD_NOPS                          ; reduced by ldu ,u - 5 cycles 
- nop 
-                    pulu     b,x,pc 
- .globl SMVB_startMove_newY_eq_oldX_single_sj
-SMVB_startMove_newY_eq_oldX_single_sj: ;#isfunction  
-                    sta      *VIA_port_b                  ; 4 
-                    ldu      ,u 
-; macro call ->                     INIT_MOVE_SJ  
-; macro call ->  DELAY_NONE
-; macro call ->  ADD_BURST
- 
-                    stx      *VIA_port_b                  ; 5 
-                    sta      *VIA_t1_cnt_hi 
-                    sta      *VIA_shift_reg               ; 
-; macro call ->                     ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
  nop 
                     pulu     b,x,pc 
 
@@ -1312,24 +1053,6 @@ SMVB_startDraw_newY_eq_oldX_single:                       ;#isfunction
 ; macro call ->                     ADD_NOPS  
  nop 
                     pulu     b,x,pc 
- .globl SMVB_startDraw_newY_eq_oldX_single_sj
-SMVB_startDraw_newY_eq_oldX_single_sj:                    ;#isfunction  
-                    sta      *VIA_port_b                  ; 4 
-                    ldb      #SHITREG_POKE_VALUE 
-                    stb      *VIA_shift_reg               ; 4 
-; macro call ->  DELAY_NONE
-; macro call ->  ADD_BURST
- 
-                    stx      *VIA_port_b                  ; 5 
-                    sta      *VIA_t1_cnt_hi 
-; macro call ->                     ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
- nop 
-                    ldu      ,u 
-                    pulu     b,x,pc 
-
-
-
-
 
 
 
@@ -1406,8 +1129,20 @@ SMVB_lastDraw_rts2:                                        ;#isfunction
 SMVB_rts2:                                                ;#isfunction  
                     ldb      #0xcc 
                     STb      VIA_cntl                    ;/BLANK low and /ZERO low 
-                    stx      VIA_port_b 
+;;;;;;;                    stx      VIA_port_b 
 ; nop 10
+
+; UNclayiobrate
+                    ldd      #0x8100 
+                    std      *VIA_port_b 
+                    dec      *VIA_port_b 
+                    lda      #0x82 
+                    std      *VIA_port_b 
+                    lda      #0x83
+                    sta      *VIA_port_b 
+
+
+
                     puls     u,pc                         ; (D = y,x, pc = next object) 
 
 

@@ -84,7 +84,7 @@ signed long long int lltmp;
 unsigned int flashAvailable;
 
 
-// 45 byte
+// 47 byte
 signed long int tmp_hp; // 2  hp max # word?
 unsigned int tmp_lv; // 1 player level # word?
 
@@ -99,28 +99,40 @@ unsigned long long tmp_tg; // 4 saved gold # long long?
 unsigned int tmp_s[6]; // 6 stats # word? -> originally accessed from 0 to 5
 unsigned long int tmp_inventory[10]; // 20 inventory -> originally accessed from 1 to 10
 signed int tmp_box[4]; // 4 random BOX combinations
-
+int tmp_calibrationValue; //[1]
+int tmp_noBuzzVectrex; // [1]
 // random is not saved!
 
 
 //;---------------
 
-signed long int hp; // hp max # word?
-unsigned int lv; // player level # word?
 
-unsigned long long ex; // experience # long long?
-unsigned long int su; // spell units (max)
 
-unsigned char cx;
-unsigned char cy;
 
-unsigned long long tg; // saved gold # long long?
+signed long int hp; // hp max # word? [2]
+unsigned int lv; // player level # word? [1]
 
-unsigned int s[6]; // stats # word? -> originally accessed from 0 to 5
-unsigned long int inventory[10]; // inventory -> originally accessed from 1 to 10
+unsigned long long ex; // experience # long long? [4]
+unsigned long int su; // spell units (max) [2]
 
-signed int box[4]; // random BOX combinations
+unsigned char cx; //[1]
+unsigned char cy; //[1]
 
+unsigned long long tg; // saved gold # long long? [4]
+
+unsigned int s[6]; // stats # word? -> originally accessed from 0 to 5 [6]
+unsigned long int inventory[10]; // inventory -> originally accessed from 1 to 10 [20]
+
+signed int box[4]; // random BOX combinations [4]
+//#ifdef USE_CALIBRATION
+int calibrationValue; //[1]
+int noBuzzVectrex; // [1]
+//#endif
+
+
+// sum: 2+1+4+2+1+1+4+6+20+4 = 45
+// or
+// sum: +1 = 46
 //;---------------
 
 signed long int ch; // current hp # word?

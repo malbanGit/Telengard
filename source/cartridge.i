@@ -42,7 +42,7 @@ const struct cartridge_t game_header __attribute__((section(".cartridge"), used)
 	.title_width 	= 80,
 	.title_y 		= -16,
 	.title_x 		= -88,
-	.title 			= "TELENGARD 1.01\x80"	// note that \x00 is automatically appended!
+	.title 			= "TELENGARD 1.02\x80"	// note that \x00 is automatically appended!
 };
 
 #define __ass asm volatile

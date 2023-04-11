@@ -394,170 +394,158 @@ _drawUnkown_noZero:
 _drawPlayer: 
                     pshs     u 
                     ldu      #_PlayerList 
+drawCont:
+ jsr calibrationZero
                     clra     
                     pulu     b,x,pc 
  .globl _drawGnoll
 _drawGnoll: 
                     pshs     u 
                     ldu      #_GnollList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont
  .globl _drawKobold
 _drawKobold: 
                     pshs     u 
                     ldu      #_KoboldList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont
  .globl _drawSkeleton
 _drawSkeleton: 
                     pshs     u 
                     ldu      #_SkeletonList 
+ bra drawCont
                     clra     
                     pulu     b,x,pc 
  .globl _drawHobbit
 _drawHobbit: 
                     pshs     u 
                     ldu      #_HobbitList 
+ bra drawCont
                     clra     
                     pulu     b,x,pc 
  .globl _drawZomnbie
 _drawZomnbie: 
                     pshs     u 
                     ldu      #_ZombieList 
+ bra drawCont
                     clra     
                     pulu     b,x,pc 
  .globl _drawOrc
 _drawOrc: 
                     pshs     u 
                     ldu      #_OrcList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont
  .globl _drawFighter
 _drawFighter: 
                     pshs     u 
                     ldu      #_FighterList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont
  .globl _drawPrismaticWall
 _drawPrismaticWall: 
                     pshs     u 
                     ldu      #_PrismaticWall 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont
  .globl _drawMummy
 _drawMummy: 
                     pshs     u 
                     ldu      #_MummyList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont
  .globl _drawElf
 _drawElf: 
                     pshs     u 
                     ldu      #_ElfList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont
  .globl _drawGhoul
 _drawGhoul: 
                     pshs     u 
                     ldu      #_GhoulList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont
  .globl _drawDwarf
 _drawDwarf: 
                     pshs     u 
                     ldu      #_DwarfList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont
  .globl _drawTroll
 _drawTroll: 
                     pshs     u 
                     ldu      #_TrollList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont
  .globl _drawWraith
 _drawWraith: 
                     pshs     u 
                     ldu      #_WraithList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont
  .globl _drawOgre
 _drawOgre: 
                     pshs     u 
                     ldu      #_OgreList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont
  .globl _drawMinotaur
 _drawMinotaur: 
                     pshs     u 
                     ldu      #_MinotaurList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont
  .globl _drawGiant
 _drawGiant: 
                     pshs     u 
                     ldu      #_GiantList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont2
  .globl _drawSpecter
 _drawSpecter: 
                     pshs     u 
                     ldu      #_SpecterList 
+ bra drawCont2
+
+drawCont2:
+ jsr calibrationZero
                     clra     
                     pulu     b,x,pc 
+
+
  .globl _drawVampire
 _drawVampire: 
                     pshs     u 
                     ldu      #_VampireList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont2
  .globl _drawDemon
 _drawDemon: 
                     pshs     u 
                     ldu      #_DemonList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont2
  .globl _drawDragon
 _drawDragon: 
                     pshs     u 
                     ldu      #_DragonList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont2
  .globl _drawStaircase
 _drawStaircase: 
                     pshs     u 
                     ldu      #_StaircaseList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont2
  .globl _drawHome
 _drawHome: 
                     pshs     u 
                     ldu      #_HomeList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont2
  .globl _drawInn
 _drawInn: 
                     pshs     u 
                     ldu      #_InnList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont2
  .globl _drawFountain
 _drawFountain: 
                     pshs     u 
                     ldu      #_FountainList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont2
  .globl _drawAltar
 _drawAltar: 
                     pshs     u 
                     ldu      #_AltarList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont2
  .globl _drawElevator
 _drawElevator: 
                     pshs     u 
                     ldu      #_ElevatorList 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont2
  .globl _drawNone
 _drawNone: 
                     rts      
@@ -567,9 +555,7 @@ _drawHolySymboly:
                     ldu      #_HolySymbolAni 
                     aslb
                     ldu b,u
-                    clra     
-                    pulu     b,x,pc 
-                    rts
+ bra drawCont2
  .globl _drawThrone
 _drawThrone: 
                     pshs     u 
@@ -579,8 +565,7 @@ contDraw2:
                     lda      Vec_Loop_Count+1 
                     anda     #6 
                     ldu      a,u 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont2
  .globl _drawFlame
 _drawFlame: 
                     pshs     u 
@@ -597,8 +582,7 @@ contDraw3:
                     lsra     
                     lsra     
                     ldu      a,u 
-                    clra     
-                    pulu     b,x,pc 
+ bra drawCont2
  .globl _drawBox
 _drawBox: 
                     pshs     u 
@@ -610,8 +594,14 @@ _drawTreasure:
                     ldu      #_TreasureList 
                     aslb     
                     ldu      b,u 
+ bra drawCont3
+
+
+drawCont3:
+ jsr calibrationZero
                     clra     
                     pulu     b,x,pc 
+
  .globl _ScenList_17
 _ScenList_17: 
                     .byte       -0x28, 0x01, -0x28 

@@ -157,6 +157,7 @@ unsigned int RandMax(unsigned int m)
     return Rand()%m;
 }
 
+#if __BANK__ == 1
 
 // format string (unsigned long int)
 // expects one '%'
@@ -182,7 +183,7 @@ void _fl_s(const char *s1, const unsigned long i)
     *(to++) = c;
     *to = '\x80';
 }
-
+#endif
 
 // 2,147,483,647
 // 12 stringBuffer12

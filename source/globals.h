@@ -1,6 +1,6 @@
-
-
 #pragma once
+
+
 
 /////////////
 ///// MAIN
@@ -18,6 +18,11 @@
 // currently displayed part of the map - the SCREEN
 #define uint_16 unsigned long int
 #define ABS(a) ((unsigned int)((a)>0)?(a):(-(a)))
+
+#ifdef USE_CALIBRATION
+extern int calibrationValue;
+#endif
+
 
 extern uint_16 screen[4][4];
 extern unsigned int above;

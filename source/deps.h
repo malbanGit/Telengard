@@ -5,6 +5,7 @@
 // #define START_STRONG 1
 
 
+#define USE_CALIBRATION 1 // see also flash.asm for flash save game size
 
 #define DEBUG_OUT(s) \
 { \

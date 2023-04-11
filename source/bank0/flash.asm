@@ -8,7 +8,7 @@ Vec_Num_Players = $C879 ; result of load 0=ok, -1 = failure
 
 
 
-PlayerSize = 45; // should be 45
+PlayerSize = 47; // should be 45 + 2 calibration
 
 
 ; on success Vec_Num_Players = 0
