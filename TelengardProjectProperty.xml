@@ -9,7 +9,7 @@
 		<Path>projects</Path>
 		<MainFile></MainFile>
 		<Description></Description>
-		<Version>1.0</Version>
+		<Version>1.02</Version>
 		<Author></Author>
 		<Bankswitching>2 bank standard</Bankswitching>
 		<createBankswitchCode>false</createBankswitchCode>
