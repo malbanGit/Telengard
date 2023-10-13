@@ -316,7 +316,9 @@ Joy_Digital();
     tmp_calibrationValue = calibrationValue;
     if (flashAvailable)
     {
+        unsigned int tmp1 = Vec_Num_Players;
         saveFlash();
+        Vec_Num_Players = tmp1;
     }
     initSong();
 }
