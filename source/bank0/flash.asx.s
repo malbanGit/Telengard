@@ -8,7 +8,7 @@ FLASH_AVAILABLE_BIT  =       0b00000001
 flashRAMROM = 0xC82F; Vec_Counter_2: 2 byte
 currentFlashROMStart = 0xC831; Vec_Counter_4: 2 byte
 Vec_Num_Players = 0xC879 ; result of load 0=ok, -1 = failure
-PlayerSize = 45; // should be 45
+PlayerSize = 47; // should be 47
 ; on success Vec_Num_Players = 0
  .globl _checkSavedFlash
 _checkSavedFlash:
