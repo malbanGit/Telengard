@@ -925,7 +925,7 @@ label3330:
 
             //  Vampire drains level and paralize 3/10 of the time 
             // 3340 IF M=18 THEN DR=THREE/TEN:PA=DR:GOTO 3305 
-            if (m == VAMPIRE) {dr = 3; goto label3305;}
+            if (m == VAMPIRE) {pa = dr = 3; goto label3305;}
 
             //  Ghoul paralizes ½ of the time 
             // 3345 IF M=TEN THEN PA=ONE/TWO:GOTO 3305 
