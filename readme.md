@@ -149,6 +149,9 @@ To generate 64k bin, switch in the proejct settings the checkbox "48k ROM" to fa
 -------
 
 Changelog:
+V1.02 -> V1.03
+- Gee... after load from flash, the claibration value loaded is now actually USED!
+
 V1.01 -> V1.02
 - added calibration (Button 3 in title screen)
 
