@@ -341,6 +341,7 @@ void titleScreen()
         unsigned int tmp = Vec_Num_Players;
 extern void loadFlash();
         loadFlash();
+	calibrationValue = tmp_calibrationValue; // fix 29th July 2025 - calibration was not used after load! ARG!
         Vec_Num_Players = tmp;
 #endif
     }
