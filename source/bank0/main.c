@@ -307,8 +307,8 @@ Joy_Digital();
         if (!buttons_pressed())
         {
             if (lastButton == 4) break;
-            if (lastButton == 2) noBuzzVectrex = 1;
-            if (lastButton == 1) noBuzzVectrex = 0;
+            if (lastButton == 2) noBuzzVectrex = 0; // Malban: changed Sept 2026 - buzz / no buzz was the wrong way around
+            if (lastButton == 1) noBuzzVectrex = 1; // I only changed it here - no other comments or variables were changed. Thanks Robin!
             lastButton = 0;
         }
     }
